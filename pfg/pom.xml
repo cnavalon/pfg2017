@@ -24,6 +24,7 @@
 		<jsmiparser.version>0.13</jsmiparser.version>
 		<tiles.version>3.0.5</tiles.version>
 		<mysql.version>5.1.40</mysql.version>
+		<hibernate.version>5.2.6.Final</hibernate.version>
 
 	</properties>
 
@@ -82,7 +83,17 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -94,6 +105,18 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring_security.version}</version>
 		</dependency>
+		
+		<!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 
 		<!-- Log -->
 		<dependency>

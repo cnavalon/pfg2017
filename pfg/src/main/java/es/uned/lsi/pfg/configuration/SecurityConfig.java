@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import es.uned.lsi.pfg.utils.Constans;
+
 /**
  * @author Carlos Navalon Urrea
  *
@@ -44,11 +46,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       http.authorizeRequests()
       	.antMatchers("/login").permitAll()
       	.antMatchers("/static/**").permitAll()
-        .antMatchers("/**/*t*/").access("hasRole('ROLE_TCH')")
-        .antMatchers("/**/*s*/").access("hasRole('ROLE_STD')")
-        .antMatchers("/**/*p*/").access("hasRole('ROLE_PAR')")        
-        .antMatchers("/**").access("hasRole('ROLE_ADM')")
-        .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
+      	.antMatchers("/").authenticated()
+        .antMatchers("/*/*a*/").access("hasRole('" + Constans.ROLE_ADMIN +"')")
+        .antMatchers("/*/*t*/").access("hasRole('" + Constans.ROLE_TEACHER +"')")
+        .antMatchers("/*/*s*/").access("hasRole('" + Constans.ROLE_STUDENT +"')")
+        .antMatchers("/*/*p*/").access("hasRole('" + Constans.ROLE_PARENT +"')")
+        .and().formLogin().loginPage("/login")
+        .successHandler(customSuccessHandler)
         .failureHandler(customFailureHandler)
         .usernameParameter("username").passwordParameter("password")
         .and().csrf();

@@ -7,16 +7,17 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Login Page</title>
+		<title>Acceso a PFG</title>
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" 	type="text/css">
+		<link href="static/css/main.css" rel="stylesheet" type="text/css">
 		<link href="static/css/login.css" rel="stylesheet" type="text/css">
 	
 	
 	</head>
 
 	<body>
-		<div class="container">
-			<div class="box-login">
+		<div class="container loginContainer">
+			<div class="box-login secondbg">
 	      		<form class="form-login" role="form"  name="loginForm" action="login" method="POST">
 		        	<h2 class="form-login-heading">Centro Educativo PFG</h2>
 		        	<c:if test="${not empty error}">
