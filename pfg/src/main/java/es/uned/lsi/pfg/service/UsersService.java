@@ -3,13 +3,16 @@
  */
 package es.uned.lsi.pfg.service;
 
-import org.springframework.stereotype.Service;
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Servicio de usuarios
  */
-@Service
 public interface UsersService {
+	/**
+	 * Obtiene el nombre completo de usuario (nombre y apellidos)
+	 * @param id: id del usuario
+	 * @return el nombre completo
+	 */
 	public String getFullName(String id);
 }

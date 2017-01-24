@@ -17,6 +17,10 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author Carlos Navalon Urrea
+ * Configuracion de JPA
+ */
 @Configuration
 @EnableTransactionManagement
 public class JPAConfig {
@@ -24,10 +28,7 @@ public class JPAConfig {
 	@Autowired
 	private Environment env;
 	
-	/**
-     * Configure Data Source
-     */
-    @Bean
+	@Bean
 	public DriverManagerDataSource dataSource() {
 	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 	    driverManagerDataSource.setDriverClassName(env.getProperty("jdbc.driver"));
@@ -47,19 +48,13 @@ public class JPAConfig {
         return factoryBean;
     }
  
-    /*
-     * Provider specific adapter.
-     */
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         return hibernateJpaVendorAdapter;
     }
  
-    /*
-     * Here you can specify any provider specific properties.
-     */
-    private Properties jpaProperties() {
+   private Properties jpaProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
         // properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));

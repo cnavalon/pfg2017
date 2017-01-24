@@ -1,5 +1,9 @@
 package es.uned.lsi.pfg.utils;
 
+/**
+ * @author Carlos Navalon Urrea
+ * Constantes
+ */
 public interface Constans {
 	//ROLES
 	public static final String ROLE_ADMIN = "ROLE_ADM";

@@ -11,7 +11,7 @@ import es.uned.lsi.pfg.model.User;
 
 /**
  * @author Carlos Navalon Urrea
- * 
+ * Implementacion del repositorio de usuarios
  */
 @Repository
 public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
@@ -23,7 +23,7 @@ public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
 		logger.debug("findUser:" + id);
 		User user = null;
 		try {
-			user =  em.createQuery("SELECT u FROM User u WHERE id = :idUser AND enabled = 1", User.class)
+			user =  em.createNamedQuery(User.Q_FIND_BY_ID, User.class)
 					.setParameter("idUser", id)
 					.getSingleResult();
 		} catch (Exception e) {

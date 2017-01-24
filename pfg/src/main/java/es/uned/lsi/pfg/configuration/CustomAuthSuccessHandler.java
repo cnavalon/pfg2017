@@ -30,7 +30,7 @@ import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Gestor de autenticaciones correctas
  */
 @Component
 public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -43,7 +43,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	
 	@Autowired
 	private UsersService usersService;
-	
+
 	@Override
 	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		String targetUrl = "/";
@@ -70,6 +70,11 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 
+	/**
+	 * Obtiene una lista de los perfiles asociados al usuario
+	 * @param authentication
+	 * @return los perfiles
+	 */
 	private List<Role> getRoles(Authentication authentication) {
 		List<Role> lstRoles = new ArrayList<Role>();
 		List<String> lstIdRoles = getIdRoles(authentication);
@@ -84,7 +89,11 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		return lstRoles;
 	}
 
-
+	/**
+	 * Obtiene una lista con los id de los perfiles asociados asociados al usuario
+	 * @param authentication
+	 * @return los ids 
+	 */
 	private List<String> getIdRoles(Authentication authentication) {
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		List<String> lstIdRoles = new ArrayList<String>();

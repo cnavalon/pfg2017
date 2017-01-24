@@ -1,5 +1,7 @@
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <div>
-	<span>${greeting}</span>
+	<span><spring:message code="test.hello" text="test.hello not found" /></span>	
 </div>
 
 

@@ -7,46 +7,57 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
  * @author Carlos Navalon Urrea
- * Role entity class
+ * Entidad de perfil
  */
 @Entity
+@NamedQueries({
+	@NamedQuery(name="findAll", query="SELECT r FROM Role r")
+})
 @Table(name="roles")
 public class Role implements Serializable {
-
 	private static final long serialVersionUID = -1404731829519619871L;
+	/** Queries **/
+	public static final String Q_FIND_ALL = "findAll";
 	
 	@Id
 	private String role;
 	private String name;
 	
 	/**
-	 * @return the role
+	 * Obtiene el id del perfil
+	 * @return el id
 	 */
 	public String getRole() {
 		return role;
 	}
 	/**
-	 * @param role the role to set
+	 * Establece el id perfil
+	 * @param role: el id
 	 */
 	public void setRole(String role) {
 		this.role = role;
 	}
 	/**
-	 * @return the name
+	 * Obtiene el nombre del perfil
+	 * @return el nombre
 	 */
 	public String getName() {
 		return name;
 	}
 	/**
-	 * @param name the name to set
+	 * Establece el nombre del perfil
+	 * @param name: el nombre
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

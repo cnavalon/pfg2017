@@ -18,7 +18,7 @@ import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Configuracion de seguridad
  */
 @Configuration
 @EnableWebSecurity 
@@ -35,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication()inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
 			.usersByUsernameQuery("select id,password,enabled from users where id=?")
 			.authoritiesByUsernameQuery("select userid,role from user_role where userid=?");

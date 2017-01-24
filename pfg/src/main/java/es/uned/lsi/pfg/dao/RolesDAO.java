@@ -9,9 +9,13 @@ import es.uned.lsi.pfg.model.Role;
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Repositorio de perfiles.
  */
 public interface RolesDAO {
 
+	/**
+	 * Devuelve todos los perfiles
+	 * @return todos los perfiles
+	 */
 	List<Role> findAll();
 }

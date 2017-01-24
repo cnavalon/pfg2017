@@ -4,7 +4,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Inicializador de la aplicacion
  */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	

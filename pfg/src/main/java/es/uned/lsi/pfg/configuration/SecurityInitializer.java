@@ -4,7 +4,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Inicializador de seguridad
  */
 public class SecurityInitializer extends AbstractSecurityWebApplicationInitializer {
 

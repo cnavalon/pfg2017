@@ -11,7 +11,7 @@ import es.uned.lsi.pfg.model.User;
 
 /**
  * @author Carlos Navalon Urrea
- *
+ * Implementacion del servicio de usuarios
  */
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -19,9 +19,6 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private UsersDAO usersDAO;
 	
-	/* (non-Javadoc)
-	 * @see es.uned.lsi.pfg.service.UserService#getFullName(java.lang.String)
-	 */
 	@Override
 	public String getFullName(String id) {
 		String fullName = "";

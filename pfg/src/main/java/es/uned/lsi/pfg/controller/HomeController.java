@@ -1,27 +1,33 @@
 package es.uned.lsi.pfg.controller;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.utils.Constans;
 
+/**
+ * @author Carlos Navalon Urrea
+ * Controlador de pagina de inicio
+ */
 @Controller
 public class HomeController {
 	
 	private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	/**
+	 * Devuelve la pagina de inicio segun el perfil
+	 * @param session: sesion de usuario
+	 * @return pagina de inicio del perfil
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView redirectHome (HttpSession session) throws Exception{
 		logger.debug("redirectHome");
@@ -50,7 +56,12 @@ public class HomeController {
 		return model;
 	}
 	
-	
+	/**
+	 * Obtiene la pagina de inicio del perfil administrador
+	 * @param model
+	 * @param userId: id de usuario
+	 * @return pagina de inicio del perfil administrador
+	 */
 	private ModelAndView getAdminHome(ModelAndView model, String userId) {
 		logger.debug("getAdminHome");
 		model.setViewName("adminHome");
@@ -58,6 +69,12 @@ public class HomeController {
 		return model;
 	}
 	
+	/**
+	 * Obtiene la pagina de inicio del perfil profesor
+	 * @param model
+	 * @param userId: id de usuario
+	 * @return pagina de inicio del perfil profesor
+	 */
 	private ModelAndView getTeacherHome(ModelAndView model, String userId) {
 		logger.debug("getTeacherHome");
 		model.setViewName("teacherHome");
@@ -65,6 +82,12 @@ public class HomeController {
 		return model;
 	}
 	
+	/**
+	 * Obtiene la pagina de inicio del perfil estudiante
+	 * @param model
+	 * @param userId: id de usuario
+	 * @return pagina de inicio del perfil estudiante
+	 */
 	private ModelAndView getStudentHome(ModelAndView model, String userId) {
 		logger.debug("getStudentHome");
 		model.setViewName("studentHome");
@@ -72,6 +95,12 @@ public class HomeController {
 		return model;
 	}
 	
+	/**
+	 * Obtiene la pagina de inicio del perfil padre
+	 * @param model
+	 * @param userId: id de usuario
+	 * @return pagina de inicio del perfil padre
+	 */
 	private ModelAndView getParentHome(ModelAndView model, String userId) {
 		logger.debug("getParentHome");
 		model.setViewName("parentHome");

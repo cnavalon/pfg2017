@@ -8,20 +8,27 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
 /**
  * @author Carlos Navalon Urrea
- * User entity class
+ * Entidad de usuario
  */
 @Entity
+@NamedQueries({
+	@NamedQuery(name="findById", query="SELECT u FROM User u WHERE id = :idUser AND enabled = 1")
+})
 @Table(name="users")
 public class User implements Serializable{
-
 	private static final long serialVersionUID = 192548048099062875L;
-
+	/** Queries **/
+	public static final String Q_FIND_BY_ID = "findById";
+	
+	
 	@Id
 	private String id;
 	@Column(nullable=false)
@@ -43,145 +50,169 @@ public class User implements Serializable{
 	private boolean enabled;
 	
 	/**
-	 * @return the id
+	 * Obtiene el id del usuario
+	 * @return el id
 	 */
 	public String getId() {
 		return id;
 	}
 	/**
-	 * @param id the id to set
+	 * Establece el id del usuario
+	 * @param id: el id
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 	/**
-	 * @return the name
+	 * Obtiene el nombre del usuario
+	 * @return el nombre
 	 */
 	public String getName() {
 		return name;
 	}
 	/**
-	 * @param name the name to set
+	 * Establece el nombre del usuario
+	 * @param name: el nombre
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	/**
-	 * @return the surname1
+	 * Obtiene el primer apellido del usuario
+	 * @return el primer apellido
 	 */
 	public String getSurname1() {
 		return surname1;
 	}
 	/**
-	 * @param surname1 the surname1 to set
+	 * Establece el primer apellido del usuario
+	 * @param surname1: el primer apellido
 	 */
 	public void setSurname1(String surname1) {
 		this.surname1 = surname1;
 	}
 	/**
-	 * @return the surname2
+	 * Obtiene el segundo apellido del usuario
+	 * @return el segundo apellido
 	 */
 	public String getSurname2() {
 		return surname2;
 	}
 	/**
-	 * @param surname2 the surname2 to set
+	 * Establece el segundo apellido del usuario
+	 * @param surname2: el segundo apellido
 	 */
 	public void setSurname2(String surname2) {
 		this.surname2 = surname2;
 	}
 	/**
-	 * @return the email
+	 * Obtiene el correo electronico del usuario
+	 * @return el correo electronico
 	 */
 	public String getEmail() {
 		return email;
 	}
 	/**
-	 * @param email the email to set
+	 * Establece el correo electronico del usuario
+	 * @param email: el correo electronico
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 	/**
-	 * @return the address
+	 * Obtiene la direccion del usuario
+	 * @return la direccion
 	 */
 	public String getAddress() {
 		return address;
 	}
 	/**
-	 * @param address the address to set
+	 * Establece la direccion del usuario
+	 * @param address: la direccion
 	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
 	/**
-	 * @return the city
+	 * Obtiene la ciudad del usuario
+	 * @return la ciudad
 	 */
 	public String getCity() {
 		return city;
 	}
 	/**
-	 * @param city the city to set
+	 * Establece la ciudad del usuario
+	 * @param city: la ciudad
 	 */
 	public void setCity(String city) {
 		this.city = city;
 	}
 	/**
-	 * @return the province
+	 * Obtiene la provincia del usuario
+	 * @return la provincia
 	 */
 	public String getProvince() {
 		return province;
 	}
 	/**
-	 * @param province the province to set
+	 * Establece la provincia del usuario
+	 * @param province: la provincia
 	 */
 	public void setProvince(String province) {
 		this.province = province;
 	}
 	/**
-	 * @return the cp
+	 * Obtiene el codigo postal del usuario
+	 * @return el codigo postal
 	 */
 	public String getCp() {
 		return cp;
 	}
 	/**
-	 * @param cp the cp to set
+	 * Establece el codigo postal del usuario
+	 * @param cp: el codigo postal
 	 */
 	public void setCp(String cp) {
 		this.cp = cp;
 	}
 	/**
-	 * @return the telephone1
+	 * Obtiene el primer numero de telefono de contacto del usuario
+	 * @return el numero de telefono
 	 */
 	public String getTelephone1() {
 		return telephone1;
 	}
 	/**
-	 * @param telephone1 the telephone1 to set
+	 * Establece el primer numero de telefono de contacto del usuario
+	 * @param telephone1: el numero de telefono
 	 */
 	public void setTelephone1(String telephone1) {
 		this.telephone1 = telephone1;
 	}
 	/**
-	 * @return the telephone2
+	 * Obtiene el segundo numero de telefono de contacto del usuario
+	 * @return el numero de telefono
 	 */
 	public String getTelephone2() {
 		return telephone2;
 	}
 	/**
-	 * @param telephone2 the telephone2 to set
+	 * Establece el segundo numero de telefono de contacto del usuario
+	 * @param telephone2: el numero de telefono
 	 */
 	public void setTelephone2(String telephone2) {
 		this.telephone2 = telephone2;
 	}
 	/**
-	 * @return the enabled
+	 * Obtiene el indicador de habilitacion del usuario
+	 * @return <code>true</code> si esta activo, en caso contrario <code>false</code>
 	 */
 	public boolean isEnabled() {
 		return enabled;
 	}
 	/**
-	 * @param enabled the enabled to set
+	 * Establece el indicador de habilitacion del usuario
+	 * @param enabled: el indicador de habilitación
 	 */
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
