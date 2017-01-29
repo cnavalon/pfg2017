@@ -1,6 +1,36 @@
 body {
 	background-color: #99CCFF;
+	font-family: cursive;
 }
 .secondbg{
 	background-color: #F0F8FF;
+}
+
+.content-container{
+	border-radius: 5px;
+}
+
+.body-container{
+	padding-bottom: 25px;
+}
+
+.box-center {
+	padding: 25px;
+	max-width: 360px;
+	margin: 0 auto;
+	border-radius: 30px;
+}
+
+.vertical-center {
+	padding: 25px 0;
+}
+
+.icon-lg{
+	font-size: 35px
+}
+.logo-text{
+	vertical-align: super;
+}
+.cursorPointer{
+	cursor: pointer;
 }

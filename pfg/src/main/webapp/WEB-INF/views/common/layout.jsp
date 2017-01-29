@@ -20,6 +20,8 @@
 		
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" 	type="text/css">
 		<link href="static/css/main.css" rel="stylesheet" type="text/css">
+		<link href="static/css/flags.css" rel="stylesheet" type="text/css">
+		<link href="static/css/menu.css" rel="stylesheet" type="text/css">
 		
 		
 		
@@ -28,23 +30,26 @@
 	<body>
     
 		<header id="header">
-			<div id="divHeader" class="container">
+			<div id="divHeader" class="container-fluid">
            		<tiles:insertAttribute name="header" />
        		</div>
         </header>
      
-        <section id="menu">
-        	<div id="divMenu" class="container">
-            	<tiles:insertAttribute name="menu" />
-       		</div>
-        </section>
-             
-        <section id="body">
-        	<div id="divBody" class="container">
-            	<tiles:insertAttribute name="body" />
-           	</div>
-        </section>
-        
+    	<div class="container-fluid" >
+    		<div class="content-container" style="background-color: #f8f8f8">
+		        <section id="menu">
+		        	<div id="divMenu" >
+		            	<tiles:insertAttribute name="menu" />
+		       		</div>
+		        </section>
+		             
+		        <section id="body">
+		        	<div id="divBody" class="container-fluid body-container">
+		            	<tiles:insertAttribute name="body" />
+		           	</div>
+		        </section>
+        	</div>
+        </div>
         <script src="static/js/jquery-3.1.1.min.js"></script>
 		<script src="static/js/bootstrap.min.js"></script>
 	</body>

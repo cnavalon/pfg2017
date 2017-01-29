@@ -24,7 +24,9 @@ public class UsersServiceImpl implements UsersService {
 		String fullName = "";
 		User user = usersDAO.findUser(id);
 		if(user != null){
-			fullName = user.getName() + " " + user.getSurname1() + " " + user.getSurname2();
+			fullName = user.getName() + " " + user.getSurname1();
+			if(user.getSurname2() != null)
+				fullName += " " + user.getSurname2();
 		}
 		return fullName;
 	}

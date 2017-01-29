@@ -12,9 +12,9 @@ public interface Constans {
 	public static final String ROLE_PARENT = "ROLE_PAR";
 	
 	//SESSION FIELDS
-	public static final String SESSION_USER_NAME = "SessionUserName";
-	public static final String SESSION_ROLES = "SessionRoles";
-	public static final String SESSION_ROLE_HOME = "SessionRoleHome";
+	public static final String SESSION_USER_NAME = "user";
+	public static final String SESSION_ROLES = "roles";
+	public static final String SESSION_ROLE_HOME = "roleHome";
 	
 	
 	

@@ -24,7 +24,7 @@ public class HomeController {
 	
 	/**
 	 * Devuelve la pagina de inicio segun el perfil
-	 * @param session: sesion de usuario
+	 * @param session sesion de usuario
 	 * @return pagina de inicio del perfil
 	 * @throws Exception
 	 */
@@ -59,7 +59,7 @@ public class HomeController {
 	/**
 	 * Obtiene la pagina de inicio del perfil administrador
 	 * @param model
-	 * @param userId: id de usuario
+	 * @param userId id de usuario
 	 * @return pagina de inicio del perfil administrador
 	 */
 	private ModelAndView getAdminHome(ModelAndView model, String userId) {
@@ -72,7 +72,7 @@ public class HomeController {
 	/**
 	 * Obtiene la pagina de inicio del perfil profesor
 	 * @param model
-	 * @param userId: id de usuario
+	 * @param userId id de usuario
 	 * @return pagina de inicio del perfil profesor
 	 */
 	private ModelAndView getTeacherHome(ModelAndView model, String userId) {
@@ -85,7 +85,7 @@ public class HomeController {
 	/**
 	 * Obtiene la pagina de inicio del perfil estudiante
 	 * @param model
-	 * @param userId: id de usuario
+	 * @param userId id de usuario
 	 * @return pagina de inicio del perfil estudiante
 	 */
 	private ModelAndView getStudentHome(ModelAndView model, String userId) {
@@ -98,7 +98,7 @@ public class HomeController {
 	/**
 	 * Obtiene la pagina de inicio del perfil padre
 	 * @param model
-	 * @param userId: id de usuario
+	 * @param userId id de usuario
 	 * @return pagina de inicio del perfil padre
 	 */
 	private ModelAndView getParentHome(ModelAndView model, String userId) {

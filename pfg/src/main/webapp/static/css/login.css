@@ -1,13 +1,6 @@
-.loginContainer {
+.login-container {
 	padding-top: 120px;
 	padding-bottom: 120px;
-}
-
-.box-login {
-	padding: 25px;
-	max-width: 360px;
-	margin: 0 auto;
-	border-radius: 30px;
 }
 
 .form-login .form-login-heading {

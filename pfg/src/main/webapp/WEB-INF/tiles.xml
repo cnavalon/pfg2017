@@ -3,14 +3,22 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-	<definition name="base.definition" template="/WEB-INF/views/tiles/layout.jsp">
-		<put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"></put-attribute>
-		<put-attribute name="menu" value="/WEB-INF/views/tiles/menu.jsp"></put-attribute>
+	<definition name="base.definition" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
+		<put-attribute name="menu" value="/WEB-INF/views/common/menu.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
 	</definition>
+	
+	<!-- Test -->
+	<definition name="testLang" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/test/lang.jsp" />
+	</definition>
 
-	<!-- Login -->
-	<definition name="login" template="/WEB-INF/views/login.jsp">
+	<!-- Authentication -->
+	<definition name="login" template="/WEB-INF/views/authentication/login.jsp">
+	</definition>
+	<definition name="accessDenied" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/authentication/accessDenied.jsp" />
 	</definition>
 	
 	<!-- Home Pages -->
@@ -26,6 +34,8 @@
 	<definition name="parentHome" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/home/parentHome.jsp" />
 	</definition>
+	
+	
 
 
 </tiles-definitions>

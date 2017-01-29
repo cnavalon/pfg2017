@@ -1,6 +1,6 @@
 package es.uned.lsi.pfg.configuration;
 
-import java.util.Locale;
+import java.util.Properties;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +36,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     @Bean
     public TilesConfigurer tilesConfigurer(){
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(new String[] {"/WEB-INF/views/**/tiles.xml"});
+        tilesConfigurer.setDefinitions(new String[] {"/WEB-INF/tiles.xml"});
         tilesConfigurer.setCheckRefresh(true);
         return tilesConfigurer;
     }
@@ -68,14 +68,16 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     	  ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
     	  messageSource.setBasename("/i18n/messages");
     	  messageSource.setDefaultEncoding("UTF-8");
-    	  messageSource.setCacheSeconds(60);
+    	  Properties prop = new Properties();
+    	  prop.setProperty("/i18n/messages.properties", "UTF-8");
+    	  messageSource.setFileEncodings(prop);
+    	  messageSource.setCacheSeconds(1);
     	  return messageSource;
     }
     
     @Bean
     public LocaleResolver localeResolver(){
     	SessionLocaleResolver  resolver = new SessionLocaleResolver ();
-    	resolver.setDefaultLocale(new Locale("es"));
     	return resolver;
     } 
     
