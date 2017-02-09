@@ -1,17 +1,18 @@
 body {
-	background-color: #99CCFF;
-	font-family: cursive;
-}
-.secondbg{
-	background-color: #F0F8FF;
+/* 	font-family: cursive; */
+/* 	background-color: #F0F8FF; */
 }
 
-.content-container{
-	border-radius: 5px;
+.bg-1{
+	background: #ddd;
+/* 	background-color: #d9edf7; */
+/* 	background-color: #abd8ef; */
 }
 
-.body-container{
-	padding-bottom: 25px;
+.bg-2{
+	background: #eee;
+/* 	background-color: #d9edf7; */
+/* 	background-color: #abd8ef; */
 }
 
 .box-center {

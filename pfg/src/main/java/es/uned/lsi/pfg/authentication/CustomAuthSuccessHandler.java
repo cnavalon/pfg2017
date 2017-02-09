@@ -1,7 +1,7 @@
 /**
  * 
  */
-package es.uned.lsi.pfg.configuration;
+package es.uned.lsi.pfg.authentication;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -13,9 +13,9 @@
 	
 	</head>
 
-	<body>
+	<body >
 		<div class="container-fluid login-container">
-			<div class="box-center secondbg">
+			<div class="box-center bg-1">
 	      		<form class="form-login" role="form"  name="loginForm" action="login" method="POST">
 		        	<h2 class="form-login-heading"><spring:message code="app.name" text="app.name not found" /></h2>
 		        	<c:if test="${not empty error}">

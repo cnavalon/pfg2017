@@ -13,14 +13,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<junit.version>4.12</junit.version>
+		<mockito.version>1.10.19</mockito.version>
 		<spring.version>4.3.5.RELEASE</spring.version>
 		<spring_security.version>4.2.1.RELEASE</spring_security.version>
-		<junit.version>4.12</junit.version>
 		<jackson.version>2.7.3</jackson.version>
 		<slf4j.version>1.7.19</slf4j.version>
 		<log4j.version>1.2.14</log4j.version>
+		<servlet.version>3.1.0</servlet.version>
 		<jstl.version>1.2</jstl.version>
-		<jsp-api.version>2.0</jsp-api.version>
+		<jsp-api.version>2.2</jsp-api.version>
 		<jsmiparser.version>0.13</jsmiparser.version>
 		<tiles.version>3.0.5</tiles.version>
 		<mysql.version>5.1.40</mysql.version>
@@ -29,11 +31,17 @@
 	</properties>
 
 	<dependencies>
-		<!-- JUnit -->
+		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -41,10 +49,10 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<version>${servlet.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
+			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>${jsp-api.version}</version>
 			<scope>provided</scope>

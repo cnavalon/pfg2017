@@ -1,7 +1,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <div>
-	<span><spring:message code="test.hello" text="test.hello not found" /></span>	
+	<h3><spring:message code="home.hello" arguments="${sessionScope.user}" text="home.hello not found" /></h3>	
 </div>
 
 

@@ -21,36 +21,35 @@
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" 	type="text/css">
 		<link href="static/css/main.css" rel="stylesheet" type="text/css">
 		<link href="static/css/flags.css" rel="stylesheet" type="text/css">
-		<link href="static/css/menu.css" rel="stylesheet" type="text/css">
+		<link href="static/css/flags.css" rel="stylesheet" type="text/css">
+		<link href="static/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<!-- 		<link href="static/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"> -->
+<!-- 		<link href="static/css/menu.css" rel="stylesheet" type="text/css"> -->
 		
-		
+        <script src="static/js/jquery-3.1.1.min.js"></script>
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/jquery.dataTables.min.js"></script>
+<!-- 		<script src="static/js/dataTables.bootstrap.min.js"></script> -->
 		
 	</head>
 
 	<body>
-    
-		<header id="header">
-			<div id="divHeader" class="container-fluid">
-           		<tiles:insertAttribute name="header" />
-       		</div>
+        
+
+		
+		<header id="header" class="bg-2">
+       		<tiles:insertAttribute name="header" />
         </header>
      
-    	<div class="container-fluid" >
-    		<div class="content-container" style="background-color: #f8f8f8">
-		        <section id="menu">
-		        	<div id="divMenu" >
-		            	<tiles:insertAttribute name="menu" />
-		       		</div>
-		        </section>
-		             
-		        <section id="body">
-		        	<div id="divBody" class="container-fluid body-container">
-		            	<tiles:insertAttribute name="body" />
-		           	</div>
-		        </section>
-        	</div>
-        </div>
-        <script src="static/js/jquery-3.1.1.min.js"></script>
-		<script src="static/js/bootstrap.min.js"></script>
+        <section id="menu">
+           	<tiles:insertAttribute name="menu" />
+        </section>
+	             
+        <section id="body">
+        	<div id="divBody" class="container-fluid">
+            	<tiles:insertAttribute name="body" />
+           	</div>
+        </section>
+    
 	</body>
 </html>
