@@ -17,13 +17,13 @@ import javax.persistence.Table;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="findAll", query="SELECT r FROM Role r")
+	@NamedQuery(name="findAllRoles", query="SELECT r FROM Role r")
 })
 @Table(name="roles")
 public class Role implements Serializable {
 	private static final long serialVersionUID = -1404731829519619871L;
 	/** Queries **/
-	public static final String Q_FIND_ALL = "findAll";
+	public static final String Q_FIND_ALL = "findAllRoles";
 	
 	@Id
 	private String role;

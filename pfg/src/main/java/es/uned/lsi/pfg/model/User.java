@@ -20,13 +20,15 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="findById", query="SELECT u FROM User u WHERE id = :idUser AND enabled = 1")
+	@NamedQuery(name="findUserById", query="SELECT u FROM User u WHERE u.id = :idUser AND u.enabled = 1"),
+	@NamedQuery(name="findAllUsers", query="SELECT u FROM User u WHERE u.enabled = 1")
 })
 @Table(name="users")
 public class User implements Serializable{
 	private static final long serialVersionUID = 192548048099062875L;
 	/** Queries **/
-	public static final String Q_FIND_BY_ID = "findById";
+	public static final String Q_FIND_BY_ID = "findUserById";
+	public static final String Q_FIND_ALL = "findAllUsers";
 	
 	
 	@Id

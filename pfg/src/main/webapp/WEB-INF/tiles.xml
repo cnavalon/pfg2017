@@ -21,7 +21,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/authentication/accessDenied.jsp" />
 	</definition>
 	
-	<!-- Home Pages -->
+	<!-- Home -->
 	<definition name="adminHome" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/home/adminHome.jsp" />
 	</definition>
@@ -33,6 +33,11 @@
 	</definition>
 	<definition name="parentHome" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/home/parentHome.jsp" />
+	</definition>
+	
+	<!-- Users  -->
+	<definition name="usersList" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/users/usersList.jsp" />
 	</definition>
 	
 	
