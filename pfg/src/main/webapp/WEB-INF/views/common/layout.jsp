@@ -22,15 +22,15 @@
 		<link href="static/css/main.css" rel="stylesheet" type="text/css">
 		<link href="static/css/flags.css" rel="stylesheet" type="text/css">
 		<link href="static/css/flags.css" rel="stylesheet" type="text/css">
-		<link href="static/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-<!-- 		<link href="static/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"> -->
+<!-- 		<link href="static/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"> -->
+		<link href="static/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
 <!-- 		<link href="static/css/menu.css" rel="stylesheet" type="text/css"> -->
 		
         <script src="static/js/jquery-3.1.1.min.js"></script>
 		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/main.js"></script>
 		<script src="static/js/jquery.dataTables.min.js"></script>
-<!-- 		<script src="static/js/dataTables.bootstrap.min.js"></script> -->
-		
+		<script src="static/js/dataTables.bootstrap.min.js"></script>
 	</head>
 
 	<body>

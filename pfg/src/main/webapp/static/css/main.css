@@ -4,7 +4,7 @@ body {
 }
 
 .bg-1{
-	background: #ddd;
+	background: #F0F8FF;
 /* 	background-color: #d9edf7; */
 /* 	background-color: #abd8ef; */
 }
@@ -34,4 +34,9 @@ body {
 }
 .cursorPointer{
 	cursor: pointer;
+}
+.filterTables {
+    width: 100%;
+/*     padding: 3px; */
+    box-sizing: border-box;
 }
