@@ -4,10 +4,15 @@
 package es.uned.lsi.pfg.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -50,6 +55,12 @@ public class User implements Serializable{
 	private String telephone2;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean enabled;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="user_role",
+			joinColumns=@JoinColumn(name="userid", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name="role", referencedColumnName="role")
+	)
+	private Set<Role> roles;
 	
 	/**
 	 * Obtiene el id del usuario
@@ -219,6 +230,20 @@ public class User implements Serializable{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	/**
+	 * Obtiene el listado de perfiles
+	 * @return listado de perfiles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	/**
+	 * Establece el listado de perfiles
+	 * @param roles listado de perfiles
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -320,4 +345,5 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
+	
 }
