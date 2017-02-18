@@ -14,8 +14,7 @@ public interface Constans {
 	
 	//SESSION FIELDS
 	public static final String SESSION_USER_NAME = "user";
-	public static final String SESSION_ROLES = "roles";
-	public static final String SESSION_ROLE_HOME = "roleHome";
+	public static final String SESSION_ROLE = "role";
 	
 
 	

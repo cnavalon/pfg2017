@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.uned.lsi.pfg.model.Role;
 import es.uned.lsi.pfg.utils.Constans;
 
 /**
@@ -33,10 +34,10 @@ public class HomeController {
 		logger.debug("redirectHome");
 		ModelAndView model = new ModelAndView();
 		
-		String roleId = (String)session.getAttribute(Constans.SESSION_ROLE_HOME);
+		Role role = (Role)session.getAttribute(Constans.SESSION_ROLE);
 		String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		switch (roleId) {
+		switch (role.getRole()) {
 		case Constans.ROLE_ADMIN:
 			model = getAdminHome(model, userId);
 			break;

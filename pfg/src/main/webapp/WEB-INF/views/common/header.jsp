@@ -38,11 +38,7 @@
 				</div> 
 				<div>
 					<small>
-						<c:forEach items="${sessionScope.roles}" var="role" varStatus="status">
-							<span><spring:message code="${role.name}" text="${role.name} not found" />
-							<c:if test="${not status.last}"> - </c:if>
-							</span>
-						</c:forEach>
+						<span><spring:message code="${role.name}" text="${role.name} not found" /></span>
 					</small>
 				</div>
 			</div>

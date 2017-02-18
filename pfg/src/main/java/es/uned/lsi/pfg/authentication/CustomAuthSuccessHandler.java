@@ -49,16 +49,15 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		String targetUrl = "/";
 		try {
 			HttpSession session = request.getSession(true);
-			List<Role> lstRoles = getRoles(authentication);
+			Role role = getRole(authentication);
 			String userId = authentication.getName();
 			
-			if(lstRoles.isEmpty()){
+			if(role == null){
 				logger.warn("The user has not any role");
 				new SecurityContextLogoutHandler().logout(request, response, authentication);
 				targetUrl = "/login?error=1";
 			} else {
-				session.setAttribute(Constans.SESSION_ROLES, lstRoles);
-				session.setAttribute(Constans.SESSION_ROLE_HOME, lstRoles.get(0).getRole());
+				session.setAttribute(Constans.SESSION_ROLE, role);
 				session.setAttribute(Constans.SESSION_USER_NAME, usersService.getFullName(userId));
 			}
 			
@@ -71,22 +70,21 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	}
 
 	/**
-	 * Obtiene una lista de los perfiles asociados al usuario
+	 * Obtiene el perfil del usuario
 	 * @param authentication
-	 * @return los perfiles
+	 * @return el perfil del usuario
 	 */
-	private List<Role> getRoles(Authentication authentication) {
-		List<Role> lstRoles = new ArrayList<Role>();
+	private Role getRole(Authentication authentication) {
 		List<String> lstIdRoles = getIdRoles(authentication);
 		List<Role> lstAllRoles = rolesService.getAllRoles();
 		
 		for(Role role : lstAllRoles){
 			if(lstIdRoles.contains(role.getRole())){
-				lstRoles.add(role); 
+				return role;
 			}
 		}
 		
-		return lstRoles;
+		return null;
 	}
 
 	/**

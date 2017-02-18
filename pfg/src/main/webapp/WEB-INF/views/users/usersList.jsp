@@ -48,12 +48,7 @@
 				    <td>${user.surname1}</td>
 				    <td>${user.surname2}</td>
 				    <td>${user.email}</td>
-				    <td>
-				    	<c:forEach var="role" varStatus="status" items="${user.roles}">
-				    		<spring:message code="${role.name}" text="${role.name} not found" />
-				    		<c:if test="${not status.last}"> <br> </c:if>
-				    	</c:forEach>
-				    </td>
+				    <td><spring:message code="${role.name}" text="${role.name} not found" /></td>
 				    <td class="text-center">
 				    	<label id="consultCluster" class="cursorPointer" onclick="consultUser('${user.id}')">
 							<i class="glyphicon glyphicon-search"  title="<spring:message code="common.consult" text="common.consult not found" />"> </i>

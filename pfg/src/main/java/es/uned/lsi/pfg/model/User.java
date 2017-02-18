@@ -4,15 +4,10 @@
 package es.uned.lsi.pfg.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -46,6 +41,8 @@ public class User implements Serializable{
 	private String surname1;
 	@Column(name="surname_2")
 	private String surname2;
+	private String role;
+	private String sex;
 	private String email;
 	private String address;
 	private String city;
@@ -57,12 +54,7 @@ public class User implements Serializable{
 	private String telephone2;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean enabled;
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="user_role",
-			joinColumns=@JoinColumn(name="userid", referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name="role", referencedColumnName="role")
-	)
-	private Set<Role> roles;
+	
 	
 	/**
 	 * Obtiene el id del usuario
@@ -73,7 +65,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el id del usuario
-	 * @param id: el id
+	 * @param id el id del usuario
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -101,7 +93,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el nombre del usuario
-	 * @param name: el nombre
+	 * @param name el nombre
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -115,7 +107,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el primer apellido del usuario
-	 * @param surname1: el primer apellido
+	 * @param surname1 el primer apellido
 	 */
 	public void setSurname1(String surname1) {
 		this.surname1 = surname1;
@@ -129,10 +121,38 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el segundo apellido del usuario
-	 * @param surname2: el segundo apellido
+	 * @param surname2 el segundo apellido
 	 */
 	public void setSurname2(String surname2) {
 		this.surname2 = surname2;
+	}
+	/**
+	 * Obtiene el perfil del usuario
+	 * @return el perfil
+	 */
+	public String getRole() {
+		return role;
+	}
+	/**
+	 * Establece el perfil del usuario
+	 * @param role el perfil
+	 */
+	public void setRole(String role) {
+		this.role = role;
+	}
+	/**
+	 * Obtiene el sexo del usuario
+	 * @return el sexo
+	 */
+	public String getSex() {
+		return sex;
+	}
+	/**
+	 * Estableace el sexo del usuario
+	 * @param sex el sexo
+	 */
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	/**
 	 * Obtiene el correo electronico del usuario
@@ -143,7 +163,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el correo electronico del usuario
-	 * @param email: el correo electronico
+	 * @param email el correo electronico
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -157,7 +177,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece la direccion del usuario
-	 * @param address: la direccion
+	 * @param address la direccion
 	 */
 	public void setAddress(String address) {
 		this.address = address;
@@ -171,7 +191,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece la ciudad del usuario
-	 * @param city: la ciudad
+	 * @param city la ciudad
 	 */
 	public void setCity(String city) {
 		this.city = city;
@@ -185,7 +205,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece la provincia del usuario
-	 * @param province: la provincia
+	 * @param province la provincia
 	 */
 	public void setProvince(String province) {
 		this.province = province;
@@ -199,7 +219,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el codigo postal del usuario
-	 * @param cp: el codigo postal
+	 * @param cp el codigo postal
 	 */
 	public void setCp(String cp) {
 		this.cp = cp;
@@ -213,7 +233,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el primer numero de telefono de contacto del usuario
-	 * @param telephone1: el numero de telefono
+	 * @param telephone1 el numero de telefono
 	 */
 	public void setTelephone1(String telephone1) {
 		this.telephone1 = telephone1;
@@ -227,7 +247,7 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el segundo numero de telefono de contacto del usuario
-	 * @param telephone2: el numero de telefono
+	 * @param telephone2 el numero de telefono
 	 */
 	public void setTelephone2(String telephone2) {
 		this.telephone2 = telephone2;
@@ -241,24 +261,10 @@ public class User implements Serializable{
 	}
 	/**
 	 * Establece el indicador de habilitacion del usuario
-	 * @param enabled: el indicador de habilitación
+	 * @param enabled el indicador de habilitación
 	 */
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-	/**
-	 * Obtiene el listado de perfiles
-	 * @return listado de perfiles
-	 */
-	public Set<Role> getRoles() {
-		return roles;
-	}
-	/**
-	 * Establece el listado de perfiles
-	 * @param roles listado de perfiles
-	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -266,9 +272,9 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + ", name=" + name + ", surname1=" + surname1 + ", surname2="
-				+ surname2 + ", email=" + email + ", address=" + address + ", city=" + city + ", province=" + province
-				+ ", cp=" + cp + ", telephone1=" + telephone1 + ", telephone2=" + telephone2 + ", enabled=" + enabled
-				+ ", roles=" + roles + "]";
+				+ surname2 + ", role=" + role + ", sex=" + sex + ", email=" + email + ", address=" + address + ", city="
+				+ city + ", province=" + province + ", cp=" + cp + ", telephone1=" + telephone1 + ", telephone2="
+				+ telephone2 + ", enabled=" + enabled + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -286,7 +292,8 @@ public class User implements Serializable{
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((province == null) ? 0 : province.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((sex == null) ? 0 : sex.hashCode());
 		result = prime * result + ((surname1 == null) ? 0 : surname1.hashCode());
 		result = prime * result + ((surname2 == null) ? 0 : surname2.hashCode());
 		result = prime * result + ((telephone1 == null) ? 0 : telephone1.hashCode());
@@ -347,10 +354,15 @@ public class User implements Serializable{
 				return false;
 		} else if (!province.equals(other.province))
 			return false;
-		if (roles == null) {
-			if (other.roles != null)
+		if (role == null) {
+			if (other.role != null)
 				return false;
-		} else if (!roles.equals(other.roles))
+		} else if (!role.equals(other.role))
+			return false;
+		if (sex == null) {
+			if (other.sex != null)
+				return false;
+		} else if (!sex.equals(other.sex))
 			return false;
 		if (surname1 == null) {
 			if (other.surname1 != null)
@@ -374,4 +386,5 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
+	
 }
