@@ -35,3 +35,9 @@
 .form-login button {
 	margin-top: 20px;
 }
+
+.logo-login {
+	padding: 25px;
+	max-width: 300px;
+	margin: 0 auto;
+}

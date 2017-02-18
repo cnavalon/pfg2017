@@ -23,7 +23,7 @@ public class HomeController {
 	private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Devuelve la pagina de inicio segun el perfil
+	 * Obtiene la pagina de inicio segun el perfil
 	 * @param session sesion de usuario
 	 * @return pagina de inicio del perfil
 	 * @throws Exception

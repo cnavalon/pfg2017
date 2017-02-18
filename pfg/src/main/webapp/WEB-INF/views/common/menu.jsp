@@ -5,26 +5,9 @@
 <spring:url value="/users/adm/list" var="urlUsersList" />
 
 	
-<nav class="navbar navbar-default navbar-static-top">
-<!-- <ol class="breadcrumb"> -->
-<!-- 		<li><a href="#">Home</a></li> -->
-<!-- 		<li><a href="#">Library</a></li> -->
-<!-- 		<li class="active">Data</li> -->
-<!-- 	</ol> -->
+<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<ul id="menu" class="nav navbar-nav">
-<!-- 			<li class="dropdown"> -->
-<!-- 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> -->
-<!-- 					Test <span class="caret"></span> -->
-<!-- 				</a> -->
-<!-- 				<ul class="dropdown-menu"> -->
-<%-- 					<li><a href="${urlTestAllLang}">Test All</a></li> --%>
-<%-- 					<li><a href="${urlTestAdmLang}">Test Adm</a></li> --%>
-<%-- 					<li><a href="${urlTestTchLang}">Test Tch</a></li> --%>
-<!-- 					<li role="separator" class="divider"></li> -->
-<!-- 				</ul> -->
-					
-<!-- 			</li> -->
 			<c:if test="${pageContext.request.isUserInRole('ADM')}">
 				<li id="menuUsers" onclick="selectLink(this)">
 					<a href="${urlUsersList }"><spring:message code="menu.users" text="menu.users not found" /></a>
@@ -75,9 +58,6 @@ function setActiveMenuOption(){
 	if (menuOption != null && menuOption.length){
 		// change css style of the menu option selected
 		menuOption.parent().addClass('active');
-		
-		// console.debug('Link found');
-		
 	}
 }
 </script>

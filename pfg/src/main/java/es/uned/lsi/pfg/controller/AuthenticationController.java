@@ -33,7 +33,7 @@ public class AuthenticationController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 	
 	/**
-	 * Devuelve la pagina de inicio de sesion
+	 * Obtiene la pagina de inicio de sesion
 	 * @param request
 	 * @param response
 	 * @param locale

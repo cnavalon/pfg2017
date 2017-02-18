@@ -13,11 +13,15 @@
 	
 	</head>
 
-	<body class="bg-1">
-		<div class="container-fluid login-container">
-			<div class="box-center">
+	<body >
+	<div class="logo-login text-center containerImage">
+		<img src="static/images/logo.png" class="img-rounded">
+	</div>
+		<div class="container-fluid ">
+			<div class="box-center bg-2">
+      			
 	      		<form class="form-login" role="form"  name="loginForm" action="login" method="POST">
-		        	<h2 class="form-login-heading"><spring:message code="app.name" text="app.name not found" /></h2>
+		        	<h2 class="form-login-heading logo-text"><spring:message code="app.name" text="app.name not found" /></h2>
 		        	<c:if test="${not empty error}">
 						<div id="divError" class="alert alert-danger"><spring:message code="${error}" text="${error} not found" /></div>
 					</c:if>

@@ -7,12 +7,12 @@
 	<div id="divHeader" class="container-fluid">
 		<div class="row-fluid">
 			<div class="col-sm-6" >
-				<h3>
-					<span class="cursorPointer" onclick="goToHome()">
-						<span class="glyphicon glyphicon-education icon-lg"></span>   
+				<label class="cursorPointer" onclick="goToHome()" style="display: inline-flex;">
+					<span class="logo-img containerImage"><img src="static/images/logo.png"></img></span>   
+					<h3>
 						<span class="logo-text"><strong><spring:message code="app.name" text="app.name not found" /></strong></span>
-					</span> 
-				</h3>
+					</h3>
+				</label>
 			</div>
 			<div class="col-sm-6 text-right">
 				<div >

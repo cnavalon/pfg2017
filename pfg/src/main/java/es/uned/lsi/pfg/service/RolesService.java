@@ -1,7 +1,7 @@
 /**
  * 
  */
-package es.uned.lsi.pfg.dao;
+package es.uned.lsi.pfg.service;
 
 import java.util.List;
 
@@ -9,13 +9,14 @@ import es.uned.lsi.pfg.model.Role;
 
 /**
  * @author Carlos Navalon Urrea
- * Repositorio de perfiles.
+ * Servicio de perfiles
  */
-public interface RolesDAO {
+public interface RolesService {
 
 	/**
-	 * Devuelve todos los perfiles
+	 * Obtiene todos los perfiles
 	 * @return todos los perfiles
 	 */
-	public List<Role> findAll();
+	public List<Role> getAllRoles();
+	
 }

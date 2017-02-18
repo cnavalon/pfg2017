@@ -39,6 +39,9 @@
 	<definition name="usersList" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/users/usersList.jsp" />
 	</definition>
+	<definition name="userForm" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/users/userForm.jsp" />
+	</definition>
 	
 	
 

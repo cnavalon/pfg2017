@@ -10,14 +10,14 @@ body {
 }
 
 .bg-2{
-	background: #eee;
+	background: #ffdd7b;
 /* 	background-color: #d9edf7; */
 /* 	background-color: #abd8ef; */
 }
 
 .box-center {
 	padding: 25px;
-	max-width: 360px;
+	max-width: 400px;
 	margin: 0 auto;
 	border-radius: 30px;
 }
@@ -29,8 +29,14 @@ body {
 .icon-lg{
 	font-size: 35px
 }
+.logo-img {
+	width: 50px;
+	padding: 0;
+	margin-top: 5px;
+}
 .logo-text{
 	vertical-align: super;
+	font-family: cursive;
 }
 .cursorPointer{
 	cursor: pointer;
@@ -39,4 +45,14 @@ body {
     width: 100%;
 /*     padding: 3px; */
     box-sizing: border-box;
+}
+.containerImage img{
+	width: 100%;
+}
+.title{
+	margin-top: 0;
+	font-weight: bold;
+}
+.form-group label{
+	text-align: left;
 }

@@ -39,6 +39,8 @@ public class User implements Serializable{
 	@Id
 	private String id;
 	@Column(nullable=false)
+	private String password;
+	@Column(nullable=false)
 	private String name;
 	@Column(name="surname_1", nullable=false)
 	private String surname1;
@@ -75,6 +77,20 @@ public class User implements Serializable{
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+	/**
+	 * Obtiene la contraseña
+	 * @return la contraseña
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * Establece la contraseña
+	 * @param password la contraseña
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	/**
 	 * Obtiene el nombre del usuario
@@ -249,9 +265,10 @@ public class User implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", surname1=" + surname1 + ", surname2=" + surname2 + ", email="
-				+ email + ", address=" + address + ", city=" + city + ", province=" + province + ", cp=" + cp
-				+ ", telephone1=" + telephone1 + ", telephone2=" + telephone2 + ", enabled=" + enabled + "]";
+		return "User [id=" + id + ", password=" + password + ", name=" + name + ", surname1=" + surname1 + ", surname2="
+				+ surname2 + ", email=" + email + ", address=" + address + ", city=" + city + ", province=" + province
+				+ ", cp=" + cp + ", telephone1=" + telephone1 + ", telephone2=" + telephone2 + ", enabled=" + enabled
+				+ ", roles=" + roles + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -267,7 +284,9 @@ public class User implements Serializable{
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((province == null) ? 0 : province.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((surname1 == null) ? 0 : surname1.hashCode());
 		result = prime * result + ((surname2 == null) ? 0 : surname2.hashCode());
 		result = prime * result + ((telephone1 == null) ? 0 : telephone1.hashCode());
@@ -318,10 +337,20 @@ public class User implements Serializable{
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		if (province == null) {
 			if (other.province != null)
 				return false;
 		} else if (!province.equals(other.province))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
 			return false;
 		if (surname1 == null) {
 			if (other.surname1 != null)
@@ -345,5 +374,4 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
-	
 }

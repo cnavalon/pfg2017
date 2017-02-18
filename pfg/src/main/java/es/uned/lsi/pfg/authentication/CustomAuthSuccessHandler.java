@@ -23,8 +23,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
-import es.uned.lsi.pfg.dao.RolesDAO;
 import es.uned.lsi.pfg.model.Role;
+import es.uned.lsi.pfg.service.RolesService;
 import es.uned.lsi.pfg.service.UsersService;
 import es.uned.lsi.pfg.utils.Constans;
 
@@ -39,7 +39,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Autowired
-	private RolesDAO rolesDAO;
+	private RolesService rolesService;
 	
 	@Autowired
 	private UsersService usersService;
@@ -78,7 +78,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	private List<Role> getRoles(Authentication authentication) {
 		List<Role> lstRoles = new ArrayList<Role>();
 		List<String> lstIdRoles = getIdRoles(authentication);
-		List<Role> lstAllRoles = rolesDAO.findAll();
+		List<Role> lstAllRoles = rolesService.getAllRoles();
 		
 		for(Role role : lstAllRoles){
 			if(lstIdRoles.contains(role.getRole())){
