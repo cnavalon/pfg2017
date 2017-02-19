@@ -1,4 +1,4 @@
-function initTable(id, searchText, dataTableLang, lastIndex){
+function initTable(id, searchText, dataTableLang, noSearchIndexes, selectFilterIndexes){
 	var table = $(id).DataTable({
     	sDom:'<lrtip>',
         language: {
@@ -6,25 +6,62 @@ function initTable(id, searchText, dataTableLang, lastIndex){
         },
         columnDefs: [ {
             "orderable": false,
-            "targets": lastIndex
+            "targets": noSearchIndexes
         } ],
         initComplete: function(){
-        	$(id + ' tfoot th').each( function (index) {
-        		if(index < lastIndex){
-        			var title = $(this).text();
-        			$(this).html( '<input type="text" class="filterTables" placeholder="'+searchText+' '+title+'"/>' );
-        		}
-            } );
+        	 table.columns().every( function () {
+        		 if(noSearchIndexes.indexOf(this.index()) == -1){
+        			 var column = this;
+		       		 if (selectFilterIndexes.indexOf(this.index()) == -1) {
+		       			 var that = this;
+					     var title = $(column.footer()).text();
+					     $(column.footer()).html( '<input type="text" class="filterTables" placeholder="'+searchText+' '+title+'"/>' );
+					     $( 'input', this.footer() ).on('keyup change', function () {
+					    	 if ( that.search() !== this.value ) {
+					    		 that.search( this.value ).draw();
+					    	 }
+					     } );
+		       		 }
+		       		 else {
+		       	  		
+		       	  		var select = $('<select><option value=""></option></select>')
+		                   .appendTo( $(column.footer()).empty() )
+		                   .on( 'change', function () {
+		                       var val = $.fn.dataTable.util.escapeRegex(
+		                           $(this).val()
+		                       );
+		
+		                       column
+		                           .search( val ? '^'+val+'$' : '', true, false )
+		                           .draw();
+		                   } );
+		
+		               	column.data().unique().sort().each( function ( d, j ) {
+		                  		select.append( '<option value="'+d+'">'+d+'</option>' )
+		               	} );
+		       		 }
+        		 }
+       	  } ); 
         	
-        	$(id + ' tfoot tr').insertBefore($(id + ' thead tr'));
-        	table.columns().every( function () {
-                var that = this;
-                $( 'input', this.footer() ).on('keyup change', function () {
-                    if ( that.search() !== this.value ) {
-                        that.search( this.value ).draw();
-                    }
-                } );
-            } );
+    	 $(id + ' tfoot tr').insertBefore($(id + ' thead tr'));
+        	
+        	
+//        	$(id + ' tfoot th').each( function (index) {
+//        		if(noSearchIndexes.indexOf(index) != -1){
+//        			var title = $(this).text();
+//        			$(this).html( '<input type="text" class="filterTables" placeholder="'+searchText+' '+title+'"/>' );
+//        		}
+//            } );
+//        	
+//        	table.columns().every( function () {
+//                var that = this;
+//                $( 'input', this.footer() ).on('keyup change', function () {
+//                    if ( that.search() !== this.value ) {
+//                        that.search( this.value ).draw();
+//                    }
+//                } );
+//            } );
+        	
         }
     });
 	return table;
@@ -54,11 +91,10 @@ function confirmModal(heading, question, callback, callbackCancel, okButtonTxt, 
 	//Create modal if it does not exist
 	if (!$('#dataConfirmModal').length) {
         $('body').append(
-        	'<div id="dataConfirmModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true">' +
+        	'<div id="dataConfirmModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">' +
         		'<div class="modal-dialog">' +
         			'<div class="modal-content">' +
-		        		'<div class="modal-header">' +
-		        			'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
+		        		'<div class="modal-header">' +		        			
 		        			'<h3 id="dataConfirmLabel">' + heading + '</h3>' +
 		        		'</div>' +
 		        		'<div id="dataConfirmBody" class="modal-body">' +
@@ -112,11 +148,10 @@ function alertModal(heading, question, callback, okButtonTxt) {
 	//Create modal if it does not exist
 	if (!$('#dataAlertModal').length) {
         $('body').append(
-        	'<div id="dataAlertModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true">' +
+        	'<div id="dataAlertModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">' +
         		'<div class="modal-dialog">' +
         			'<div class="modal-content">' +
 		        		'<div class="modal-header">' +
-		        			'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
 		        			'<h3 id="dataAlertLabel">' + heading + '</h3>' +
 		        		'</div>' +
 		        		'<div id="dataAlertBody" class="modal-body">' +
@@ -158,4 +193,24 @@ function isNumberKey(evt){
         return false;
     
     return true;
+}
+
+function orderAllOptions(){
+	$("select").each(function(){
+		orderOptions("#" + $(this).attr('id'));
+	});
+}
+
+function orderOptions(idSelect){
+	var my_options = $(idSelect + " option");
+	var selected = $(idSelect).val();
+
+	my_options.sort(function(a,b) {
+	    if (a.text > b.text) return 1;
+	    if (a.text < b.text) return -1;
+	    return 0
+	})
+
+	$(idSelect).empty().append( my_options );
+	$(idSelect).val(selected);
 }

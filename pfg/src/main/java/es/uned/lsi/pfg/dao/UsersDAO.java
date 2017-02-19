@@ -20,6 +20,14 @@ public interface UsersDAO {
 	 * Obtiene todos los usuarios activos
 	 * @return lista de usuarios activos
 	 */
-	public List<User> findAllUsers(); 
+	public List<User> findAllUsers();
+	
+	/**
+	 * Inserta o actualiza un usuario en BBDD
+	 * @param user el usuario
+	 * @return <code>true</code> si la operacion se ha realizado correctamente, <code>false</code> en caso contrario
+	 */
+	public boolean upsert(User user); 
+	
 	
 }

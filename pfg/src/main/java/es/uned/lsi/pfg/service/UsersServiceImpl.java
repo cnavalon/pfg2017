@@ -8,7 +8,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.uned.lsi.pfg.dao.UsersDAO;
 import es.uned.lsi.pfg.model.User;
@@ -24,6 +26,9 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private UsersDAO usersDAO;
+	
+	@Autowired
+	private ShaPasswordEncoder shaPasswordEncoder;
 	
 	@Override
 	public String getFullName(String id) {
@@ -41,7 +46,43 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public List<User> getAllUsers() {
+		logger.debug("getAllUsers");
 		return usersDAO.findAllUsers();
+	}
+
+	@Override
+	public User getUser(String id) {
+		logger.debug("getUser: " + id);
+		return usersDAO.findUser(id);
+	}
+
+	@Override
+	public boolean existsUser(String id) {
+		logger.debug("existsUser: " + id);
+		if(usersDAO.findUser(id) == null){
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	@Transactional
+	public boolean save(User user) {
+		logger.debug("user: " + user.getId());
+		user.setPassword(shaPasswordEncoder.encodePassword(user.getPassword(), null));
+		user.setEnabled(true);
+		return usersDAO.upsert(user);
+	}
+
+	@Override
+	@Transactional
+	public boolean delete(String id) {
+		User user = usersDAO.findUser(id);
+		if(user != null){
+			user.setEnabled(false);
+			return usersDAO.upsert(user);
+		}
+		return false;
 	}
 
 }

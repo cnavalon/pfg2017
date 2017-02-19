@@ -25,6 +25,7 @@
 		<link href="static/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <!-- 		<link href="static/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"> -->
 		<link href="static/css/menu.css" rel="stylesheet" type="text/css">
+		<link href="static/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
 		
         <script src="static/js/jquery-3.1.1.min.js"></script>
 		<script src="static/js/bootstrap.min.js"></script>
@@ -33,6 +34,8 @@
 		<script src="static/js/jquery.dataTables.min.js"></script>
 <!-- 		<script src="static/js/dataTables.bootstrap.min.js"></script> -->
 		<script src="static/js/jquery.blockUI.js"></script>
+		<script src="static/js/moment-with-locales.min.js"></script>
+		<script src="static/js/bootstrap-datetimepicker.min.js"></script>
 	</head>
 
 	<body>
@@ -56,14 +59,16 @@
         </section>
         
         <script type="text/javascript">
-			function confirm(heading, question, callback, callbackCancel){
+			function confirm(question, callback, callbackCancel){
+				var heading = '<spring:message code="common.warning" text="common.warning not found"/>';
 				var cancelButtonTxt = '<spring:message code="common.cancel" text="common.cancel not found" />';
 				var okButtonTxt = '<spring:message code="common.ok" text="common.ok not found" />';
 				confirmModal(heading, question, callback, callbackCancel, okButtonTxt, cancelButtonTxt);
 				
 			}
 			
-			function alert(heading, question, callback){
+			function alert(question, callback){
+				var heading = '<spring:message code="common.warning" text="common.warning not found"/>';
 				var okButtonTxt = '<spring:message code="common.ok" text="common.ok not found" />';
 				alertModal(heading, question, callback, okButtonTxt);
 				

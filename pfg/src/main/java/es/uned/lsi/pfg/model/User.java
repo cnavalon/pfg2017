@@ -4,6 +4,7 @@
 package es.uned.lsi.pfg.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author Carlos Navalon Urrea
@@ -41,9 +43,14 @@ public class User implements Serializable{
 	private String surname1;
 	@Column(name="surname_2")
 	private String surname2;
+	@Column(nullable=false)
 	private String role;
+	@Column(nullable=false)
 	private String sex;
 	private String email;
+	@Column(nullable=false)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date birthdate;
 	private String address;
 	private String city;
 	private String province;
@@ -169,6 +176,20 @@ public class User implements Serializable{
 		this.email = email;
 	}
 	/**
+	 * Obtiene la fecha de nacimiento
+	 * @return fecha de nacimiento
+	 */
+	public Date getBirthdate() {
+		return birthdate;
+	}
+	/**
+	 * Establece la fecha de nacimiento
+	 * @param birthdate fecha de nacimiento
+	 */
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+	/**
 	 * Obtiene la direccion del usuario
 	 * @return la direccion
 	 */
@@ -272,9 +293,9 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + ", name=" + name + ", surname1=" + surname1 + ", surname2="
-				+ surname2 + ", role=" + role + ", sex=" + sex + ", email=" + email + ", address=" + address + ", city="
-				+ city + ", province=" + province + ", cp=" + cp + ", telephone1=" + telephone1 + ", telephone2="
-				+ telephone2 + ", enabled=" + enabled + "]";
+				+ surname2 + ", role=" + role + ", sex=" + sex + ", email=" + email + ", birthdate=" + birthdate
+				+ ", address=" + address + ", city=" + city + ", province=" + province + ", cp=" + cp + ", telephone1="
+				+ telephone1 + ", telephone2=" + telephone2 + ", enabled=" + enabled + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -284,6 +305,7 @@ public class User implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((cp == null) ? 0 : cp.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -316,6 +338,11 @@ public class User implements Serializable{
 			if (other.address != null)
 				return false;
 		} else if (!address.equals(other.address))
+			return false;
+		if (birthdate == null) {
+			if (other.birthdate != null)
+				return false;
+		} else if (!birthdate.equals(other.birthdate))
 			return false;
 		if (city == null) {
 			if (other.city != null)

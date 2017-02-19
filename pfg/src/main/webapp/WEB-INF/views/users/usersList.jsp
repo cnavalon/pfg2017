@@ -3,6 +3,7 @@
 <spring:url value="/users/adm/newUser" var="urlNewUser" />
 <spring:url value="/users/adm/editUser/" var="urlEditUser" />
 <spring:url value="/users/adm/deleteUser/" var="urlDeleteUser" />
+<spring:url value="/users/adm/deleteUser/" var="urlDeleteUser" />
 
 <div class="row-fluid">
 	<h3 class="title"><spring:message code="user.title.list" text="user.title.list not found" /></h3>
@@ -48,7 +49,7 @@
 				    <td>${user.surname1}</td>
 				    <td>${user.surname2}</td>
 				    <td>${user.email}</td>
-				    <td><spring:message code="${role.name}" text="${role.name} not found" /></td>
+				    <td><spring:message code="${mapRoles[user.role]}" text="${mapRoles[user.role]} not found" /></td>
 				    <td class="text-center">
 				    	<label id="consultCluster" class="cursorPointer" onclick="consultUser('${user.id}')">
 							<i class="glyphicon glyphicon-search"  title="<spring:message code="common.consult" text="common.consult not found" />"> </i>
@@ -71,7 +72,7 @@ var user = null;
 
 $(document).ready(function() {
 	$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
-	var table = initTable('#tableUsers','<spring:message code="table.search" text="table.search not found" />','<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />', 6);
+	var table = initTable('#tableUsers','<spring:message code="table.search" text="table.search not found" />','<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />', [6],[5]);
 } );
 
 function addUser(){
@@ -79,11 +80,11 @@ function addUser(){
 }
 
 function editUser(userId){
-	location.href = "${urlNewUser}" + urlEditUser;
+	location.href = "${urlEditUser}" + userId;
 }
 
 function confirmDeleteUser(userId){
-	confirm(userId, '<spring:message code="user.delete.quest" text="user.delete.quest not found" />', deleteUser, null);
+	confirm('<spring:message code="user.delete.quest" arguments="userId" text="user.delete.quest not found" />', deleteUser, null);
 	user = userId;
 }
 
@@ -93,11 +94,11 @@ function deleteUser(){
 		type:"GET", 
 		url : "${urlDeleteUser}" + user,
 		success : function(response) {
-			alert(user, response, reload);
+			alert(response, reload);
 		},
 		error: function(){
-			alert(user, '<spring:message code="user.delete.error" text="user.delete.error not found" />', reload);
-		}
+			alert('<spring:message code="user.delete.error" arguments="userId" text="user.delete.error not found" />', reload);
+		} 
 	});			
 }
 
