@@ -56,3 +56,10 @@ body {
 .form-group label{
 	text-align: left;
 }
+.divTable{
+	padding: 0 20px;	
+}
+.iconTable{
+	padding-left: 5px;
+	padding-right: 5px;
+}

@@ -24,8 +24,8 @@ import es.uned.lsi.pfg.model.LanguageEnum;
 
 
 /**
- * @author Carlos Navalon Urrea
  * Controlador de inicio de sesion
+ * @author Carlos Navalon Urrea
  */
 @Controller
 public class AuthenticationController {

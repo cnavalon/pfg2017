@@ -1,11 +1,11 @@
-package es.uned.lsi.pfg.dao;
+package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
 import es.uned.lsi.pfg.model.User;
 /**
- * @author Carlos Navalon Urrea
  * Repositorio de usuarios
+ * @author Carlos Navalon Urrea
  */
 public interface UsersDAO {
 	
@@ -17,8 +17,8 @@ public interface UsersDAO {
 	public User findUser(String id);
 
 	/**
-	 * Obtiene todos los usuarios activos
-	 * @return lista de usuarios activos
+	 * Obtiene todos los usuarios 
+	 * @return lista de usuarios 
 	 */
 	public List<User> findAllUsers();
 	

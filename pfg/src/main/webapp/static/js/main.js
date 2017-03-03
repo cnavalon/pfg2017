@@ -1,4 +1,12 @@
-function initTable(id, searchText, dataTableLang, noSearchIndexes, selectFilterIndexes){
+/**
+ * Inicia una tabla
+ * @param id nombre de la tabla
+ * @param dataTableLang idioma de la tabla
+ * @param noSearchIndexes array de columnas sin filtros ni ordenacion
+ * @param selectFilterIndexes array de columnas con filtros por select
+ * @returns la tabla
+ */
+function initTable(id, dataTableLang, noSearchIndexes, selectFilterIndexes){
 	var table = $(id).DataTable({
     	sDom:'<lrtip>',
         language: {
@@ -15,7 +23,7 @@ function initTable(id, searchText, dataTableLang, noSearchIndexes, selectFilterI
 		       		 if (selectFilterIndexes.indexOf(this.index()) == -1) {
 		       			 var that = this;
 					     var title = $(column.footer()).text();
-					     $(column.footer()).html( '<input type="text" class="filterTables" placeholder="'+searchText+' '+title+'"/>' );
+					     $(column.footer()).html( '<input type="text" class="filterTables" placeholder="'+title+'"/>' );
 					     $( 'input', this.footer() ).on('keyup change', function () {
 					    	 if ( that.search() !== this.value ) {
 					    		 that.search( this.value ).draw();

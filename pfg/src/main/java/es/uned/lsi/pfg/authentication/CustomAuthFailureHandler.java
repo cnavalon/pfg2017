@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 /**
- * @author Carlos Navalon Urrea
  * Gestor de autenticaciones fallidas
+ * @author Carlos Navalon Urrea
  */
 @Component
 public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler implements AuthenticationFailureHandler {

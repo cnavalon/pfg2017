@@ -1,7 +1,7 @@
 /**
  * 
  */
-package es.uned.lsi.pfg.dao;
+package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
@@ -9,11 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import es.uned.lsi.pfg.dao.AbstractJpaDao;
 import es.uned.lsi.pfg.model.User;
 
 /**
- * @author Carlos Navalon Urrea
  * Implementacion del repositorio de usuarios
+ * @author Carlos Navalon Urrea
  */
 @Repository
 public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
@@ -27,7 +28,7 @@ public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
 		User user = null;
 		try {
 			user =  em.createNamedQuery(User.Q_FIND_BY_ID, User.class)
-					.setParameter("idUser", id)
+					.setParameter("id", id)
 					.getSingleResult();
 		} catch (Exception e) {
 			logger.error("Error recuperando el usuario " + id, e);
@@ -44,7 +45,7 @@ public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
 			lstUsers =  em.createNamedQuery(User.Q_FIND_ALL, User.class)
 					.getResultList();
 		} catch (Exception e) {
-			logger.error("Error recuperando todos los usuarios activos", e);
+			logger.error("Error recuperando todos los usuarios", e);
 		}
 		return lstUsers;
 	}
@@ -60,6 +61,5 @@ public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
 		}
 		return false;
 	}
-
 	
 }

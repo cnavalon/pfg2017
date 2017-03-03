@@ -24,13 +24,13 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Component;
 
 import es.uned.lsi.pfg.model.Role;
-import es.uned.lsi.pfg.service.RolesService;
-import es.uned.lsi.pfg.service.UsersService;
+import es.uned.lsi.pfg.service.users.RolesService;
+import es.uned.lsi.pfg.service.users.UsersService;
 import es.uned.lsi.pfg.utils.Constans;
 
 /**
- * @author Carlos Navalon Urrea
  * Gestor de autenticaciones correctas
+ * @author Carlos Navalon Urrea
  */
 @Component
 public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -50,7 +50,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		try {
 			HttpSession session = request.getSession(true);
 			Role role = getRole(authentication);
-			String userId = authentication.getName();
+			String idUser = authentication.getName();
 			
 			if(role == null){
 				logger.warn("The user has not any role");
@@ -58,7 +58,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 				targetUrl = "/login?error=1";
 			} else {
 				session.setAttribute(Constans.SESSION_ROLE, role);
-				session.setAttribute(Constans.SESSION_USER_NAME, usersService.getFullName(userId));
+				session.setAttribute(Constans.SESSION_USER_NAME, usersService.getFullName(idUser, role.getIdRole()));
 			}
 			
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		List<Role> lstAllRoles = rolesService.getAllRoles();
 		
 		for(Role role : lstAllRoles){
-			if(lstIdRoles.contains(role.getRole())){
+			if(lstIdRoles.contains(role.getIdRole())){
 				return role;
 			}
 		}

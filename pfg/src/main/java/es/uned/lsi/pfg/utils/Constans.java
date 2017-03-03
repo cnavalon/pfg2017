@@ -1,8 +1,8 @@
 package es.uned.lsi.pfg.utils;
 
 /**
- * @author Carlos Navalon Urrea
  * Constantes
+ * @author Carlos Navalon Urrea
  */
 public interface Constans {
 	//ROLES
@@ -13,8 +13,8 @@ public interface Constans {
 	public static final String[] ROLES_ARRAY = {ROLE_ADMIN, ROLE_TEACHER, ROLE_STUDENT, ROLE_PARENT};
 	
 	//SESSION FIELDS
-	public static final String SESSION_USER_NAME = "user";
-	public static final String SESSION_ROLE = "role";
+	public static final String SESSION_USER_NAME = "sessionUserFullName";
+	public static final String SESSION_ROLE = "sessionUserRole";
 	
 
 	

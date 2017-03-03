@@ -21,8 +21,8 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 /**
- * @author Carlos Navalon Urrea
  * Configuracion de la aplicacion
+ * @author Carlos Navalon Urrea
  */
 @Configuration
 @EnableWebMvc

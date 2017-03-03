@@ -1,15 +1,15 @@
 /**
  * 
  */
-package es.uned.lsi.pfg.service;
+package es.uned.lsi.pfg.service.users;
 
 import java.util.List;
 
 import es.uned.lsi.pfg.model.Role;
 
 /**
- * @author Carlos Navalon Urrea
  * Servicio de perfiles
+ * @author Carlos Navalon Urrea
  */
 public interface RolesService {
 
@@ -18,5 +18,11 @@ public interface RolesService {
 	 * @return todos los perfiles
 	 */
 	public List<Role> getAllRoles();
+	
+	/**
+	 * Obitene todos los perfiles de emplados
+	 * @return todos los perfiles de empleados
+	 */
+	public List<Role> getEmployeeRoles();
 	
 }

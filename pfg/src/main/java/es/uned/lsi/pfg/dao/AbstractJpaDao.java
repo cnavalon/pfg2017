@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * @author Carlos Navalon Urrea
  * Clase abstracta de repositorio JPA
+ * @author Carlos Navalon Urrea
  */
 public abstract class AbstractJpaDao {
 	

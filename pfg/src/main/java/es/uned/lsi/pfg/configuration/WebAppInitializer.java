@@ -3,8 +3,8 @@ package es.uned.lsi.pfg.configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * @author Carlos Navalon Urrea
  * Inicializador de la aplicacion
+ * @author Carlos Navalon Urrea
  */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	

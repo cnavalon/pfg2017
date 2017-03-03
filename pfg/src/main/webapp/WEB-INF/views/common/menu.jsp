@@ -1,17 +1,21 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
-<%-- <spring:url value="/test/all/lang" var="urlTestAllLang" /> --%>
-<%-- <spring:url value="/test/adm/lang" var="urlTestAdmLang" /> --%>
-<%-- <spring:url value="/test/tch/lang" var="urlTestTchLang" /> --%>
-<spring:url value="/users/adm/list" var="urlUsersList" />
+<spring:url value="/users/emp/users" var="urlUsersSearch" />
 
 	
 <nav class="navbar navbar-default">
-	<div class="container-fluid">
+	<div class="row-fluid">
+	
 		<ul id="menu" class="nav navbar-nav">
-			<c:if test="${pageContext.request.isUserInRole('ADM')}">
-				<li id="menuUsers" onclick="selectLink(this)">
-					<a href="${urlUsersList }"><spring:message code="menu.users" text="menu.users not found" /></a>
+			<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
+				<li class="dropdown" id="menuUsers">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.users" text="menu.users not found" /> <span class="caret"></span></a>
+			        <ul class="dropdown-menu">
+			        	<li><a href="${urlUsersSearch}" id="menuUsers_search" ><spring:message code="menu.users.search" text="menu.users.search not found" /></a></li>
+			        </ul>
 				</li>
+<!-- 				<li id="menuUsers" onclick="selectLink(this)"> -->
+<%-- 					<a href="${urlUsersList}"></a> --%>
+<!-- 				</li> -->
 			</c:if>
 		</ul>
 	</div>
@@ -46,7 +50,7 @@ function setActiveMenuOption(){
      	uniquePath = uniquePath + '/' +paths[numPath];
         
      	// Find menu options starting with the path
-		menuOption = $('ul[id="menu"] a[href^="'+uniquePath+'"]');
+		menuOption = $('ul[id="menu"] a[href="'+uniquePath+'"]');
 		if (menuOption.length == 1){
 			uniquePathFound = true;
 		}else{
@@ -56,8 +60,9 @@ function setActiveMenuOption(){
 	     	
  	// if unique menu option found 
 	if (menuOption != null && menuOption.length){
+		var id = menuOption.attr('id').split("_")[0];
 		// change css style of the menu option selected
-		menuOption.parent().addClass('active');
+		$("#"+ id).addClass('active');
 	}
 }
 </script>

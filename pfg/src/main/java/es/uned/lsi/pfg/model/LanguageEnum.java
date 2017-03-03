@@ -4,8 +4,8 @@
 package es.uned.lsi.pfg.model;
 
 /**
- * @author Carlos Navalon Urrea
  * Enumeracion de lenguajes
+ * @author Carlos Navalon Urrea
  */
 public enum LanguageEnum {
 	ES,EN

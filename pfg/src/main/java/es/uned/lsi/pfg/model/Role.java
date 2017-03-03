@@ -5,6 +5,7 @@ package es.uned.lsi.pfg.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -12,36 +13,40 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * @author Carlos Navalon Urrea
  * Entidad de perfil
+ * @author Carlos Navalon Urrea
  */
 @Entity
 @NamedQueries({
-	@NamedQuery(name="findAllRoles", query="SELECT r FROM Role r")
+	@NamedQuery(name="findAllRoles", query="SELECT r FROM Role r"),
+	@NamedQuery(name="findRollesByListIds", query="SELECT r FROM Role r WHERE r.idRole IN :listIds")
 })
 @Table(name="roles")
 public class Role implements Serializable {
 	private static final long serialVersionUID = -1404731829519619871L;
 	/** Queries **/
 	public static final String Q_FIND_ALL = "findAllRoles";
+	public static final String Q_FIND_BY_LIST_IDS = "findRollesByListIds";
 	
 	@Id
-	private String role;
+	@Column(name="id_role")
+	private String idRole;
+	@Column(name="name_role")
 	private String name;
 	
 	/**
 	 * Obtiene el id del perfil
 	 * @return el id
 	 */
-	public String getRole() {
-		return role;
+	public String getIdRole() {
+		return idRole;
 	}
 	/**
 	 * Establece el id perfil
-	 * @param role: el id
+	 * @param idRole el id
 	 */
-	public void setRole(String role) {
-		this.role = role;
+	public void setIdRole(String idRole) {
+		this.idRole = idRole;
 	}
 	/**
 	 * Obtiene el nombre del perfil
@@ -63,7 +68,7 @@ public class Role implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Role [role=" + role + ", name=" + name + "]";
+		return "Role [role=" + idRole + ", name=" + name + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -73,7 +78,7 @@ public class Role implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
 		return result;
 	}
 	/* (non-Javadoc)
@@ -93,10 +98,10 @@ public class Role implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (role == null) {
-			if (other.role != null)
+		if (idRole == null) {
+			if (other.idRole != null)
 				return false;
-		} else if (!role.equals(other.role))
+		} else if (!idRole.equals(other.idRole))
 			return false;
 		return true;
 	}

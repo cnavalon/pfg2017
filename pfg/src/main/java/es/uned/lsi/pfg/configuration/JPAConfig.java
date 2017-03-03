@@ -18,8 +18,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @author Carlos Navalon Urrea
  * Configuracion de JPA
+ * @author Carlos Navalon Urrea
  */
 @Configuration
 @EnableTransactionManagement

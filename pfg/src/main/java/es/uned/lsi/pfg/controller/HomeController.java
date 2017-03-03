@@ -15,8 +15,8 @@ import es.uned.lsi.pfg.model.Role;
 import es.uned.lsi.pfg.utils.Constans;
 
 /**
- * @author Carlos Navalon Urrea
  * Controlador de pagina de inicio
+ * @author Carlos Navalon Urrea
  */
 @Controller
 public class HomeController {
@@ -37,7 +37,7 @@ public class HomeController {
 		Role role = (Role)session.getAttribute(Constans.SESSION_ROLE);
 		String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		switch (role.getRole()) {
+		switch (role.getIdRole()) {
 		case Constans.ROLE_ADMIN:
 			model = getAdminHome(model, userId);
 			break;
@@ -66,7 +66,6 @@ public class HomeController {
 	private ModelAndView getAdminHome(ModelAndView model, String userId) {
 		logger.debug("getAdminHome");
 		model.setViewName("adminHome");
-		model.addObject("greeting", "Bienvenido " + userId + " a la pagina principal de administrador");
 		return model;
 	}
 	
@@ -79,7 +78,6 @@ public class HomeController {
 	private ModelAndView getTeacherHome(ModelAndView model, String userId) {
 		logger.debug("getTeacherHome");
 		model.setViewName("teacherHome");
-		model.addObject("greeting", "Bienvenido " + userId + " a la pagina principal de profesor");
 		return model;
 	}
 	
@@ -92,7 +90,6 @@ public class HomeController {
 	private ModelAndView getStudentHome(ModelAndView model, String userId) {
 		logger.debug("getStudentHome");
 		model.setViewName("studentHome");
-		model.addObject("greeting", "Bienvenido " + userId + " a la pagina principal de alumno");
 		return model;
 	}
 	
@@ -105,7 +102,6 @@ public class HomeController {
 	private ModelAndView getParentHome(ModelAndView model, String userId) {
 		logger.debug("getParentHome");
 		model.setViewName("parentHome");
-		model.addObject("greeting", "Bienvenido " + userId + " a la pagina principal de padre");
 		return model;
 	}
 	

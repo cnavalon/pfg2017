@@ -1,15 +1,15 @@
 /**
  * 
  */
-package es.uned.lsi.pfg.dao;
+package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
 import es.uned.lsi.pfg.model.Role;
 
 /**
- * @author Carlos Navalon Urrea
  * Repositorio de perfiles.
+ * @author Carlos Navalon Urrea
  */
 public interface RolesDAO {
 
@@ -18,4 +18,11 @@ public interface RolesDAO {
 	 * @return todos los perfiles
 	 */
 	public List<Role> findAll();
+
+	/**
+	 * Obtiene los perfiles por ids
+	 * @param lstIds lista de ids de perfiles
+	 * @return los perfiles 
+	 */
+	public List<Role> findByListIds(List<String> lstIds);
 }

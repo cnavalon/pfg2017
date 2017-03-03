@@ -34,11 +34,11 @@
 				</div>
 				<div>
 					<span class="glyphicon glyphicon-user"></span> 
-					<span><strong id="sessionUserName">${sessionScope.user}</strong></span>
+					<span><strong id="sessionUserName">${sessionScope.sessionUserFullName}</strong></span>
 				</div> 
 				<div>
 					<small>
-						<span><spring:message code="${role.name}" text="${role.name} not found" /></span>
+						<span><spring:message code="${sessionScope.sessionUserRole.name}" text="${sessionScope.sessionUserRole.name} not found" />
 					</small>
 				</div>
 			</div>

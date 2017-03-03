@@ -19,8 +19,8 @@ import es.uned.lsi.pfg.authentication.CustomAuthSuccessHandler;
 import es.uned.lsi.pfg.utils.Constans;
 
 /**
- * @author Carlos Navalon Urrea
  * Configuracion de seguridad
+ * @author Carlos Navalon Urrea
  */
 @Configuration
 @EnableWebSecurity 
@@ -38,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
-			.usersByUsernameQuery("select id,password,enabled from users where id=?")
-			.authoritiesByUsernameQuery("select id,role from users where id=?");
+			.usersByUsernameQuery("select id_user,password,enabled from users where id_user=?")
+			.authoritiesByUsernameQuery("select id_user,id_role from users where id_user=?");
     }
  
     @Override
@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/*/tch/**").hasAuthority(Constans.ROLE_TEACHER)
         .antMatchers("/*/std/**").hasAuthority(Constans.ROLE_STUDENT)
         .antMatchers("/*/par/**").hasAuthority(Constans.ROLE_PARENT)
+        .antMatchers("/*/emp/**").hasAnyAuthority(Constans.ROLE_ADMIN,Constans.ROLE_TEACHER)
         .anyRequest().authenticated()
         .and().exceptionHandling().accessDeniedPage("/accessDenied")
         .and().formLogin().loginPage("/login")
