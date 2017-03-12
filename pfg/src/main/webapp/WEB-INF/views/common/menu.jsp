@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 <spring:url value="/users/emp/users" var="urlUsersSearch" />
+<spring:url value="/users/adm/newUser" var="urlNewUser" />
 
 	
 <nav class="navbar navbar-default">
@@ -10,12 +11,12 @@
 				<li class="dropdown" id="menuUsers">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.users" text="menu.users not found" /> <span class="caret"></span></a>
 			        <ul class="dropdown-menu">
+				        <c:if test="${pageContext.request.isUserInRole('ADM')}">
+				        	<li><a href="${urlNewUser}" id="menuUsers_add" ><spring:message code="menu.users.add" text="menu.users.add not found" /></a></li>
+				        </c:if>
 			        	<li><a href="${urlUsersSearch}" id="menuUsers_search" ><spring:message code="menu.users.search" text="menu.users.search not found" /></a></li>
 			        </ul>
 				</li>
-<!-- 				<li id="menuUsers" onclick="selectLink(this)"> -->
-<%-- 					<a href="${urlUsersList}"></a> --%>
-<!-- 				</li> -->
 			</c:if>
 		</ul>
 	</div>

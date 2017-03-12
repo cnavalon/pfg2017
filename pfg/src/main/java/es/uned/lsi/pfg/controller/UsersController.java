@@ -1,11 +1,8 @@
 package es.uned.lsi.pfg.controller;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.uned.lsi.pfg.model.Role;
+import es.uned.lsi.pfg.model.Admin;
+import es.uned.lsi.pfg.model.DNITypeEnum;
+import es.uned.lsi.pfg.model.Option;
+import es.uned.lsi.pfg.model.Parent;
+import es.uned.lsi.pfg.model.Person;
+import es.uned.lsi.pfg.model.SexEnum;
+import es.uned.lsi.pfg.model.StudentWithParents;
+import es.uned.lsi.pfg.model.Teacher;
+import es.uned.lsi.pfg.model.User;
 import es.uned.lsi.pfg.model.UserSearch;
+import es.uned.lsi.pfg.service.courses.CoursesService;
 import es.uned.lsi.pfg.service.users.RolesService;
 import es.uned.lsi.pfg.service.users.UsersService;
+import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de pagina de usuarios
@@ -43,8 +50,8 @@ public class UsersController {
 	@Autowired
     private MessageSource messageSource;
 	
-	
-	
+	@Autowired
+	private CoursesService coursesService;
 	
 	/**
 	 * Obtiene la página de buscador de usuarios
@@ -55,6 +62,8 @@ public class UsersController {
 	@RequestMapping(value="/emp/users", method = RequestMethod.GET)
 	public ModelAndView getUsers () throws Exception {
 		logger.debug("getUsers");
+		
+		
 		
 		ModelAndView model = new ModelAndView();
 		model.setViewName("users");
@@ -76,7 +85,7 @@ public class UsersController {
 	public List<UserSearch> usersSearch (@RequestParam String idRole, @RequestParam String name, 
 			@RequestParam String surname1, @RequestParam String surname2 ) throws Exception {
 		logger.debug("usersSearch: " + idRole + "," + name + "," + surname1 + "," + surname2);
-		UserSearch user = new UserSearch(null, idRole, name, surname1, surname2);
+		UserSearch user = new UserSearch(null, idRole, name, surname1, surname2, null);
 		return usersService.search(user);
 	}
 	
@@ -97,8 +106,12 @@ public class UsersController {
 		String response = "user.delete.error";
 		try {
 			Integer idNumber = Integer.parseInt(id);
-			if(usersService.delete(idNumber, idRole))
+			if(usersService.delete(idNumber, idRole)){
+				logger.debug("Usuario eliminado [" + id + "," + idRole +"]"); 
 				response = "user.deleted";
+			} else {
+				logger.warn("No se ha eliminado el usuario [" + id + "," + idRole +"]"); 
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -107,109 +120,196 @@ public class UsersController {
 	
 	
 	/**
-	 * Obtiene la página de nuevo empleado
+	 * Obtiene la página de nuevo usuario
 	 * @param locale
-	 * @return la página de nuevo empleado
+	 * @return la página de nuevo usuario
 	 */
-//	@RequestMapping(value = "/adm/newEmployee", method = RequestMethod.GET )
-//	public ModelAndView addEmployee(Locale locale) {
-//		logger.debug("newEmployee");
-//		
-//		String title = messageSource.getMessage("employees.title.new", null, locale);
-//		Employee employee = new Employee();
-//		
-//		return getEmployeeForm(title, employee, locale);
-//	}
+	@RequestMapping(value = "/adm/newUser", method = RequestMethod.GET )
+	public ModelAndView newUser(Locale locale) {
+		logger.debug("newUser");
+		
+		String title = messageSource.getMessage("user.title.new", null, locale);
+		User user = new User();
+				
+		return getUserForm(title, user);
+	}
+	
+	/**
+	 * Obtiene el formulario de nueva persona segun su perfil
+	 * @param locale
+	 * @param idRole perfil
+	 * @return el formulario de nueva persona 
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/adm/newPerson/{idRole}", method = RequestMethod.GET )
+	public ModelAndView newPerson(Locale locale, @PathVariable("idRole") String idRole) {
+		logger.debug("newPerson: " + idRole);
+		
+		if(idRole != null && !idRole.equals("")){
+			try {
+				ModelAndView model = new ModelAndView();
+				model.setViewName(findFormByRole(idRole));
+				model.addObject("person", usersService.findClassRole(idRole).getConstructor().newInstance());
+				model.addObject("locale",locale.getLanguage());
+				model.addObject("lstDNI", getLstDNI());
+				if(idRole.equals(Constans.ROLE_STUDENT)){
+					model.addObject("lstSex", getLstSex(locale));
+					model.addObject("lstCourses", coursesService.getAllCourses());
+					model.addObject("parent1", new Parent());
+					model.addObject("parent2", new Parent());
+					model.addObject("userPar1", new User());
+					model.addObject("userPar2", new User());
+					model.addObject("parRole", rolesService.getRole(Constans.ROLE_PARENT));
+				}
+				return model;
+			} catch (Exception e) {
+				logger.error("ERROR obteniendo formulario de persona " + idRole, e);
+			}
+		} else {
+			logger.warn("Perfil nulo o vacío");
+		}
+		return null;
+		
+	}
+
+	private Object getLstSex(Locale locale) {
+		List<Option> lstSex = new ArrayList<Option>();
+		for(SexEnum sex : SexEnum.values()){
+			lstSex.add(new Option(sex.name(), messageSource.getMessage("user.sex." + sex.name(), null, locale)));
+		}
+		return lstSex;
+	}
+
+	private Object getLstDNI() {
+		List<String> lstDni = new ArrayList<String>();
+		for(DNITypeEnum dni: DNITypeEnum.values()){
+			lstDni.add(dni.name());
+		}
+		return lstDni;
+	}
 
 	/**
-	 * Obtiene la página de edicion de usuario
-	 * @param id id de usuario
-	 * @param locale
-	 * @return la página de edicion de usuario
+	 * Encuentra el formulario de persona en funcion del perfil
+	 * @param idRole perfil
+	 * @return el nombre de la pagina del formulario
 	 */
-//	@RequestMapping(value = "/adm/editUser/{id}", method = RequestMethod.GET )
-//	public ModelAndView editUser(@PathVariable("id") String id, Locale locale) {
-//		logger.debug("editUser: " + id);
-//		String title = messageSource.getMessage("user.title.edit", null, locale);
-//		User user = usersService.getActiveUser(id);
-//		
-//		return getUserForm(title, user, locale);
-//	}
-	
+	private String findFormByRole(String idRole) throws Exception{
+		switch (idRole) {
+		case Constans.ROLE_ADMIN:
+			return "adminForm";
+		case Constans.ROLE_TEACHER:
+			return "teacherForm";
+		case Constans.ROLE_STUDENT:
+			return "studentForm";
+		case Constans.ROLE_PARENT:
+			return "parentForm";
+		default:
+			throw new Exception("No existe el perfil");
+		}
+	}
 	
 	/**
-	 * Obtiene a la pagina de formulario de empleado
-	 * @param title título a mostrar en la pagina
-	 * @param employee empleado
+	 * Comprueba si el id de usuario es viable
+	 * @param locale
+	 * @param idUser id de usuario
+	 * @return mensaje de error si existe, en caso contrario cadena vacía.
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/adm/checkUser/{idUser}", method = RequestMethod.GET )
+	public String checkIdUser(Locale locale, @PathVariable("idUser") String idUser) {
+		logger.debug("checkIdUser: " + idUser);
+		String response = "";
+		if(idUser != null && !idUser.equals("")){
+			try {
+				if(usersService.getUser(idUser) != null){
+					response = messageSource.getMessage("user.id.exist", null, locale);
+				}
+			} catch (Exception e) {
+				logger.error("ERROR obteniendo formulario de persona " + idUser, e);
+				response = messageSource.getMessage("user.error.id", null, locale);
+			}
+		} else {
+			logger.warn("ID de usuario nulo o vacío");
+			response = messageSource.getMessage("user.id.empty", null, locale);
+		}
+		return response;
+	}
+	
+	/**
+	 * Genera el modelo de la pagina de formulario de usuario
+	 * @param title titulo de la pagina
+	 * @param user entidad usuario del usuario
 	 * @param locale 
-	 * @return la pagina de formulario de empleado
+	 * @return el modelo de la pagina de formulario de usuario
 	 */
-//	private ModelAndView getEmployeeForm(String title, Employee employee, Locale locale) {
-//		ModelAndView model = new ModelAndView();
-//	
-//		model.setViewName("userForm");
-//		model.addObject("title", title);
-//		model.addObject("user", employee);
-//		model.addObject("lstRoles", rolesService.getEmployeeRoles());
-//		model.addObject("locale",locale.getLanguage());
-//		
-//		return model;
-//	}
+	private ModelAndView getUserForm(String title, User user) {
+		ModelAndView model = new ModelAndView();
+		
+		model.setViewName("userForm");
+		model.addObject("title", title);
+		model.addObject("user", user);
+		model.addObject("lstRoles", rolesService.getAllRoles());
 
+		return model;
+	}
+	
 	/**
-	 * Inserta un usuario nuevo
-	 * @param user el usuario
-	 * @return 	0: operacion correcta
-	 * 			1: error
-	 * 			2: ya existe usuario
+	 * Inserta o actualiza un administrador
+	 * @param admin administrador
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
 	 * @throws Exception
 	 */
-//	@RequestMapping(value = "/adm/addUser", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Integer addUser(@ModelAttribute User user) throws Exception {
-//		logger.debug("addUser: " + user);
-//		try {
-//			if(user != null && user.getId() != null){
-//				if(!usersService.existsUser(user.getId())){
-//					if(usersService.save(user)){
-//						logger.debug("user " + user.getId() + " saved");
-//						return 0;
-//					}
-//				} else {
-//					logger.debug("already exists user with username " + user.getId());
-//					return 2;
-//				}
-//			}
-//			return 1;
-//		} catch (Exception e) {
-//			logger.error("ERROR: " + e.getMessage());
-//			throw e;
-//		}
-//	}
-//	
-//	/**
-//	 * Actualiza un usuario
-//	 * @param user el usuario
-//	 * @return 	0: operacion correcta
-//	 * 			1: error
-//	 * @throws Exception
-//	 */
-//	@RequestMapping(value = "/adm/updateUser", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Integer updateUser(@ModelAttribute User user) throws Exception {
-//		logger.debug("updateUser: " + user);
-//		try {
-//			if(user != null && user.getId() != null){
-//				if(usersService.save(user)){
-//					logger.debug("user " + user.getId() + " saved");
-//					return 0;
-//				}
-//			}
-//			return 2;
-//		} catch (Exception e) {
-//			logger.error("ERROR: " + e.getMessage());
-//			throw e;
-//		}
-//	}
+	@RequestMapping(value = "/adm/upsertAdmin", method = RequestMethod.POST)
+	@ResponseBody
+	public String upsertAdmin(@RequestBody Admin admin, Locale locale) throws Exception {
+		logger.debug("upsertAdmin: " + admin);
+		return upsertPerson(admin, locale);
+	}
+	
+	/**
+	 * Inserta o actualiza un profesor
+	 * @param teacher profesor
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/adm/upsertTeacher", method = RequestMethod.POST)
+	@ResponseBody
+	public String upsertTeacher(@RequestBody Teacher teacher, Locale locale) throws Exception {
+		logger.debug("upsertTeacher: " + teacher);
+		return upsertPerson(teacher, locale);
+	}
+	
+	/**
+	 * Inserta o actualiza un alumno y sus padres
+	 * @param studentWithParent alumno y sus padres
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/adm/upsertStudent", method = RequestMethod.POST)
+	@ResponseBody
+	public String upsertStudent(@RequestBody StudentWithParents studentWithParent, Locale locale) throws Exception {
+		logger.debug("upsertStudent: " + studentWithParent);
+		try {
+			if(usersService.upsertStudent(studentWithParent)){
+				return "";
+			}
+		} catch (Exception e) {
+			logger.error("ERROR: " + e.getMessage(), e);
+		}
+		return messageSource.getMessage("user.save.error", null, locale);
+	}
+	
+	private <T extends Person> String upsertPerson(T person, Locale locale) {
+		try {
+			if(usersService.upsert(person))
+				return "";	
+		} catch (Exception e) {
+			logger.error("ERROR: " + e.getMessage(), e);
+		}
+		return messageSource.getMessage("user.save.error", null, locale);
+	}
 	
 }

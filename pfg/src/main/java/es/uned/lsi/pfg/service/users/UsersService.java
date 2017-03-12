@@ -5,6 +5,8 @@ package es.uned.lsi.pfg.service.users;
 
 import java.util.List;
 
+import es.uned.lsi.pfg.model.Person;
+import es.uned.lsi.pfg.model.StudentWithParents;
 import es.uned.lsi.pfg.model.User;
 import es.uned.lsi.pfg.model.UserSearch;
 
@@ -36,13 +38,6 @@ public interface UsersService {
 	public boolean existsUser(String idUser);
 	
 	/**
-	 * Guarda un usuario
-	 * @param user el usuario
-	 * @return <code>true</code> si se ha insertado correctamente, en otro caso <code>false</code>
-	 */
-	public boolean save(User user);
-
-	/**
 	 * Eliminia un usuario
 	 * @param id ID del usuario
 	 * @param idRole ID perfil 
@@ -56,6 +51,27 @@ public interface UsersService {
 	 * @return listado de los usuarios
 	 */
 	public List<UserSearch> search(UserSearch userSearch);
+	
+	/**
+	 * Devuelve la clase persona por perfil
+	 * @param role perfil
+	 * @return clase de persona
+	 */
+	public Class<? extends Person> findClassRole(String role);
+	
+	/**
+	 * Inserta o actualiza una persona, incluido el usuario 
+	 * @param person persona
+	 * @return <code>true</code> si la operación se ha realizado con éxito, en caso contrario <code>false</code>
+	 */
+	public <T extends Person> boolean upsert(T person);
+	
+	/**
+	 * Inserta un estudiante y los padres
+	 * @param studentWithParent estudiante y padres
+	 * @return <code>true</code> si la operación se ha realizado con éxito, en caso contrario <code>false</code>
+	 */
+	public boolean upsertStudent(StudentWithParents studentWithParent);
 
 
 

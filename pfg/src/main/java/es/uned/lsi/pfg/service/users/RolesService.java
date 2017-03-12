@@ -20,9 +20,9 @@ public interface RolesService {
 	public List<Role> getAllRoles();
 	
 	/**
-	 * Obitene todos los perfiles de emplados
-	 * @return todos los perfiles de empleados
+	 * Obtiene un perfil por id 
+	 * @param idRole id 
+	 * @return el perfil
 	 */
-	public List<Role> getEmployeeRoles();
-	
+	public Role getRole(String idRole);
 }

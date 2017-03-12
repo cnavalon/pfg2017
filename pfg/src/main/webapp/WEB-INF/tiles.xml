@@ -21,6 +21,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/authentication/accessDenied.jsp" />
 	</definition>
 	
+	<!-- Modal -->
+	<definition name="alert" template="/WEB-INF/views/modal/alert.jsp" />
+	<definition name="confirm" template="/WEB-INF/views/modal/confirm.jsp" />
+	<definition name="searchParent" template="/WEB-INF/views/modal/searchParent.jsp" />
+
 	<!-- Home -->
 	<definition name="adminHome" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/home/adminHome.jsp" />
@@ -42,6 +47,11 @@
 	<definition name="userForm" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/users/userForm.jsp" />
 	</definition>
+	
+	<definition name="adminForm" template="/WEB-INF/views/users/adminForm.jsp" />
+	<definition name="teacherForm" template="/WEB-INF/views/users/teacherForm.jsp" />
+	<definition name="studentForm" template="/WEB-INF/views/users/studentForm.jsp" />
+	<definition name="parentForm" template="/WEB-INF/views/users/parentForm.jsp" />
 	
 	
 

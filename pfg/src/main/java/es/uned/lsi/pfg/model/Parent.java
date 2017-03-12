@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,6 +39,7 @@ public class Parent extends Person implements Serializable {
 	public static final String Q_FIND_BY_ID_USER = "findParentByIdUser";
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_parent")
 	private Integer id;
 	@Column(name="id_user", length=20)

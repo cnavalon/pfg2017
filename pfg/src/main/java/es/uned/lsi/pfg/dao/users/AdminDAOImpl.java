@@ -5,8 +5,11 @@ package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import es.uned.lsi.pfg.dao.AbstractJpaDao;
 import es.uned.lsi.pfg.model.Admin;
@@ -15,6 +18,7 @@ import es.uned.lsi.pfg.model.Admin;
  * Implementación del repositorio de administradores
  * @author Carlos Navalon Urrea
  */
+@Repository
 public class AdminDAOImpl extends AbstractJpaDao implements AdminDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminDAOImpl.class);
@@ -30,6 +34,8 @@ public class AdminDAOImpl extends AbstractJpaDao implements AdminDAO {
 			admin =  em.createNamedQuery(Admin.Q_FIND_BY_ID, Admin.class)
 					.setParameter("id", id)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando el adminsitrador " + id, e);
 		}
@@ -47,6 +53,8 @@ public class AdminDAOImpl extends AbstractJpaDao implements AdminDAO {
 		try {
 			lstAdmins =  em.createNamedQuery(Admin.Q_FIND_ALL, Admin.class)
 					.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando todos los administradores", e);
 		}

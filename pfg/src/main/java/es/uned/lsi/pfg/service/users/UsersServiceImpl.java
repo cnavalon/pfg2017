@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.uned.lsi.pfg.dao.users.PersonDAO;
+import es.uned.lsi.pfg.dao.users.StudentParentDAO;
 import es.uned.lsi.pfg.dao.users.UsersDAO;
 import es.uned.lsi.pfg.model.Admin;
 import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.model.Person;
 import es.uned.lsi.pfg.model.Student;
+import es.uned.lsi.pfg.model.StudentParent;
+import es.uned.lsi.pfg.model.StudentWithParents;
 import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.User;
 import es.uned.lsi.pfg.model.UserSearch;
@@ -35,6 +38,9 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private UsersDAO usersDAO;
+	
+	@Autowired
+	private StudentParentDAO studentParentDAO;
 	
 //	@Autowired
 //	private AdminDAO adminDAO;
@@ -93,8 +99,15 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	@Transactional
-	public boolean save(User user) {
-		logger.debug("user: " + user.getIdUser());
+	public <T extends Person> boolean upsert(T person){
+		logger.debug("upsert: " + person);
+		if(save(person.getUser())){
+			return personDAO.upsert(person);
+		}
+		return false;
+	}
+	
+	private boolean save(User user) {
 		user.setPassword(shaPasswordEncoder.encodePassword(user.getPassword(), null));
 		user.setEnabled(true);
 		return usersDAO.upsert(user);
@@ -109,12 +122,9 @@ public class UsersServiceImpl implements UsersService {
 		if(person != null){
 			person.setEnabled(false);
 			if(personDAO.upsert(person)){
-				logger.debug("person [" + id + "," + idRole + "] eliminada");
-				
 				User user = usersDAO.findUser(person.getIdUser());
 				if(user != null){
 					user.setEnabled(false);
-
 					return usersDAO.upsert(user);
 				}
 			}
@@ -157,12 +167,10 @@ public class UsersServiceImpl implements UsersService {
 		return convertToUserSearchList(personDAO.searchUsers(userSearch, classperson), role);
 	}
 
-	/**
-	 * Devuelve la clase persona por perfil
-	 * @param role perfil
-	 * @return clase de persona
-	 */
-	private Class<? extends Person> findClassRole(String role) {
+	
+	@Override
+	public Class<? extends Person> findClassRole(String role) {
+		logger.debug("findClassRole: " + role);
 		Class<? extends Person> classperson = null;
 		switch (role) {
 			case Constans.ROLE_ADMIN:
@@ -196,13 +204,57 @@ public class UsersServiceImpl implements UsersService {
 		List<UserSearch> lstUserSearch = new ArrayList<UserSearch>();
 		for(Person person : lstPersons){
 			try {
-				UserSearch user = new UserSearch(person.getId(), idRole, person.getName(), person.getSurname1(), person.getSurname2());
+				UserSearch user = new UserSearch(person.getId(), idRole, person.getName(), person.getSurname1(), person.getSurname2(), person.getIdUser());
 				lstUserSearch.add(user);
 			} catch (Exception e) {
 				logger.error("ERROR, al convertir el usuario " + person, e);
 			}
 		}
 		return lstUserSearch;
+	}
+
+	@Override
+	@Transactional
+	public boolean upsertStudent(StudentWithParents studentWithParent) {
+		logger.debug("upsertStudent: " + studentWithParent);
+		try {
+			Student student = studentWithParent.getStudent();
+			Parent parent1 = studentWithParent.getParent1();
+			Parent parent2 = studentWithParent.getParent2();
+			
+			save(student.getUser());
+			personDAO.upsert(student);
+			student = personDAO.findByIdUser(student.getIdUser(), Student.class);
+			logger.debug("Alumno insertado: " + student);
+			
+			if(parent1 != null){
+				if(parent1.getId() == null || parent1.getId().equals("")){
+					save(parent1.getUser());
+					personDAO.upsert(parent1);
+					parent1 = personDAO.findByIdUser(parent1.getIdUser(), Parent.class);
+					logger.debug("Padre 1 insertado: " + parent1);
+				}
+				studentParentDAO.insert(new StudentParent(student.getId(), parent1.getId()));
+				logger.debug("Relacion alumno " + student.getId() + " padre 1 "+ parent1.getId() + " insertada");
+			}
+			
+			if(parent2 != null){
+				if(parent2.getId() == null || parent1.getId().equals("")){
+					save(parent2.getUser());
+					personDAO.upsert(parent2);
+					parent2 = personDAO.findByIdUser(parent2.getIdUser(), Parent.class);
+					logger.debug("Padre 2 insertado: " + parent2);
+				}
+				studentParentDAO.insert(new StudentParent(student.getId(), parent2.getId()));
+				logger.debug("Relacion alumno " + student.getId() + " padre 2 "+ parent2.getId() + " insertada");
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("ERROR añadiendo estudiante y padres " + studentWithParent, e);
+		}
+		return false;
+		
+		
 	}
 
 }

@@ -58,23 +58,10 @@
            	</div>
         </section>
         
-        <script type="text/javascript">
-			function confirm(question, callback, callbackCancel){
-				var heading = '<spring:message code="common.warning" text="common.warning not found"/>';
-				var cancelButtonTxt = '<spring:message code="common.cancel" text="common.cancel not found" />';
-				var okButtonTxt = '<spring:message code="common.ok" text="common.ok not found" />';
-				confirmModal(heading, question, callback, callbackCancel, okButtonTxt, cancelButtonTxt);
-				
-			}
-			
-			function alert(question, callback){
-				var heading = '<spring:message code="common.warning" text="common.warning not found"/>';
-				var okButtonTxt = '<spring:message code="common.ok" text="common.ok not found" />';
-				alertModal(heading, question, callback, okButtonTxt);
-				
-			}
-			
-		</script>
     
 	</body>
 </html>
+
+<script type="text/javascript">
+	csrf = "?${_csrf.parameterName}=${_csrf.token}";
+</script>

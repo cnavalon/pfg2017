@@ -5,8 +5,11 @@ package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import es.uned.lsi.pfg.dao.AbstractJpaDao;
 import es.uned.lsi.pfg.model.Parent;
@@ -15,6 +18,7 @@ import es.uned.lsi.pfg.model.Parent;
  * Implementacion de repositorio de padres
  * @author Carlos Navalon Urrea
  */
+@Repository
 public class ParentDAOImpl extends AbstractJpaDao implements ParentDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ParentDAOImpl.class);
@@ -31,6 +35,8 @@ public class ParentDAOImpl extends AbstractJpaDao implements ParentDAO {
 			parent =  em.createNamedQuery(Parent.Q_FIND_BY_ID, Parent.class)
 					.setParameter("id", id)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando el padre " + id, e);
 		}
@@ -48,6 +54,8 @@ public class ParentDAOImpl extends AbstractJpaDao implements ParentDAO {
 		try {
 			lstParents =  em.createNamedQuery(Parent.Q_FIND_ALL, Parent.class)
 					.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando todos los padres", e);
 		}

@@ -1,6 +1,7 @@
 body {
-/* 	font-family: cursive; */
+	font-family: cursive;
 /* 	background-color: #F0F8FF; */
+	padding-bottom: 25px;
 }
 
 .bg-1{
@@ -62,4 +63,10 @@ body {
 .iconTable{
 	padding-left: 5px;
 	padding-right: 5px;
+}
+.control-label.text-left{
+	text-align: left;
+}
+.control-label.text-center{
+	text-align: center;
 }

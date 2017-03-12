@@ -19,7 +19,8 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="findAllRoles", query="SELECT r FROM Role r"),
-	@NamedQuery(name="findRollesByListIds", query="SELECT r FROM Role r WHERE r.idRole IN :listIds")
+	@NamedQuery(name="findRollesByListIds", query="SELECT r FROM Role r WHERE r.idRole IN :listIds"),
+	@NamedQuery(name="findRollesById", query="SELECT r FROM Role r WHERE r.idRole = :idRole")
 })
 @Table(name="roles")
 public class Role implements Serializable {
@@ -27,6 +28,7 @@ public class Role implements Serializable {
 	/** Queries **/
 	public static final String Q_FIND_ALL = "findAllRoles";
 	public static final String Q_FIND_BY_LIST_IDS = "findRollesByListIds";
+	public static final String Q_FIND_BY_ID = "findRollesById";
 	
 	@Id
 	@Column(name="id_role")

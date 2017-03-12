@@ -3,7 +3,7 @@
  */
 package es.uned.lsi.pfg.dao.users;
 
-import java.util.List;
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,25 +30,27 @@ public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
 			user =  em.createNamedQuery(User.Q_FIND_BY_ID, User.class)
 					.setParameter("id", id)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando el usuario " + id, e);
 		}
 		return user;
 	}
 
-	@Override
-	public List<User> findAllUsers() {
-		logger.debug("findAllUsers");
-		
-		List<User> lstUsers = null;
-		try {
-			lstUsers =  em.createNamedQuery(User.Q_FIND_ALL, User.class)
-					.getResultList();
-		} catch (Exception e) {
-			logger.error("Error recuperando todos los usuarios", e);
-		}
-		return lstUsers;
-	}
+//	@Override
+//	public List<User> findAllUsers() {
+//		logger.debug("findAllUsers");
+//		
+//		List<User> lstUsers = null;
+//		try {
+//			lstUsers =  em.createNamedQuery(User.Q_FIND_ALL, User.class)
+//					.getResultList();
+//		} catch (Exception e) {
+//			logger.error("Error recuperando todos los usuarios", e);
+//		}
+//		return lstUsers;
+//	}
 
 	@Override
 	public boolean upsert(User user) {

@@ -25,4 +25,11 @@ public interface RolesDAO {
 	 * @return los perfiles 
 	 */
 	public List<Role> findByListIds(List<String> lstIds);
+
+	/**
+	 * Obtiene un perfil por id
+	 * @param idRole id
+	 * @return el perfil
+	 */
+	public Role findById(String idRole);
 }

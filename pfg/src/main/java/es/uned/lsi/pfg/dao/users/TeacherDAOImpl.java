@@ -5,8 +5,11 @@ package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import es.uned.lsi.pfg.dao.AbstractJpaDao;
 import es.uned.lsi.pfg.model.Teacher;
@@ -15,6 +18,7 @@ import es.uned.lsi.pfg.model.Teacher;
  * Implementacion de repositorio de profesores
  * @author Carlos Navalon Urrea
  */
+@Repository
 public class TeacherDAOImpl extends AbstractJpaDao implements TeacherDAO {
 	private static final Logger logger = LoggerFactory.getLogger(TeacherDAOImpl.class);
 	
@@ -30,6 +34,8 @@ public class TeacherDAOImpl extends AbstractJpaDao implements TeacherDAO {
 			teacher =  em.createNamedQuery(Teacher.Q_FIND_BY_ID, Teacher.class)
 					.setParameter("id", id)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando el profedor " + id, e);
 		}
@@ -47,6 +53,8 @@ public class TeacherDAOImpl extends AbstractJpaDao implements TeacherDAO {
 		try {
 			lstTeachers =  em.createNamedQuery(Teacher.Q_FIND_ALL, Teacher.class)
 					.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando todos los profesores", e);
 		}

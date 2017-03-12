@@ -1,7 +1,5 @@
 package es.uned.lsi.pfg.dao.users;
 
-import java.util.List;
-
 import es.uned.lsi.pfg.model.User;
 /**
  * Repositorio de usuarios
@@ -20,7 +18,7 @@ public interface UsersDAO {
 	 * Obtiene todos los usuarios 
 	 * @return lista de usuarios 
 	 */
-	public List<User> findAllUsers();
+//	public List<User> findAllUsers();
 	
 	/**
 	 * Inserta o actualiza un usuario en BBDD

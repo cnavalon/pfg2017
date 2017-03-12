@@ -19,8 +19,8 @@ import org.hibernate.annotations.Type;
  * @author Carlos Navalon Urrea
  */
 @NamedQueries({
-	@NamedQuery(name="findUserById", query="SELECT u FROM User u WHERE u.idUser = :id"),
-	@NamedQuery(name="findAllUsers", query="SELECT u FROM User u")
+	@NamedQuery(name="findUserById", query="SELECT u FROM User u WHERE u.idUser = :id AND u.enabled = 1"),
+	@NamedQuery(name="findAllUsers", query="SELECT u FROM User u WHERE u.enabled =1")
 })
 @Entity
 @Table(name="users")
@@ -39,6 +39,13 @@ public class User implements Serializable{
 	private String role;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean enabled;
+	
+	/**
+	 * Constructor
+	 */
+	public User(){
+		this.enabled = true;
+	}
 	
 	/**
 	 * Obtiene el id de usuario

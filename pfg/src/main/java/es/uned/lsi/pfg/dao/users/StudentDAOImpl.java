@@ -5,8 +5,11 @@ package es.uned.lsi.pfg.dao.users;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import es.uned.lsi.pfg.dao.AbstractJpaDao;
 import es.uned.lsi.pfg.model.Student;
@@ -15,6 +18,7 @@ import es.uned.lsi.pfg.model.Student;
  * Implementacion de repositorio de estudiantes
  * @author Carlos Navalon Urrea
  */
+@Repository
 public class StudentDAOImpl extends AbstractJpaDao implements StudentDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(StudentDAOImpl.class);
@@ -31,6 +35,8 @@ public class StudentDAOImpl extends AbstractJpaDao implements StudentDAO {
 			student =  em.createNamedQuery(Student.Q_FIND_BY_ID, Student.class)
 					.setParameter("id", id)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando el estudiante " + id, e);
 		}
@@ -48,6 +54,8 @@ public class StudentDAOImpl extends AbstractJpaDao implements StudentDAO {
 		try {
 			lstStudents =  em.createNamedQuery(Student.Q_FIND_ALL, Student.class)
 					.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando todos los estudiantes", e);
 		}

@@ -1,3 +1,5 @@
+var csrf = null;
+
 /**
  * Inicia una tabla
  * @param id nombre de la tabla
@@ -95,100 +97,78 @@ function unblockUI() {
 	$.unblockUI();
 }
 
-function confirmModal(heading, question, callback, callbackCancel, okButtonTxt, cancelButtonTxt) {
-	//Create modal if it does not exist
-	if (!$('#dataConfirmModal').length) {
-        $('body').append(
-        	'<div id="dataConfirmModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">' +
-        		'<div class="modal-dialog">' +
-        			'<div class="modal-content">' +
-		        		'<div class="modal-header">' +		        			
-		        			'<h3 id="dataConfirmLabel">' + heading + '</h3>' +
-		        		'</div>' +
-		        		'<div id="dataConfirmBody" class="modal-body">' +
-		        			question +
-		        		'</div>' + 
-		        		'<div class="modal-footer">' +
-		        			'<a class="btn btn-primary" id="dataCancel">' + cancelButtonTxt + '</a>' +
-		        			'<a class="btn btn-primary" id="dataConfirmOK">' + okButtonTxt + '</a>' +
-		        		'</div>' +
-		        	'</div>' +
-		        '</div>' +
-        	'</div>');
-    } 
-	else {
-		$("#dataConfirmModal").find('#dataConfirmOK').unbind();
-		$("#dataConfirmModal").find('#dataCancel').unbind();
-		$("#dataConfirmLabel").html(heading);
-		$("#dataConfirmBody").html(question);
-		$("#dataConfirmCancel").html(cancelButtonTxt);
-		$("#dataConfirmOK").html(okButtonTxt);
+function confirm(text, callback, callbackCancel) {
+	if ($('#confirmModal').length) {
+		$('#confirmModal').empty();
+	}else{
+		$('body').append('<div id="confirmModal"></div>');
 	}
-	
-	$("#dataConfirmModal").find('#dataCancel').click(function(event) {
-		if(callbackCancel != null){
-			callbackCancel();
-		}
-		$('#dataConfirmModal').modal('hide');
-		return true;
-	});
-	
-	$("#dataConfirmModal").find('#dataConfirmOK').click(function(event) {
-		callback();
-		$('#dataConfirmModal').modal('hide');
-		return true;
-	});
-	
-	//Show modal
-    $('#dataConfirmModal').modal({show:true});
-    return false;     
+	$('#confirmModal').load("modal/confirm" + csrf,{text:text}, function(){
+		$("#dataConfirmModal").find('#dataCancel').click(function(event) {
+			if(callbackCancel != null){
+				callbackCancel();
+			}
+			$('#dataConfirmModal').modal('hide');
+			return true;
+		});
+		
+		$("#dataConfirmModal").find('#dataConfirmOK').click(function(event) {
+			callback();
+			$('#dataConfirmModal').modal('hide');
+			return true;
+		});
+		
+		//Show modal
+	    $('#dataConfirmModal').modal({show:true});
+	    return false;  
+    }); 
 }
 
-/**
- * Function to show a alert dialog
- * 
- * @param heading
- * @param question
- * @param okButtonTxt
- * @param callback : can be null
- */
-function alertModal(heading, question, callback, okButtonTxt) {
-	//Create modal if it does not exist
-	if (!$('#dataAlertModal').length) {
-        $('body').append(
-        	'<div id="dataAlertModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">' +
-        		'<div class="modal-dialog">' +
-        			'<div class="modal-content">' +
-		        		'<div class="modal-header">' +
-		        			'<h3 id="dataAlertLabel">' + heading + '</h3>' +
-		        		'</div>' +
-		        		'<div id="dataAlertBody" class="modal-body">' +
-		        			question +
-		        		'</div>' + 
-		        		'<div class="modal-footer">' +
-		        			'<a class="btn btn-primary" id="dataAlertOK">' + okButtonTxt + '</a>' +
-		        		'</div>' +
-		        	'</div>' +
-		        '</div>' +
-        	'</div>');
-    } 
-	else {
-		$("#dataAlertModal").find('#dataConfirmOK').unbind();
-		$("#dataAlertLabel").html(heading);
-		$("#dataAlertBody").html(question);
-		$("#dataAlertOK").html(okButtonTxt);
+function modal(url, callback, callbackCancel) {
+	if ($('#modal').length) {
+		$('#modal').empty();
+	}else{
+		$('body').append('<div id="modal"></div>');
 	}
-	
-	$("#dataAlertModal").find('#dataAlertOK').click(function(event) {
-		if(callback != null){
+	$('#modal').load(url + csrf, function(){
+		$("#dataModal").find('#dataModalCancel').click(function(event) {
+			if(callbackCancel != null){
+				callbackCancel();
+			}
+			$('#dataModal').modal('hide');
+			return true;
+		});
+		
+		$("#dataModal").find('#dataModalOK').click(function(event) {
 			callback();
-		}
-		$('#dataAlertModal').modal('hide');
-	});
-	
-	//Show modal
-    $('#dataAlertModal').modal({show:true});
-    return false;     
+			$('#dataModal').modal('hide');
+			return true;
+		});
+		
+		//Show modal
+	    $('#dataModal').modal({show:true});
+	    return false;  
+    }); 
+}
+
+function alert(text, callback) {
+	if ($('#alertModal').length) {
+		$('#alertModal').empty();
+	}else{
+		$('body').append('<div id="alertModal"></div>');
+	}
+    $('#alertModal').load("modal/alert" + csrf,{text:text}, function(){
+    	$("#dataAlertModal").find('#dataAlertOK').click(function(event) {
+    		if(callback != null){
+    			callback();
+    		}
+    		$('#dataAlertModal').modal('hide');
+    	});
+    	
+    	//Show modal
+        $('#dataAlertModal').modal({show:true});
+        return false;     
+    });        	
 }
 
 function reload(){
@@ -221,4 +201,23 @@ function orderOptions(idSelect){
 
 	$(idSelect).empty().append( my_options );
 	$(idSelect).val(selected);
+}
+
+function post(params) {
+	var form = document.createElement("form");
+	form.setAttribute("method", "post");
+
+	for ( var key in params) {
+		if (params.hasOwnProperty(key)) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+
+			form.appendChild(hiddenField);
+		}
+	}
+
+	document.body.appendChild(form);
+	return form;
 }

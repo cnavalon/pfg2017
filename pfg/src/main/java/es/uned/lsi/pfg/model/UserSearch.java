@@ -11,6 +11,7 @@ public class UserSearch {
 	private String name;
 	private String surname1;
 	private String surname2;
+	private String idUser;
 	
 	/**
 	 * Constructor
@@ -27,13 +28,14 @@ public class UserSearch {
 	 * @param surname1 primer apellido
 	 * @param surname2 segundo apellido
 	 */
-	public UserSearch(Integer id, String idRole, String name, String surname1, String surname2) {
+	public UserSearch(Integer id, String idRole, String name, String surname1, String surname2, String idUser) {
 		super();
 		this.id = id;
 		this.idRole = idRole;
 		this.name = name;
 		this.surname1 = surname1;
 		this.surname2 = surname2;
+		this.idUser = idUser;
 	}
 
 	/**
@@ -106,14 +108,30 @@ public class UserSearch {
 	public void setSurname2(String surname2) {
 		this.surname2 = surname2;
 	}
+	/**
+	 * Obitiene el id de usuario
+	 * @return id de usuario
+	 */
+	public String getIdUser() {
+		return idUser;
+	}
+	/**
+	 * Establece el id de usuario
+	 * @param idUser id de usuario
+	 */
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "UserSearch [idUser=" + id + ", idRole=" + idRole + ", name=" + name + ", surname1=" + surname1
-				+ ", surname2=" + surname2 + "]";
+		return "UserSearch [id=" + id + ", idRole=" + idRole + ", name=" + name + ", surname1=" + surname1
+				+ ", surname2=" + surname2 + ", idUser=" + idUser + "]";
 	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -121,13 +139,15 @@ public class UserSearch {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
+		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((surname1 == null) ? 0 : surname1.hashCode());
 		result = prime * result + ((surname2 == null) ? 0 : surname2.hashCode());
 		return result;
 	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -140,15 +160,20 @@ public class UserSearch {
 		if (getClass() != obj.getClass())
 			return false;
 		UserSearch other = (UserSearch) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (idRole == null) {
 			if (other.idRole != null)
 				return false;
 		} else if (!idRole.equals(other.idRole))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (idUser == null) {
+			if (other.idUser != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!idUser.equals(other.idUser))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -167,4 +192,6 @@ public class UserSearch {
 			return false;
 		return true;
 	}
+
+	
 }

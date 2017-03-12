@@ -100,6 +100,7 @@
 	var deleteText = '<spring:message code="common.delete" text="common.delete not found" />';
 	$(document).ready(function() {
 		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
+		orderAllOptions();
 		
 		$("#selectRole option").each(function()
 		{

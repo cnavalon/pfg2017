@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -38,6 +40,7 @@ public class Student extends Person implements Serializable {
 	public static final String Q_FIND_BY_ID_USER = "findStudentByIdUser";
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_student")
 	private Integer id;
 	@Column(name="id_user", length=20)
@@ -73,6 +76,7 @@ public class Student extends Person implements Serializable {
 	private String cp;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean enabled;
+	private Integer course;
 	
 	/**
 	 * Obtiene el id del estudiante
@@ -313,7 +317,20 @@ public class Student extends Person implements Serializable {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+	/**
+	 * Obtiene el curso
+	 * @return el curso
+	 */
+	public Integer getCourse() {
+		return course;
+	}
+	/**
+	 * Establece el curso
+	 * @param course el curso
+	 */
+	public void setCourse(Integer course) {
+		this.course = course;
+	}
 	@Override
 	public String getQueryFindById() {
 		return Q_FIND_BY_ID;

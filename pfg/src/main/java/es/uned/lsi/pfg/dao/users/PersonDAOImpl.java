@@ -6,6 +6,8 @@ package es.uned.lsi.pfg.dao.users;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -34,6 +36,8 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 					.setParameter("id", id)
 					.getSingleResult();
 			return person;
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando " + id + ", " + classPerson, e);
 		}
@@ -50,6 +54,8 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 			T person = declaredConstructor.newInstance();
 			lstPersons =  em.createNamedQuery(person.getQueryFindAll(), classPerson)
 					.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando todos: " + classPerson, e);
 		}
@@ -67,6 +73,8 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 					.setParameter("idUser", idUser)
 					.getSingleResult();
 			return person;
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error recuperando por id de usuario: " + idUser + ", " + classPerson, e);
 		}
@@ -80,6 +88,8 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 			em.merge(person);
 			em.flush();
 			return true;
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error insertando en BBDD: " + person, e);
 		}
@@ -99,6 +109,8 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 				query += " AND x.surname2 LIKE '%" + userSearch.getSurname2() + "%'";
 			
 			return em.createQuery(query).getResultList(); 
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error buscando personas: " + userSearch + "," + classPerson, e);
 		}
