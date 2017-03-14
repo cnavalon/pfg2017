@@ -146,7 +146,7 @@
 		   		   	    	for (var i = 0; i < json.length; i++) {
 		   	     	    		json[i].operations = '<div class="text-center"><label id="viewUser" class="cursorPointer iconTable" onclick="viewUser(' + json[i].id + ',\'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-search" title="'+ consultText + '"> </i></label>';
 		   	     	    		if (role === "ROLE_ADM") {
-		   	     	    			json[i].operations += '<label id="editUser" class="cursorPointer iconTable" onclick="editUser(' + json[i].id + ',\'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-pencil" title="'+ editText + '"> </i></label>';
+		   	     	    			json[i].operations += '<label id="editUser" class="cursorPointer iconTable" onclick="editUser(\'' + json[i].idUser + '\')"><i class="glyphicon glyphicon-pencil" title="'+ editText + '"> </i></label>';
 		   	     	    			json[i].operations += '<label id="deleteUser" class="cursorPointer iconTable" onclick="confirmDeleteUser(' + json[i].id + ',\'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-trash" title="'+ deleteText + '"> </i></label>';
 		   	     	    		}
 		   	     	    		json[i].operations += '</div>';
@@ -186,8 +186,8 @@
 		table.order([1, 'asc']).draw();
 	}
 	
-	function editUser(idUser, idRole){
-		location.href = "${urlEditEmployee}" + idUser + "/" + idRole;
+	function editUser(idUser){
+		location.href = "${urlEditUser}" + idUser ;
 	}
 	
 	function confirmDeleteUser(id, idRole){

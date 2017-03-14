@@ -4,6 +4,8 @@
 <spring:url value="/users/adm/list" var="urlListUser" />
 <spring:url value="/users/adm/checkUser/" var="urlCheckUser" />
 <spring:url value="/users/adm/newPerson/" var="urlNewPerson" />
+<spring:url value="/users/adm/updatePerson/" var="urlUpdatePerson" />
+
 
 <div class="row-fluid">
 	<h3 class="title">${title}</h3>
@@ -19,7 +21,7 @@
 						<spring:message code="user.id" var="userIdText" text="user.id not found"/>
 						<label class="col-sm-2 control-label">${userIdText}*</label>
 						<div class="col-sm-3">
-							<input type="text" val="${user.idUser}" class="form-control" id="inputId" placeholder="${userIdText}">
+							<input type="text" value="${user.idUser}" class="form-control" id="inputId" placeholder="${userIdText}">
 						</div>
 					</div>
 					
@@ -53,7 +55,7 @@
 						<spring:message code="user.password" var="userPasswordText" text="user.password not found"/>
 						<label class="col-sm-2 control-label">${userPasswordText}*</label>
 						<div class="col-sm-3">
-							<input type="password" val="${user.password}" class="form-control" id="inputPassword" placeholder="${userPasswordText}">
+							<input type="password" value="${user.password}" class="form-control" id="inputPassword" placeholder="${userPasswordText}">
 						</div>
 					</div>
 					
@@ -61,7 +63,7 @@
 						<spring:message code="user.confirmPassword" var="userConfirmPasswordText" text="user.confirmPassword not found"/>
 						<label class="col-sm-2 control-label">${userConfirmPasswordText}*</label>
 						<div class="col-sm-3">
-							<input type="password" val="${user.password}" class="form-control" id="inputConfirmPassword" placeholder="${userConfirmPasswordText}"/>
+							<input type="password" value="${user.password}" class="form-control" id="inputConfirmPassword" placeholder="${userConfirmPasswordText}"/>
 						</div>
 					</div>
 					
@@ -113,7 +115,9 @@
 		}
 		
 		if($("#inputId").val() != ""){
-			$("#inputId").prop('readonly', true);
+			$("#inputId").prop('disabled', true);
+			$("#selectRole").prop('disabled', true);
+			$("#divPersonForm").load('${urlUpdatePerson}' + $("#inputId").val() + "/" + $("#selectRole").val());
 		}
 	} );
 	

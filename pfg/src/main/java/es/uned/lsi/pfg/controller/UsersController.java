@@ -134,6 +134,17 @@ public class UsersController {
 		return getUserForm(title, user);
 	}
 	
+	@RequestMapping(value = "/adm/editUser/{idUser}", method = RequestMethod.GET )
+	public ModelAndView editUser(Locale locale, @PathVariable("idUser")String idUser) {
+		logger.debug("editUser: " + idUser);
+		
+		String title = messageSource.getMessage("user.title.edit", null, locale);
+		User user = usersService.getUser(idUser);
+				
+		return getUserForm(title, user);
+	}
+	
+	
 	/**
 	 * Obtiene el formulario de nueva persona segun su perfil
 	 * @param locale
@@ -155,11 +166,6 @@ public class UsersController {
 				if(idRole.equals(Constans.ROLE_STUDENT)){
 					model.addObject("lstSex", getLstSex(locale));
 					model.addObject("lstCourses", coursesService.getAllCourses());
-					model.addObject("parent1", new Parent());
-					model.addObject("parent2", new Parent());
-					model.addObject("userPar1", new User());
-					model.addObject("userPar2", new User());
-					model.addObject("parRole", rolesService.getRole(Constans.ROLE_PARENT));
 				}
 				return model;
 			} catch (Exception e) {
@@ -169,7 +175,33 @@ public class UsersController {
 			logger.warn("Perfil nulo o vacío");
 		}
 		return null;
+	}
+	
+	@RequestMapping(value = "/adm/updatePerson/{idUser}/{idRole}", method = RequestMethod.GET )
+	public ModelAndView updatePerson(Locale locale, @PathVariable("idUser") String idUser, @PathVariable("idRole") String idRole) {
+		logger.debug("updatePerson: " + idUser + ", " + idRole);
 		
+		if(idRole != null && !idRole.equals("")){
+			try {
+				ModelAndView model = new ModelAndView();
+				model.setViewName(findFormByRole(idRole));
+				Person person = usersService.getByUser(idRole, idUser);
+				model.addObject("person", person);
+				model.addObject("locale",locale.getLanguage());
+				model.addObject("lstDNI", getLstDNI());
+				if(idRole.equals(Constans.ROLE_STUDENT)){
+					model.addObject("lstSex", getLstSex(locale));
+					model.addObject("lstCourses", coursesService.getAllCourses());
+					model.addObject("lstParents", usersService.findParents(person.getId()));
+				}
+				return model;
+			} catch (Exception e) {
+				logger.error("ERROR obteniendo formulario de persona " + idRole, e);
+			}
+		} else {
+			logger.warn("Perfil nulo o vacío");
+		}
+		return null;
 	}
 
 	private Object getLstSex(Locale locale) {

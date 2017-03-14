@@ -1,9 +1,11 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 <spring:url value="/users/adm/upsertStudent?${_csrf.parameterName}=${_csrf.token}" var="urlUpsert" />
 <spring:url value="/users/adm/checkUser/" var="urlCheckUser" />
+<spring:url value="/users/adm/editUser/" var="urlEditUser" />
 
 <fieldset id="filedsetPerson">
 	<fieldset id="fieldsetStudent">
+<!-- 	========================= ALUMNO ======================= -->
 		<div id="divPerRow0" class="form-group">
 			
 			<input type="hidden" value="${person.id}" id="inputIdPerson">
@@ -187,365 +189,397 @@
 					<input type="text" value="${person.address}" class="form-control" id="inputAddress" placeholder="${userAddressText}">
 				</div>
 			</div>
+			<div id="divCopyAddress">
+				<button id="buttonCopyAddress" type="button" class="btn btn-default" title="<spring:message code="student.copyAddress" text="student.copyAddress not found"/>"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+			</div>
 		</div>
 	</fieldset>
-	
-	<hr>
-	
-	<h4 class="col-sm-offset-1">
-		<input type="checkbox" id="checkboxPar1" checked>
-		<spring:message code="parent1.title" text="parent1.title not found"/> 
-	</h4>
-	
-	<fieldset id="fieldsetParent1">
-		<div id="divPar1_0" class="form-group">
-			<input type="hidden" id="inputIdPersonPar1">
-			<div id="divIdPar1">
-				<spring:message code="user.id" var="userIdText" text="user.id not found"/>
-				<label class="col-sm-2 control-label">${userIdText}*</label>
-				<div class="col-sm-3">
-					<div id="divIdPar1" class="input-group input-append date">
-						<input type="text" val="${userPar1.idUser}" class="form-control" id="inputIdPar1" placeholder="${userIdText}">
-						<span id="iconSearchPar1" class="input-group-addon add-on">
-							<span class="glyphicon glyphicon-search"></span>
-						</span>
-					</div>
-				</div>
-			</div>
-			
-			<div id="divNamePar1">
-				<spring:message code="user.name" var="userNameText" text="user.name not found"/>
-				<label class="col-sm-2 control-label">${userNameText}*</label>
-				<div class="col-sm-3">
-					<input type="text" value="${person.name}" class="form-control" id="inputNamePar1" placeholder="${userNameText}">
-				</div>
-			</div>
-<!-- 			<div id="divRolePar1"> -->
-<%-- 				<spring:message code="user.role" var="userRoleText" text="user.role not found"/> --%>
-<%-- 				<label class="col-sm-2 control-label">${userRoleText}*</label> --%>
-<!-- 				<div class="col-sm-3"> -->
-<!-- 					<select class="form-control" id="selectRolePar1" disabled> -->
-<%-- 						<spring:message code="${parRole.name}" var="parRoleText" text="${parRole.name} not found"/> --%>
-<%--    						<option value="${parRole.name}" label="${parRoleText}">${parRoleText}</option> --%>
-<!-- 					</select> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-		</div>
-		<div id="divPar1_1" class="form-group">
-			<div id="divSurname1Par1">
-				<spring:message code="user.surname1" var="userSurname1Text" text="user.surname1 not found"/>
-				<label class="col-sm-2 control-label">${userSurname1Text}*</label>
-				<div class="col-sm-3">
-					<input type="text" value="${person.surname1}"  class="form-control" id="inputSurname1Par1" placeholder="${userSurname1Text}">
-				</div>
-			</div>
-			
-			<div id="divSurname2Par1">
-				<spring:message code="user.surname2" var="userSurname2Text" text="user.surname2 not found"/>
-				<label class="col-sm-2 control-label">${userSurname2Text}</label>
-				<div class="col-sm-3">
-					<input type="text" value="${person.surname1}"  class="form-control" id="inputSurname2Par1" placeholder="${userSurname2Text}">
-				</div>
-			</div>
-		</div>
-		<fieldset id=fieldsetNewPar1>
-			<div id="divPar1_2" class="form-group">
-				<div id="divPasswordPar1">
-					<spring:message code="user.password" var="userPasswordText" text="user.password not found"/>
-					<label class="col-sm-2 control-label">${userPasswordText}*</label>
-					<div class="col-sm-3">
-						<input type="password" val="${userPar1.password}" class="form-control" id="inputPasswordPar1" placeholder="${userPasswordText}">
-					</div>
-				</div>
-				
-				<div id="divConfirmPasswordPar1">
-					<spring:message code="user.confirmPassword" var="userConfirmPasswordText" text="user.confirmPassword not found"/>
-					<label class="col-sm-2 control-label">${userConfirmPasswordText}*</label>
-					<div class="col-sm-3">
-						<input type="password" val="${userPar1.password}" class="form-control" id="inputConfirmPasswordPar1" placeholder="${userConfirmPasswordText}"/>
-					</div>
-				</div>
-				
-				<label class="col-sm-2 control-label text-left">
-					<span id="spanErrorPasswordPar1" class="text-danger"></span>
-				</label>
-			</div>	
-			
-			<div id="divPar1_3" class="form-group">
-				<div id="divTelephone1Par1">
-					<spring:message code="user.telephone1" var="userTelephone1Text" text="user.telephone1 not found"/>
-					<label class="col-sm-2 control-label">${userTelephone1Text}</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.telephone1}"class="form-control" id="inputTelephone1Par1" placeholder="${userTelephone1Text}" onkeypress="return isNumberKey(event)" maxlength="9">
-					</div>
-				</div>
+	<c:if test="${empty person.id}">
+<!-- 	========================= PADRE 1 ======================= -->
+		<hr>
 		
-				<div id=divTelephone2Par1>
-					<spring:message code="user.telephone2" var="userTelephone2Text" text="user.telephone2 not found"/>
-					<label class="col-sm-2 control-label">${userTelephone2Text}</label>
+		<h4 class="col-sm-offset-1">
+			<input type="checkbox" id="checkboxPar1" checked>
+			<spring:message code="parent1.title" text="parent1.title not found"/> 
+		</h4>
+		
+		<fieldset id="fieldsetParent1">
+			<div id="divPar1_0" class="form-group">
+				<input type="hidden" id="inputIdPersonPar1">
+				<div id="divIdPar1">
+					<spring:message code="user.id" var="userIdText" text="user.id not found"/>
+					<label class="col-sm-2 control-label">${userIdText}*</label>
 					<div class="col-sm-3">
-						<input type="text" value="${person.telephone2}"class="form-control" id="inputTelephone2Par1" placeholder="${userTelephone2Text}" onkeypress="return isNumberKey(event)" maxlength="9">
-					</div>
-				</div>
-			</div>
-			
-			<div id="divPar1_4" class="form-group">
-				<div id="divDNITypePar1">
-					<spring:message code="user.dni.type" var="userDNITypeText" text="user.dni.type not found"/>
-					<label class="col-sm-2 control-label">${userDNITypeText}*</label>
-					<div class="col-sm-3">
-						<select class="form-control" id="selectDNITypePar1">
-							<option value="" label=""/>
-							<c:forEach items="${lstDNI}" var="dni">
-								<c:choose>
-									<c:when test="${dni == person.dniType}">
-										<option value="${dni}" label="${dni}" selected>${dni}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${dni}" label="${dni}">${dni}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</select>
+						<div id="divIdPar1" class="input-group input-append date">
+							<input type="text" class="form-control" id="inputIdPar1" placeholder="${userIdText}">
+							<span id="iconSearchPar1" class="input-group-addon add-on">
+								<span class="glyphicon glyphicon-search"></span>
+							</span>
+						</div>
 					</div>
 				</div>
 				
-				<div id="divDNIPar1">
-					<spring:message code="user.dni.number" var="userDNIText" text="user.dni.number not found"/>
-					<label class="col-sm-2 control-label">${userDNIText}*</label>
+				<div id="divNamePar1">
+					<spring:message code="user.name" var="userNameText" text="user.name not found"/>
+					<label class="col-sm-2 control-label">${userNameText}*</label>
 					<div class="col-sm-3">
-						<input type="text" value="${person.dni}"class="form-control" id="inputDNIPar1" placeholder="${userDNIText}" maxlength="9">
+						<input type="text" class="form-control" id="inputNamePar1" placeholder="${userNameText}">
 					</div>
 				</div>
+	<!-- 			<div id="divRolePar1"> -->
+	<%-- 				<spring:message code="user.role" var="userRoleText" text="user.role not found"/> --%>
+	<%-- 				<label class="col-sm-2 control-label">${userRoleText}*</label> --%>
+	<!-- 				<div class="col-sm-3"> -->
+	<!-- 					<select class="form-control" id="selectRolePar1" disabled> -->
+	<%-- 						<spring:message code="${parRole.name}" var="parRoleText" text="${parRole.name} not found"/> --%>
+	<%--    						<option value="${parRole.name}" label="${parRoleText}">${parRoleText}</option> --%>
+	<!-- 					</select> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
 			</div>
-			
-			<div id="divPar1_5" class="form-group">
-				<div id="divEmailPar1">
-					<spring:message code="user.email" var="userEmailText" text="user.email not found"/>
-					<label class="col-sm-2 control-label">${userEmailText}</label>
+			<div id="divPar1_1" class="form-group">
+				<div id="divSurname1Par1">
+					<spring:message code="user.surname1" var="userSurname1Text" text="user.surname1 not found"/>
+					<label class="col-sm-2 control-label">${userSurname1Text}*</label>
 					<div class="col-sm-3">
-						<input type="email" value="${person.email}" class="form-control" id="inputEmailPar1" placeholder="${userEmailText}">
+						<input type="text" class="form-control" id="inputSurname1Par1" placeholder="${userSurname1Text}">
 					</div>
 				</div>
 				
-				<div id="divCpPar1">
-					<spring:message code="user.cp" var="userCpText" text="user.cp not found"/>
-					<label class="col-sm-2 control-label">${userCpText}</label>
+				<div id="divSurname2Par1">
+					<spring:message code="user.surname2" var="userSurname2Text" text="user.surname2 not found"/>
+					<label class="col-sm-2 control-label">${userSurname2Text}</label>
 					<div class="col-sm-3">
-						<input type="text" value="${person.cp}" class="form-control" id="inputCpPar1" placeholder="${userCpText}" onkeypress="return isNumberKey(event)" maxlength="5">
+						<input type="text" class="form-control" id="inputSurname2Par1" placeholder="${userSurname2Text}">
 					</div>
 				</div>
 			</div>
-			
-			<div id="divPar1_6" class="form-group">
-				<div id="divCityPar1">
-					<spring:message code="user.city" var="userCityText" text="user.city not found"/>
-					<label class="col-sm-2 control-label">${userCityText}</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.city}" class="form-control" id="inputCityPar1" placeholder="${userCityText}">
+			<fieldset id=fieldsetNewPar1>
+				<div id="divPar1_2" class="form-group">
+					<div id="divPasswordPar1">
+						<spring:message code="user.password" var="userPasswordText" text="user.password not found"/>
+						<label class="col-sm-2 control-label">${userPasswordText}*</label>
+						<div class="col-sm-3">
+							<input type="password" class="form-control" id="inputPasswordPar1" placeholder="${userPasswordText}">
+						</div>
 					</div>
-				</div>
-				
-				<div id="divProvincePar1">
-					<spring:message code="user.province" var="userProvinceText" text="user.province not found"/>
-					<label class="col-sm-2 control-label">${userProvinceText}</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.province}" class="form-control" id="inputProvincePar1" placeholder="${userProvinceText}">
+					
+					<div id="divConfirmPasswordPar1">
+						<spring:message code="user.confirmPassword" var="userConfirmPasswordText" text="user.confirmPassword not found"/>
+						<label class="col-sm-2 control-label">${userConfirmPasswordText}*</label>
+						<div class="col-sm-3">
+							<input type="password" class="form-control" id="inputConfirmPasswordPar1" placeholder="${userConfirmPasswordText}"/>
+						</div>
 					</div>
+					
+					<label class="col-sm-2 control-label text-left">
+						<span id="spanErrorPasswordPar1" class="text-danger"></span>
+					</label>
 				</div>	
-			</div>
+				
+				<div id="divPar1_3" class="form-group">
+					<div id="divTelephone1Par1">
+						<spring:message code="user.telephone1" var="userTelephone1Text" text="user.telephone1 not found"/>
+						<label class="col-sm-2 control-label">${userTelephone1Text}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputTelephone1Par1" placeholder="${userTelephone1Text}" onkeypress="return isNumberKey(event)" maxlength="9">
+						</div>
+					</div>
 			
-			<div id="divPar1_7" class="form-group">
-				<div id="divAddressPar1">
-					<spring:message code="user.address" var="userAddressText" text="user.address not found"/>
-					<label class="col-sm-2 control-label">${userAddressText}</label>
-					<div class="col-sm-8">
-						<input type="text" value="${person.address}" class="form-control" id="inputAddressPar1" placeholder="${userAddressText}">
+					<div id=divTelephone2Par1>
+						<spring:message code="user.telephone2" var="userTelephone2Text" text="user.telephone2 not found"/>
+						<label class="col-sm-2 control-label">${userTelephone2Text}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputTelephone2Par1" placeholder="${userTelephone2Text}" onkeypress="return isNumberKey(event)" maxlength="9">
+						</div>
 					</div>
 				</div>
-			</div>
+				
+				<div id="divPar1_4" class="form-group">
+					<div id="divDNITypePar1">
+						<spring:message code="user.dni.type" var="userDNITypeText" text="user.dni.type not found"/>
+						<label class="col-sm-2 control-label">${userDNITypeText}*</label>
+						<div class="col-sm-3">
+							<select class="form-control" id="selectDNITypePar1">
+								<option value="" label=""/>
+								<c:forEach items="${lstDNI}" var="dni">
+									<option value="${dni}" label="${dni}">${dni}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					
+					<div id="divDNIPar1">
+						<spring:message code="user.dni.number" var="userDNIText" text="user.dni.number not found"/>
+						<label class="col-sm-2 control-label">${userDNIText}*</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputDNIPar1" placeholder="${userDNIText}" maxlength="9">
+						</div>
+					</div>
+				</div>
+				
+				<div id="divPar1_5" class="form-group">
+					<div id="divEmailPar1">
+						<spring:message code="user.email" var="userEmailText" text="user.email not found"/>
+						<label class="col-sm-2 control-label">${userEmailText}</label>
+						<div class="col-sm-3">
+							<input type="email" class="form-control" id="inputEmailPar1" placeholder="${userEmailText}">
+						</div>
+					</div>
+					
+					<div id="divCpPar1">
+						<spring:message code="user.cp" var="userCpText" text="user.cp not found"/>
+						<label class="col-sm-2 control-label">${userCpText}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputCpPar1" placeholder="${userCpText}" onkeypress="return isNumberKey(event)" maxlength="5">
+						</div>
+					</div>
+				</div>
+				
+				<div id="divPar1_6" class="form-group">
+					<div id="divCityPar1">
+						<spring:message code="user.city" var="userCityText" text="user.city not found"/>
+						<label class="col-sm-2 control-label">${userCityText}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputCityPar1" placeholder="${userCityText}">
+						</div>
+					</div>
+					
+					<div id="divProvincePar1">
+						<spring:message code="user.province" var="userProvinceText" text="user.province not found"/>
+						<label class="col-sm-2 control-label">${userProvinceText}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputProvincePar1" placeholder="${userProvinceText}">
+						</div>
+					</div>	
+				</div>
+				
+				<div id="divPar1_7" class="form-group">
+					<div id="divAddressPar1">
+						<spring:message code="user.address" var="userAddressText" text="user.address not found"/>
+						<label class="col-sm-2 control-label">${userAddressText}</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="inputAddressPar1" placeholder="${userAddressText}">
+						</div>
+					</div>
+				</div>
+			</fieldset>
 		</fieldset>
-	</fieldset>
-
-	<hr>
-	
-	<h4 class="col-sm-offset-1">
-		<input type="checkbox" id="checkboxPar2" checked>
-		<spring:message code="parent2.title" text="parent2.title not found"/>  
-	</h4>
-	
-	<fieldset id="fieldsetParent2">
+	<!-- 	========================= PADRE 2 ======================= -->
+		<hr>
 		
-		<div id="divPar2_0" class="form-group">
-			<div id="divIdPar2">
-				<input type="hidden" id="inputIdPersonPar2">
-				<spring:message code="user.id" var="userIdText" text="user.id not found"/>
-				<label class="col-sm-2 control-label">${userIdText}*</label>
-				<div class="col-sm-3">
-					<div id="divIdPar2" class="input-group input-append date">
-						<input type="text" val="${userPar2.idUser}" class="form-control" id="inputIdPar2" placeholder="${userIdText}">
-						<span id="iconSearchPar2" class="input-group-addon add-on">
-							<span class="glyphicon glyphicon-search"></span>
-						</span>
-					</div>
-				</div>
-			</div>
-			
-			<div id="divNamePar2">
-				<spring:message code="user.name" var="userNameText" text="user.name not found"/>
-				<label class="col-sm-2 control-label">${userNameText}*</label>
-				<div class="col-sm-3">
-					<input type="text" value="${person.name}" class="form-control" id="inputNamePar2" placeholder="${userNameText}">
-				</div>
-			</div>
-			
-<!-- 			<div id="divRolePar2"> -->
-<%-- 				<spring:message code="user.role" var="userRoleText" text="user.role not found"/> --%>
-<%-- 				<label class="col-sm-2 control-label">${userRoleText}*</label> --%>
-<!-- 				<div class="col-sm-3"> -->
-<!-- 					<select class="form-control" id="selectRolePar2" disabled> -->
-<%-- 						<spring:message code="${parRole.name}" var="parRoleText" text="${parRole.name} not found"/> --%>
-<%--    						<option value="${parRole.name}" label="${parRoleText}">${parRoleText}</option> --%>
-<!-- 					</select> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-		</div>
-		<div id="divPar2_1" class="form-group">
-			<div id="divSurname1Par2">
-				<spring:message code="user.surname1" var="userSurname1Text" text="user.surname1 not found"/>
-				<label class="col-sm-2 control-label">${userSurname1Text}*</label>
-				<div class="col-sm-3">
-					<input type="text" value="${person.surname1}"  class="form-control" id="inputSurname1Par2" placeholder="${userSurname1Text}">
-				</div>
-			</div>
-			
-			<div id="divSurname2Par2">
-				<spring:message code="user.surname2" var="userSurname2Text" text="user.surname2 not found"/>
-				<label class="col-sm-2 control-label">${userSurname2Text}</label>
-				<div class="col-sm-3">
-					<input type="text" value="${person.surname1}"  class="form-control" id="inputSurname2Par2" placeholder="${userSurname2Text}">
-				</div>
-			</div>
-		</div>
+		<h4 class="col-sm-offset-1">
+			<input type="checkbox" id="checkboxPar2" checked>
+			<spring:message code="parent2.title" text="parent2.title not found"/>  
+		</h4>
 		
-		<fieldset id=fieldsetNewPar2>
-			<div id="divPar2_2" class="form-group">
-				<div id="divPasswordPar2">
-					<spring:message code="user.password" var="userPasswordText" text="user.password not found"/>
-					<label class="col-sm-2 control-label">${userPasswordText}*</label>
-					<div class="col-sm-3">
-						<input type="password" val="${userPar2.password}" class="form-control" id="inputPasswordPar2" placeholder="${userPasswordText}">
-					</div>
-				</div>
-				
-				<div id="divConfirmPasswordPar2">
-					<spring:message code="user.confirmPassword" var="userConfirmPasswordText" text="user.confirmPassword not found"/>
-					<label class="col-sm-2 control-label">${userConfirmPasswordText}*</label>
-					<div class="col-sm-3">
-						<input type="password" val="${userPar2.password}" class="form-control" id="inputConfirmPasswordPar2" placeholder="${userConfirmPasswordText}"/>
-					</div>
-				</div>
-				
-				<label class="col-sm-2 control-label text-left">
-					<span id="spanErrorPasswordPar2" class="text-danger"></span>
-				</label>
-			</div>	
+		<fieldset id="fieldsetParent2">
 			
-			<div id="divPar2_3" class="form-group">
-				<div id="divTelephone1Par2">
-					<spring:message code="user.telephone1" var="userTelephone1Text" text="user.telephone1 not found"/>
-					<label class="col-sm-2 control-label">${userTelephone1Text}</label>
+			<div id="divPar2_0" class="form-group">
+				<div id="divIdPar2">
+					<input type="hidden" id="inputIdPersonPar2">
+					<spring:message code="user.id" var="userIdText" text="user.id not found"/>
+					<label class="col-sm-2 control-label">${userIdText}*</label>
 					<div class="col-sm-3">
-						<input type="text" value="${person.telephone1}"class="form-control" id="inputTelephone1Par2" placeholder="${userTelephone1Text}" onkeypress="return isNumberKey(event)" maxlength="9">
+						<div id="divIdPar2" class="input-group input-append date">
+							<input type="text" class="form-control" id="inputIdPar2" placeholder="${userIdText}">
+							<span id="iconSearchPar2" class="input-group-addon add-on">
+								<span class="glyphicon glyphicon-search"></span>
+							</span>
+						</div>
 					</div>
 				</div>
-		
-				<div id=divTelephone2Par2>
-					<spring:message code="user.telephone2" var="userTelephone2Text" text="user.telephone2 not found"/>
-					<label class="col-sm-2 control-label">${userTelephone2Text}</label>
+				
+				<div id="divNamePar2">
+					<spring:message code="user.name" var="userNameText" text="user.name not found"/>
+					<label class="col-sm-2 control-label">${userNameText}*</label>
 					<div class="col-sm-3">
-						<input type="text" value="${person.telephone2}"class="form-control" id="inputTelephone2Par2" placeholder="${userTelephone2Text}" onkeypress="return isNumberKey(event)" maxlength="9">
+						<input type="text" class="form-control" id="inputNamePar2" placeholder="${userNameText}">
+					</div>
+				</div>
+				
+	<!-- 			<div id="divRolePar2"> -->
+	<%-- 				<spring:message code="user.role" var="userRoleText" text="user.role not found"/> --%>
+	<%-- 				<label class="col-sm-2 control-label">${userRoleText}*</label> --%>
+	<!-- 				<div class="col-sm-3"> -->
+	<!-- 					<select class="form-control" id="selectRolePar2" disabled> -->
+	<%-- 						<spring:message code="${parRole.name}" var="parRoleText" text="${parRole.name} not found"/> --%>
+	<%--    						<option value="${parRole.name}" label="${parRoleText}">${parRoleText}</option> --%>
+	<!-- 					</select> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
+			</div>
+			<div id="divPar2_1" class="form-group">
+				<div id="divSurname1Par2">
+					<spring:message code="user.surname1" var="userSurname1Text" text="user.surname1 not found"/>
+					<label class="col-sm-2 control-label">${userSurname1Text}*</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputSurname1Par2" placeholder="${userSurname1Text}">
+					</div>
+				</div>
+				
+				<div id="divSurname2Par2">
+					<spring:message code="user.surname2" var="userSurname2Text" text="user.surname2 not found"/>
+					<label class="col-sm-2 control-label">${userSurname2Text}</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputSurname2Par2" placeholder="${userSurname2Text}">
 					</div>
 				</div>
 			</div>
 			
-			<div id="divPar2_4" class="form-group">
-				<div id="divDNITypePar2">
-					<spring:message code="user.dni.type" var="userDNITypeText" text="user.dni.type not found"/>
-					<label class="col-sm-2 control-label">${userDNITypeText}*</label>
-					<div class="col-sm-3">
-						<select class="form-control" id="selectDNITypePar2">
-							<option value="" label=""/>
-							<c:forEach items="${lstDNI}" var="dni">
-								<c:choose>
-									<c:when test="${dni == person.dniType}">
-										<option value="${dni}" label="${dni}" selected>${dni}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${dni}" label="${dni}">${dni}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</select>
+			<fieldset id=fieldsetNewPar2>
+				<div id="divPar2_2" class="form-group">
+					<div id="divPasswordPar2">
+						<spring:message code="user.password" var="userPasswordText" text="user.password not found"/>
+						<label class="col-sm-2 control-label">${userPasswordText}*</label>
+						<div class="col-sm-3">
+							<input type="password" class="form-control" id="inputPasswordPar2" placeholder="${userPasswordText}">
+						</div>
 					</div>
-				</div>
-				
-				<div id="divDNIPar2">
-					<spring:message code="user.dni.number" var="userDNIText" text="user.dni.number not found"/>
-					<label class="col-sm-2 control-label">${userDNIText}*</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.dni}"class="form-control" id="inputDNIPar2" placeholder="${userDNIText}" maxlength="9">
+					
+					<div id="divConfirmPasswordPar2">
+						<spring:message code="user.confirmPassword" var="userConfirmPasswordText" text="user.confirmPassword not found"/>
+						<label class="col-sm-2 control-label">${userConfirmPasswordText}*</label>
+						<div class="col-sm-3">
+							<input type="password" class="form-control" id="inputConfirmPasswordPar2" placeholder="${userConfirmPasswordText}"/>
+						</div>
 					</div>
-				</div>
-			</div>
-			
-			<div id="divPar2_5" class="form-group">
-				<div id="divEmailPar2">
-					<spring:message code="user.email" var="userEmailText" text="user.email not found"/>
-					<label class="col-sm-2 control-label">${userEmailText}</label>
-					<div class="col-sm-3">
-						<input type="email" value="${person.email}" class="form-control" id="inputEmailPar2" placeholder="${userEmailText}">
-					</div>
-				</div>
-				
-				<div id="divCpPar2">
-					<spring:message code="user.cp" var="userCpText" text="user.cp not found"/>
-					<label class="col-sm-2 control-label">${userCpText}</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.cp}" class="form-control" id="inputCpPar2" placeholder="${userCpText}" onkeypress="return isNumberKey(event)" maxlength="5">
-					</div>
-				</div>
-			</div>
-			
-			<div id="divPar2_6" class="form-group">
-				<div id="divCityPar2">
-					<spring:message code="user.city" var="userCityText" text="user.city not found"/>
-					<label class="col-sm-2 control-label">${userCityText}</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.city}" class="form-control" id="inputCityPar2" placeholder="${userCityText}">
-					</div>
-				</div>
-				
-				<div id="divProvincePar2">
-					<spring:message code="user.province" var="userProvinceText" text="user.province not found"/>
-					<label class="col-sm-2 control-label">${userProvinceText}</label>
-					<div class="col-sm-3">
-						<input type="text" value="${person.province}" class="form-control" id="inputProvincePar2" placeholder="${userProvinceText}">
-					</div>
+					
+					<label class="col-sm-2 control-label text-left">
+						<span id="spanErrorPasswordPar2" class="text-danger"></span>
+					</label>
 				</div>	
-			</div>
+				
+				<div id="divPar2_3" class="form-group">
+					<div id="divTelephone1Par2">
+						<spring:message code="user.telephone1" var="userTelephone1Text" text="user.telephone1 not found"/>
+						<label class="col-sm-2 control-label">${userTelephone1Text}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputTelephone1Par2" placeholder="${userTelephone1Text}" onkeypress="return isNumberKey(event)" maxlength="9">
+						</div>
+					</div>
 			
-			<div id="divPar2_7" class="form-group">
-				<div id="divAddressPar2">
-					<spring:message code="user.address" var="userAddressText" text="user.address not found"/>
-					<label class="col-sm-2 control-label">${userAddressText}</label>
-					<div class="col-sm-8">
-						<input type="text" value="${person.address}" class="form-control" id="inputAddressPar2" placeholder="${userAddressText}">
+					<div id=divTelephone2Par2>
+						<spring:message code="user.telephone2" var="userTelephone2Text" text="user.telephone2 not found"/>
+						<label class="col-sm-2 control-label">${userTelephone2Text}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputTelephone2Par2" placeholder="${userTelephone2Text}" onkeypress="return isNumberKey(event)" maxlength="9">
+						</div>
 					</div>
 				</div>
-			</div>
+				
+				<div id="divPar2_4" class="form-group">
+					<div id="divDNITypePar2">
+						<spring:message code="user.dni.type" var="userDNITypeText" text="user.dni.type not found"/>
+						<label class="col-sm-2 control-label">${userDNITypeText}*</label>
+						<div class="col-sm-3">
+							<select class="form-control" id="selectDNITypePar2">
+								<option value="" label=""/>
+								<c:forEach items="${lstDNI}" var="dni">
+									<option value="${dni}" label="${dni}">${dni}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					
+					<div id="divDNIPar2">
+						<spring:message code="user.dni.number" var="userDNIText" text="user.dni.number not found"/>
+						<label class="col-sm-2 control-label">${userDNIText}*</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputDNIPar2" placeholder="${userDNIText}" maxlength="9">
+						</div>
+					</div>
+				</div>
+				
+				<div id="divPar2_5" class="form-group">
+					<div id="divEmailPar2">
+						<spring:message code="user.email" var="userEmailText" text="user.email not found"/>
+						<label class="col-sm-2 control-label">${userEmailText}</label>
+						<div class="col-sm-3">
+							<input type="email" class="form-control" id="inputEmailPar2" placeholder="${userEmailText}">
+						</div>
+					</div>
+					
+					<div id="divCpPar2">
+						<spring:message code="user.cp" var="userCpText" text="user.cp not found"/>
+						<label class="col-sm-2 control-label">${userCpText}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputCpPar2" placeholder="${userCpText}" onkeypress="return isNumberKey(event)" maxlength="5">
+						</div>
+					</div>
+				</div>
+				
+				<div id="divPar2_6" class="form-group">
+					<div id="divCityPar2">
+						<spring:message code="user.city" var="userCityText" text="user.city not found"/>
+						<label class="col-sm-2 control-label">${userCityText}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputCityPar2" placeholder="${userCityText}">
+						</div>
+					</div>
+					
+					<div id="divProvincePar2">
+						<spring:message code="user.province" var="userProvinceText" text="user.province not found"/>
+						<label class="col-sm-2 control-label">${userProvinceText}</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="inputProvincePar2" placeholder="${userProvinceText}">
+						</div>
+					</div>	
+				</div>
+				
+				<div id="divPar2_7" class="form-group">
+					<div id="divAddressPar2">
+						<spring:message code="user.address" var="userAddressText" text="user.address not found"/>
+						<label class="col-sm-2 control-label">${userAddressText}</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="inputAddressPar2" placeholder="${userAddressText}">
+						</div>
+					</div>
+				</div>
+			</fieldset>
 		</fieldset>
-	</fieldset>
+	</c:if>
+	<c:if test="${not empty person.id}">
+	<!-- 	========================= TABLA PADRES ======================= -->
+		<h4 class="col-sm-offset-1"><spring:message code="parentList.title" text="parentList.title not found"/></h4>
+		<div id="divParentsTable" class="col-sm-offset-2 col-sm-8 noPadding">
+			<table id="tableParents" class="stripe hover row-border" width="100%">
+				<thead>
+			  		<tr>
+			  			<th><spring:message code="user.username" text="user.username not found" /></th>
+			    		<th><spring:message code="user.name" text="user.name not found" /></th>
+			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
+			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
+			    		<th></th>
+			  	</thead>
+<!-- 			  	<tfoot> -->
+<!-- 				  	<tr> -->
+<%-- 			    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
+<%-- 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
+<%-- 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
+<!-- 			    		<th></th> -->
+<!-- 				  	</tr> -->
+<!-- 			  	</tfoot> -->
+			  	<tbody class="cursorPointer">
+			  		<c:forEach items="${lstParents}" var="parent">
+			  		<tr>
+			  			<td>${parent.idUser}</td>
+			  			<td>${parent.name}</td>
+			  			<td>${parent.surname1}</td>
+			  			<td>${parent.surname2}</td>
+			  			<td>
+			  				<div class="text-center">
+			  					<spring:message code="common.edit" var="editText" text="common.edit not found" />
+			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
+			  				</div>
+			  				
+			  			</td>
+			  		</tr>
+			  		</c:forEach>
+			  	</tbody>
+			</table>
+		</div>
+	</c:if>
 </fieldset>
 
 <script>
@@ -556,6 +590,26 @@
 	var hasParent = [true,true];
 	var textParent = [' (' + '<spring:message code="parent1.title" text="parent1.title not found"/>' + ')',' (' + '<spring:message code="parent2.title" text="parent2.title not found"/>' + ')'];
 	var checksParent = [{id:true,pass:true},{id:true,pass:true}];
+	var table = null;
+	var idUserParent = null;
+	
+	$(document).ready(function() {
+		if($("#inputIdPerson").val() != ""){
+			hasParent = [false, false];
+			$("#divCopyAddress").hide();
+			table =  $('#tableParents').DataTable( {
+				"paging": false,
+			    "ordering": false,
+			    "info": false,
+			    "searching": false,
+			    fixedHeader: {
+			        header: true,
+			        footer: false
+			    }
+			} );
+		}
+	});
+	
 	
 	function validFormPerson(){
 		var lstValidatorPerson = [];
@@ -773,6 +827,19 @@
 			$("#divDNIPar2").removeClass("has-error");
 		}
 	});
+
+	$("#buttonCopyAddress").click(function(){
+		$("#inputCpPar1").val($("#inputCp").val());
+		$("#inputAddressPar1").val($("#inputAddress").val());
+		$("#inputCityPar1").val($("#inputCity").val());
+		$("#inputProvincePar1").val($("#inputProvince").val());
+		
+		$("#inputCpPar2").val($("#inputCp").val());
+		$("#inputAddressPar2").val($("#inputAddress").val());
+		$("#inputCityPar2").val($("#inputCity").val());
+		$("#inputProvincePar2").val($("#inputProvince").val());
+	});
+	
 	
 	$("#checkboxPar1").change(function(){
 		if($("#checkboxPar1").is(':checked')){
@@ -1005,4 +1072,12 @@
 		return true;
 	}
 	
+	function confirmEditParent(idUser){
+		idUserParent = idUser;
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',editParent,null);
+	}
+	
+	function editParent(){
+		location.href = "${urlEditUser}" + idUserParent ;
+	}
 </script>

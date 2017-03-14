@@ -70,3 +70,6 @@ body {
 .control-label.text-center{
 	text-align: center;
 }
+.noPadding{
+	padding: 0;
+}

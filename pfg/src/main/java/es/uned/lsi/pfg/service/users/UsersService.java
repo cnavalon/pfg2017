@@ -72,6 +72,21 @@ public interface UsersService {
 	 * @return <code>true</code> si la operación se ha realizado con éxito, en caso contrario <code>false</code>
 	 */
 	public boolean upsertStudent(StudentWithParents studentWithParent);
+	
+	/**
+	 * Obtiene una entidad de persona en funcion de su perfil e id de usuario
+	 * @param role perfil
+	 * @param idUser id de usuario
+	 * @return entida de persona
+	 */
+	public <T extends Person> T getByUser(String role, String idUser);
+
+	/**
+	 * Obtiene un listado de los padres de un alumno 
+	 * @param studentId id de alumno
+	 * @return listado de los padres
+	 */
+	public List<UserSearch> findParents(Integer studentId);
 
 
 

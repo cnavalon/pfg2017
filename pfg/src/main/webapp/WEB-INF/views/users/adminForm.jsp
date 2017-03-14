@@ -62,7 +62,7 @@
 </fieldset>
 
 <script>
-
+	
 	function validFormPerson(){
 		var lstValidatorPerson = [];
 		if($("#inputName").val() === ""){

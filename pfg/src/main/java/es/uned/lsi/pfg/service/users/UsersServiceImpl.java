@@ -257,4 +257,28 @@ public class UsersServiceImpl implements UsersService {
 		
 	}
 
+	@Override
+	public <T extends Person> T getByUser(String role, String idUser) {
+		logger.debug("getByUser: " + role + ", " + idUser); 
+		return (T) personDAO.findByIdUser(idUser, findClassRole(role));
+	}
+
+	@Override
+	public List<UserSearch> findParents(Integer studentId) {
+		logger.debug("findParents: " + studentId);
+		try {
+			List<Parent> lstParents = new ArrayList<Parent>();
+			List<Integer> lstParentsIds = studentParentDAO.findByStudent(studentId);
+			
+			for(Integer parentId : lstParentsIds){
+				lstParents.add(personDAO.find(parentId, Parent.class));
+			}
+			
+			return convertToUserSearchList(lstParents, Constans.ROLE_PARENT);
+		} catch (Exception e) {
+			logger.error("ERROR recuperando padres de " + studentId, e );
+		}
+		return null;
+	}
+
 }
