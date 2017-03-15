@@ -88,6 +88,13 @@ public interface UsersService {
 	 */
 	public List<UserSearch> findParents(Integer studentId);
 
+	/**
+	 * Obtiene un listado de los alumnos de un padre
+	 * @param parentId id del padre
+	 * @return listado de los alumnos
+	 */
+	public List<UserSearch> findStudents(Integer parentId);
+
 
 
 

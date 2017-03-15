@@ -53,15 +53,14 @@ public class UsersDAOImpl extends AbstractJpaDao implements UsersDAO {
 //	}
 
 	@Override
-	public boolean upsert(User user) {
+	public void upsert(User user) throws Exception{
 		try {
 			em.merge(user);
 			em.flush();
-			return true;
 		} catch (Exception e) {
-			logger.error("Error insertando usuario en BBDD", e);
+			logger.error("Error insertando usuario en BBDD: " + user + ". " + e.getMessage());
+			throw e;
 		}
-		return false;
 	}
 	
 }

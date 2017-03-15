@@ -82,18 +82,15 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 	}
 
 	@Override
-	public <T extends Person> boolean upsert(T person) {
+	public <T extends Person> void upsert(T person) throws Exception {
 		logger.debug("upsert: " + person);
 		try {
 			em.merge(person);
 			em.flush();
-			return true;
-		} catch (NoResultException e) {
-			logger.debug("Empty results");
 		} catch (Exception e) {
-			logger.error("Error insertando en BBDD: " + person, e);
+			logger.error("Error insertando persona en BBDD: " + person + ". " + e.getMessage());
+			throw e;
 		}
-		return false;
 	}
 	
 	@Override

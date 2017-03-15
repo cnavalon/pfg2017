@@ -21,7 +21,7 @@
 						<spring:message code="user.id" var="userIdText" text="user.id not found"/>
 						<label class="col-sm-2 control-label">${userIdText}*</label>
 						<div class="col-sm-3">
-							<input type="text" value="${user.idUser}" class="form-control" id="inputId" placeholder="${userIdText}">
+							<input type="text" value="${user.idUser}" class="form-control" id="inputId" placeholder="${userIdText}" onkeypress="return isIDKey(event)">
 						</div>
 					</div>
 					
@@ -51,6 +51,9 @@
 				</div>
 				
 				<div id="divRow1" class="form-group">
+				
+					<input type="hidden" value="${user.password}" id="inputLastPassword">
+					
 					<div id="divPassword">
 						<spring:message code="user.password" var="userPasswordText" text="user.password not found"/>
 						<label class="col-sm-2 control-label">${userPasswordText}*</label>
@@ -206,7 +209,7 @@
 			contentType: "application/json",
 			success : function(error) {
 				if (error == null || error == ""){
-					callbackSave();
+					alert('<spring:message code="user.saved" text="user.saved not found"/>',null);
 				} 
 				else {
 					alert(error, null);
@@ -223,7 +226,8 @@
 			idUser : $("#inputId").val(),
 			password : $("#inputPassword").val(),
 			role : $("#selectRole").val(),
-			enabled : true
+			enabled : true,
+			lastPassword : $("#inputLastPassword").val()
 		}
 	}
 	
@@ -270,5 +274,9 @@
 		} else {
 			$("#buttonAdd").attr("disabled",true);
 		}
+	}
+	
+	function checkSavePerson(){
+		return true;
 	}
 </script>

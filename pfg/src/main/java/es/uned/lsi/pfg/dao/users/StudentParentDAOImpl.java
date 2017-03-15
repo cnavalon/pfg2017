@@ -25,27 +25,55 @@ public class StudentParentDAOImpl extends AbstractJpaDao implements StudentParen
 	private static final Logger logger = LoggerFactory.getLogger(StudentParentDAOImpl.class);
 
 	@Override
-	public void insert(StudentParent studentParent) {
+	public void insert(StudentParent studentParent) throws Exception {
 		logger.debug("insert: " + studentParent);
 		try {
 			em.persist(studentParent);
 		} catch (Exception e) {
-			logger.error("ERROR insertando relacion alumno padre: " + studentParent, e);
+			logger.error("ERROR insertando relacion alumno padre: " + studentParent+ ". " + e.getMessage());
+			throw e;
 		}
 	}
 
 	@Override
-	public List<Integer> findByStudent(Integer student) {
+	public List<StudentParent> findByStudent(Integer student) {
 		logger.debug("findByStudent: " + student);
-		List<Integer> lstParents = new ArrayList<Integer>();
+		List<StudentParent> lstStudentParent = new ArrayList<StudentParent>();
 		try {
-			lstParents = em.createQuery("SELECT x.parent FROM StudentParent x WHERE x.student = " + student).getResultList();
+			lstStudentParent = em.createQuery("SELECT x FROM StudentParent x WHERE x.student = " + student).getResultList();
 		} catch (NoResultException e) {
 			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error obteniendo listado de padres para " + student, e);
+			return null;
 		}
-		return lstParents;
+		return lstStudentParent;
+	}
+	
+	@Override
+	public List<StudentParent> findByParent(Integer parent) {
+		logger.debug("findByParent: " + parent);
+		List<StudentParent> lstStudentParent = new ArrayList<StudentParent>();
+		try {
+			lstStudentParent = em.createQuery("SELECT x FROM StudentParent x WHERE x.parent = " + parent).getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
+		} catch (Exception e) {
+			logger.error("Error obteniendo listado de padres para " + parent, e);
+			return null;
+		}
+		return lstStudentParent;
+	}
+
+	@Override
+	public void remove(StudentParent studentParent) throws Exception {
+		logger.debug("remove: " + studentParent);
+		try {
+			em.remove(studentParent);
+		} catch (Exception e) {
+			logger.error("ERROR eliminado relacion " + studentParent + ": " + e.getMessage());
+			throw e;
+		}
 	}
 	
 	

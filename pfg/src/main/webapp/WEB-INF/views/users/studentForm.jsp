@@ -560,7 +560,7 @@
 <!-- 			    		<th></th> -->
 <!-- 				  	</tr> -->
 <!-- 			  	</tfoot> -->
-			  	<tbody class="cursorPointer">
+			  	<tbody>
 			  		<c:forEach items="${lstParents}" var="parent">
 			  		<tr>
 			  			<td>${parent.idUser}</td>
@@ -963,10 +963,6 @@
 	    locale: '${locale}'
 	});
 
-	function callbackSave(){
-		confirm('<spring:message code="user.saved" text="user.saved not found"/>',reload,reload);
-	}
-	
 	$("#iconSearchPar1").click(function(){
 		parent = null;
 		parentFocus = 1;

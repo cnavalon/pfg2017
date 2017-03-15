@@ -19,7 +19,6 @@ public abstract class Person {
 		this.user = user;
 	}
 	
-	
 	public abstract String getQueryFindById();
 	public abstract String getQueryFindAll();
 	public abstract String getQueryFindByIdUser();

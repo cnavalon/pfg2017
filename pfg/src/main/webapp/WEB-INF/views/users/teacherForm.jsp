@@ -107,10 +107,6 @@
 		return "${urlUpsert}"
 	}
 	
-	function callbackSave(){
-		alert('<spring:message code="user.saved" text="user.saved not found"/>',reload);
-	}
-	
 	function checkSavePerson(){
 		return true;
 	}

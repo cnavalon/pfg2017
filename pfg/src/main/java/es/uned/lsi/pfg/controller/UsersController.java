@@ -110,7 +110,7 @@ public class UsersController {
 				logger.debug("Usuario eliminado [" + id + "," + idRole +"]"); 
 				response = "user.deleted";
 			} else {
-				logger.warn("No se ha eliminado el usuario [" + id + "," + idRole +"]"); 
+				logger.error("No se ha eliminado el usuario [" + id + "," + idRole +"]"); 
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
@@ -134,6 +134,12 @@ public class UsersController {
 		return getUserForm(title, user);
 	}
 	
+	/**
+	 * Obtiene la pagina de edicicion de usuario
+	 * @param locale
+	 * @param idUser id del usuario
+	 * @return pagina de edición de usuario
+	 */
 	@RequestMapping(value = "/adm/editUser/{idUser}", method = RequestMethod.GET )
 	public ModelAndView editUser(Locale locale, @PathVariable("idUser")String idUser) {
 		logger.debug("editUser: " + idUser);
@@ -143,7 +149,6 @@ public class UsersController {
 				
 		return getUserForm(title, user);
 	}
-	
 	
 	/**
 	 * Obtiene el formulario de nueva persona segun su perfil
@@ -177,6 +182,13 @@ public class UsersController {
 		return null;
 	}
 	
+	/**
+	 * Obtiene el formulario de edicion de persona segun el perfil
+	 * @param locale
+	 * @param idUser id de usuario
+	 * @param idRole perfil
+	 * @return el formulario de edicion de persona
+	 */
 	@RequestMapping(value = "/adm/updatePerson/{idUser}/{idRole}", method = RequestMethod.GET )
 	public ModelAndView updatePerson(Locale locale, @PathVariable("idUser") String idUser, @PathVariable("idRole") String idRole) {
 		logger.debug("updatePerson: " + idUser + ", " + idRole);
@@ -188,11 +200,14 @@ public class UsersController {
 				Person person = usersService.getByUser(idRole, idUser);
 				model.addObject("person", person);
 				model.addObject("locale",locale.getLanguage());
-				model.addObject("lstDNI", getLstDNI());
 				if(idRole.equals(Constans.ROLE_STUDENT)){
+					model.addObject("lstDNI", getLstDNI());
 					model.addObject("lstSex", getLstSex(locale));
 					model.addObject("lstCourses", coursesService.getAllCourses());
 					model.addObject("lstParents", usersService.findParents(person.getId()));
+				} else if(idRole.equals(Constans.ROLE_PARENT)){
+					model.addObject("lstDNI", getLstDNI());
+					model.addObject("lstStudents", usersService.findStudents(person.getId()));
 				}
 				return model;
 			} catch (Exception e) {
@@ -204,15 +219,24 @@ public class UsersController {
 		return null;
 	}
 
-	private Object getLstSex(Locale locale) {
+	/**
+	 * Obtiene un listado con las opciones de sexos
+	 * @param locale
+	 * @return listado con las opciones de sexos
+	 */
+	private List<Option> getLstSex(Locale locale) {
 		List<Option> lstSex = new ArrayList<Option>();
 		for(SexEnum sex : SexEnum.values()){
 			lstSex.add(new Option(sex.name(), messageSource.getMessage("user.sex." + sex.name(), null, locale)));
 		}
 		return lstSex;
 	}
-
-	private Object getLstDNI() {
+	
+	/**
+	 * Obtiene un listado con los tipos de documentos
+	 * @return listado con los tipos de documentos
+	 */
+	private List<String> getLstDNI() {
 		List<String> lstDni = new ArrayList<String>();
 		for(DNITypeEnum dni: DNITypeEnum.values()){
 			lstDni.add(dni.name());
@@ -334,6 +358,26 @@ public class UsersController {
 		return messageSource.getMessage("user.save.error", null, locale);
 	}
 	
+	/**
+	 * Inserta o actualiza un padre
+	 * @param parent padre
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/adm/upsertParent", method = RequestMethod.POST)
+	@ResponseBody
+	public String upsertParent(@RequestBody Parent parent, Locale locale) throws Exception {
+		logger.debug("upsertParent: " + parent);
+		return upsertPerson(parent, locale);
+	}
+	
+	/**
+	 * Inserta o actualiza una persona
+	 * @param person persona
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
+	 */
 	private <T extends Person> String upsertPerson(T person, Locale locale) {
 		try {
 			if(usersService.upsert(person))

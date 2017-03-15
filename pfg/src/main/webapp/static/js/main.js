@@ -183,6 +183,23 @@ function isNumberKey(evt){
     return true;
 }
 
+function isLetterKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 65 || (charCode > 90 && (charCode < 97 || charCode > 122))))
+        return false;
+    
+    return true;
+}
+
+function isUnderscoreKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    return charCode === 95;
+}
+
+function isIDKey(evt){
+	return isNumberKey(evt) || isLetterKey(evt) || isUnderscoreKey(evt);
+}
+
 function orderAllOptions(){
 	$("select").each(function(){
 		orderOptions("#" + $(this).attr('id'));

@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 <spring:url value="/users/adm/upsertParent?${_csrf.parameterName}=${_csrf.token}" var="urlUpsert" />
+<spring:url value="/users/adm/editUser/" var="urlEditUser" />
 
 <fieldset id="filedsetPerson">
 	<div id="divPerRow0" class="form-group">
@@ -125,10 +126,67 @@
 			</div>
 		</div>	
 	</div>
-	
+	<c:if test="${not empty person.id}">
+	<!-- 	========================= TABLA HIJOS ======================= -->
+		<h4 class="col-sm-offset-1"><spring:message code="parentList.title" text="parentList.title not found"/></h4>
+		<div id="divStudentsTable" class="col-sm-offset-2 col-sm-8 noPadding">
+			<table id="tableStudents" class="stripe hover row-border" width="100%">
+				<thead>
+			  		<tr>
+			  			<th><spring:message code="user.username" text="user.username not found" /></th>
+			    		<th><spring:message code="user.name" text="user.name not found" /></th>
+			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
+			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
+			    		<th></th>
+			  	</thead>
+<!-- 			  	<tfoot> -->
+<!-- 				  	<tr> -->
+<%-- 			    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
+<%-- 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
+<%-- 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
+<!-- 			    		<th></th> -->
+<!-- 				  	</tr> -->
+<!-- 			  	</tfoot> -->
+			  	<tbody>
+			  		<c:forEach items="${lstStudents}" var="student">
+			  		<tr>
+			  			<td>${student.idUser}</td>
+			  			<td>${student.name}</td>
+			  			<td>${student.surname1}</td>
+			  			<td>${student.surname2}</td>
+			  			<td>
+			  				<div class="text-center">
+			  					<spring:message code="common.edit" var="editText" text="common.edit not found" />
+			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
+			  				</div>
+			  				
+			  			</td>
+			  		</tr>
+			  		</c:forEach>
+			  	</tbody>
+			</table>
+		</div>
+	</c:if>
 </fieldset>
 
 <script>
+	
+	var idUserStudent = null;
+	
+	$(document).ready(function() {
+		if($("#inputIdPerson").val() != ""){
+			table =  $('#tableStudents').DataTable( {
+				"paging": false,
+			    "ordering": false,
+			    "info": false,
+			    "searching": false,
+			    fixedHeader: {
+			        header: true,
+			        footer: false
+			    }
+			} );
+		}
+	});
 	
 	function validFormPerson(){
 		var lstValidatorPerson = [];
@@ -195,7 +253,8 @@
 			address : $("#inputAddress").val(),
 			city : $("#inputCity").val(),
 			province : $("#inputProvince").val(),
-			cp : $("#inputCp").val()			
+			cp : $("#inputCp").val(),
+			user : getUser()
 		}
 	}
 	
@@ -203,7 +262,16 @@
 		return "${urlUpsert}"
 	}
 	
-	function callbackSave(){
-		alert('<spring:message code="user.saved" text="user.saved not found"/>',reload);
+	function checkSavePerson(){
+		return true;
+	}
+	
+	function confirmEditStudent(idUser){
+		idUserStudent = idUser;
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',editStudent,null);
+	}
+	
+	function editStudent(){
+		location.href = "${urlEditUser}" + idUserStudent ;
 	}
 </script>

@@ -37,9 +37,9 @@ public interface PersonDAO {
 	/**
 	 * Inserta o actualiza una persona
 	 * @param person persona
-	 * @return <code>true</code> si la operacion se ha realizado correctamente, <code>false</code> en caso contrario
+	 * @throws Exception
 	 */
-	public <T extends Person> boolean upsert(T person);
+	public <T extends Person> void upsert(T person) throws Exception;
 
 	/**
 	 * Busca personas que coincidan con los datos de busqueda para una clase determinada

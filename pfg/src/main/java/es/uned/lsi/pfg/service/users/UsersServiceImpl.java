@@ -101,35 +101,60 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional
 	public <T extends Person> boolean upsert(T person){
 		logger.debug("upsert: " + person);
-		if(save(person.getUser())){
-			return personDAO.upsert(person);
+		try {
+			saveUSer(person.getUser());
+			personDAO.upsert(person);
+			return true;
+		} catch (Exception e) {
+			logger.error("ERROR insertando o actualizando persona: " + person, e);
 		}
 		return false;
 	}
 	
-	private boolean save(User user) {
-		user.setPassword(shaPasswordEncoder.encodePassword(user.getPassword(), null));
+	private void saveUSer(User user) throws Exception {
+		if(user.getLastPassword() == null || !user.getPassword().equals(user.getLastPassword())){
+			user.setPassword(shaPasswordEncoder.encodePassword(user.getPassword(), null));
+		}
 		user.setEnabled(true);
-		return usersDAO.upsert(user);
+		usersDAO.upsert(user);
 	}
 
 	@Override
 	@Transactional
 	public boolean delete(Integer id, String idRole) {
+		try {
+			deletePerson(id, idRole);
+			if(idRole.equals(Constans.ROLE_STUDENT)){
+				List<StudentParent> lstStudentParents = studentParentDAO.findByStudent(id);
+				for(StudentParent studentParent : lstStudentParents){
+					studentParentDAO.remove(studentParent);
+					if(studentParentDAO.findByParent(studentParent.getParent()).isEmpty()){
+						delete(studentParent.getParent(), Constans.ROLE_PARENT);
+					}
+				}
+			} else if(idRole.equals(Constans.ROLE_PARENT)){
+				List<StudentParent> lstStudentParents = studentParentDAO.findByParent(id);
+				for(StudentParent studentParent : lstStudentParents){
+					studentParentDAO.remove(studentParent);
+				}
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("Error borrando persona: " + id + "," + idRole);
+		}
+		return false;
+	}
+	
+	private void deletePerson(Integer id, String idRole) throws Exception {
 		logger.debug("delete: " + id + "," + idRole);
 		
 		Person person = personDAO.find(id, findClassRole(idRole));
-		if(person != null){
-			person.setEnabled(false);
-			if(personDAO.upsert(person)){
-				User user = usersDAO.findUser(person.getIdUser());
-				if(user != null){
-					user.setEnabled(false);
-					return usersDAO.upsert(user);
-				}
-			}
-		}
-		return false;
+		person.setEnabled(false);
+		personDAO.upsert(person);
+		
+		User user = usersDAO.findUser(person.getIdUser());
+		user.setEnabled(false);
+		usersDAO.upsert(user);
 	}
 
 	@Override
@@ -222,14 +247,14 @@ public class UsersServiceImpl implements UsersService {
 			Parent parent1 = studentWithParent.getParent1();
 			Parent parent2 = studentWithParent.getParent2();
 			
-			save(student.getUser());
+			saveUSer(student.getUser());
 			personDAO.upsert(student);
 			student = personDAO.findByIdUser(student.getIdUser(), Student.class);
 			logger.debug("Alumno insertado: " + student);
 			
 			if(parent1 != null){
 				if(parent1.getId() == null || parent1.getId().equals("")){
-					save(parent1.getUser());
+					saveUSer(parent1.getUser());
 					personDAO.upsert(parent1);
 					parent1 = personDAO.findByIdUser(parent1.getIdUser(), Parent.class);
 					logger.debug("Padre 1 insertado: " + parent1);
@@ -240,7 +265,7 @@ public class UsersServiceImpl implements UsersService {
 			
 			if(parent2 != null){
 				if(parent2.getId() == null || parent1.getId().equals("")){
-					save(parent2.getUser());
+					saveUSer(parent2.getUser());
 					personDAO.upsert(parent2);
 					parent2 = personDAO.findByIdUser(parent2.getIdUser(), Parent.class);
 					logger.debug("Padre 2 insertado: " + parent2);
@@ -268,15 +293,33 @@ public class UsersServiceImpl implements UsersService {
 		logger.debug("findParents: " + studentId);
 		try {
 			List<Parent> lstParents = new ArrayList<Parent>();
-			List<Integer> lstParentsIds = studentParentDAO.findByStudent(studentId);
+			List<StudentParent> lstParentsIds = studentParentDAO.findByStudent(studentId);
 			
-			for(Integer parentId : lstParentsIds){
-				lstParents.add(personDAO.find(parentId, Parent.class));
+			for(StudentParent studentParent : lstParentsIds){
+				lstParents.add(personDAO.find(studentParent.getParent(), Parent.class));
 			}
 			
 			return convertToUserSearchList(lstParents, Constans.ROLE_PARENT);
 		} catch (Exception e) {
 			logger.error("ERROR recuperando padres de " + studentId, e );
+		}
+		return null;
+	}
+
+	@Override
+	public List<UserSearch> findStudents(Integer parentId) {
+		logger.debug("findStudents: " + parentId);
+		try {
+			List<Student> lstStudents = new ArrayList<Student>();
+			List<StudentParent> lstStudentsIds = studentParentDAO.findByParent(parentId);
+			
+			for(StudentParent studentParent : lstStudentsIds){
+				lstStudents.add(personDAO.find(studentParent.getStudent(), Student.class));
+			}
+			
+			return convertToUserSearchList(lstStudents, Constans.ROLE_STUDENT);
+		} catch (Exception e) {
+			logger.error("ERROR recuperando padres de " + parentId, e );
 		}
 		return null;
 	}

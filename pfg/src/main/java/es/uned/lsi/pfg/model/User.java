@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -39,6 +40,9 @@ public class User implements Serializable{
 	private String role;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean enabled;
+	
+	@Transient
+	private String lastPassword;
 	
 	/**
 	 * Constructor
@@ -103,13 +107,31 @@ public class User implements Serializable{
 	public void setEnabled(boolean enabled){
 		this.enabled = enabled;
 	}
+	/**
+	 * Obtiene contraseña anterior
+	 * @return contraseña anterior
+	 */
+	public String getLastPassword() {
+		return lastPassword;
+	}
+
+	/**
+	 * Establece contraseña anterior
+	 * @param lastPassword contraseña anterior
+	 */
+	public void setLastPassword(String lastPassword) {
+		this.lastPassword = lastPassword;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "User [idUser=" + idUser + ", password=" + password + ", role=" + role + ", enabled=" + enabled + "]";
+		return "User [idUser=" + idUser + ", password=" + password + ", role=" + role + ", enabled=" + enabled
+				+ ", lastPassword=" + lastPassword + "]";
 	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -119,10 +141,12 @@ public class User implements Serializable{
 		int result = 1;
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
+		result = prime * result + ((lastPassword == null) ? 0 : lastPassword.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		return result;
 	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -142,6 +166,11 @@ public class User implements Serializable{
 				return false;
 		} else if (!idUser.equals(other.idUser))
 			return false;
+		if (lastPassword == null) {
+			if (other.lastPassword != null)
+				return false;
+		} else if (!lastPassword.equals(other.lastPassword))
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -154,7 +183,7 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }
 
 

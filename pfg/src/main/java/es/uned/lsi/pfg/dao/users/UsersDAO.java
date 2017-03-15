@@ -23,9 +23,9 @@ public interface UsersDAO {
 	/**
 	 * Inserta o actualiza un usuario en BBDD
 	 * @param user el usuario
-	 * @return <code>true</code> si la operacion se ha realizado correctamente, <code>false</code> en caso contrario
+	 * @throws Exception
 	 */
-	public boolean upsert(User user); 
+	public void upsert(User user) throws Exception; 
 	
 	
 }
