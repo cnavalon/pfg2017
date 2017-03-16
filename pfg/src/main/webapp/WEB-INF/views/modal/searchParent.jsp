@@ -7,7 +7,7 @@
 	 			<h3 id="dataModalLabel"><spring:message code="parent.search.title" text="parent.search.title not found"/></h3> 
 	 		</div> 
 	 		<div id="dataModalBody" class="modal-body">
-	 		<table id="tableParents" class="stripe hover row-border" width="100%">
+	 		<table id="tableSearchParents" class="stripe hover row-border" width="100%">
 				<thead>
 			  		<tr>
 			    		<th><spring:message code="user.id" text="user.id not found" /></th>
@@ -51,17 +51,17 @@
 
 <script>
 
-var table = initTable("#tableParents",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[],[]);
+var tableSearchParents = initTable("#tableSearchParents",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[],[]);
 
-$('#tableParents tbody').on( 'click', 'tr', function () {
+$('#tableSearchParents tbody').on( 'click', 'tr', function () {
     if ( $(this).hasClass('selected') ) {
         $(this).removeClass('selected');
         clearParent();
     }
     else {
-        table.$('tr.selected').removeClass('selected');
+    	tableSearchParents.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
-        setParent(table.row('.selected').data());
+        setParent(tableSearchParents.row('.selected').data());
     }
 } );
 

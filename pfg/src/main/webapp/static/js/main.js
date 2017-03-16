@@ -238,3 +238,7 @@ function post(params) {
 	document.body.appendChild(form);
 	return form;
 }
+
+function redirect(url){
+	location.href = url;
+}

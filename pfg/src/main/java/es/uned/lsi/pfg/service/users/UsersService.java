@@ -39,11 +39,10 @@ public interface UsersService {
 	
 	/**
 	 * Eliminia un usuario
-	 * @param id ID del usuario
-	 * @param idRole ID perfil 
+	 * @param idUser ID usuario 
 	 * @return <code>true</code> si la operación se ha realizado con éxito, en caso contrario <code>false</code>
 	 */
-	public boolean delete(Integer id, String idRole);
+	public boolean delete(String idUser);
 
 	/**
 	 * Busca los usuarios que coinciden con los datos de usuario pasados como parametro

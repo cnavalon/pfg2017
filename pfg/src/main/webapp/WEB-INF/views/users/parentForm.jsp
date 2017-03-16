@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 <spring:url value="/users/adm/upsertParent?${_csrf.parameterName}=${_csrf.token}" var="urlUpsert" />
 <spring:url value="/users/adm/editUser/" var="urlEditUser" />
+<spring:url value="/users/emp/viewUser/" var="urlViewUser" />
 
 <fieldset id="filedsetPerson">
 	<div id="divPerRow0" class="form-group">
@@ -156,7 +157,7 @@
 			  			<td>${student.surname2}</td>
 			  			<td>
 			  				<div class="text-center">
-			  					<spring:message code="common.edit" var="editText" text="common.edit not found" />
+			  					<spring:message code="common.go" var="editText" text="common.go not found" />
 			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
 			  				</div>
 			  				
@@ -170,8 +171,6 @@
 </fieldset>
 
 <script>
-	
-	var idUserStudent = null;
 	
 	$(document).ready(function() {
 		if($("#inputIdPerson").val() != ""){
@@ -267,11 +266,12 @@
 	}
 	
 	function confirmEditStudent(idUser){
-		idUserStudent = idUser;
-		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',editStudent,null);
-	}
-	
-	function editStudent(){
-		location.href = "${urlEditUser}" + idUserStudent ;
+		var url = "";
+		if(editable){
+			url = "${urlEditUser}" + idUser;
+		} else {
+			url = "${urlViewUser}" + idUser;
+		} 
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',function(){redirect(url)},null);
 	}
 </script>

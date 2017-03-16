@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/common/include.jsp" %>
+
 <div>
-	<span>${greeting}</span>
+	<h3><spring:message code="home.hello" arguments="${sessionUserFullName}" text="home.hello not found" /></h3>	
 </div>

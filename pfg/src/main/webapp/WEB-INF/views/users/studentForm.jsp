@@ -2,6 +2,8 @@
 <spring:url value="/users/adm/upsertStudent?${_csrf.parameterName}=${_csrf.token}" var="urlUpsert" />
 <spring:url value="/users/adm/checkUser/" var="urlCheckUser" />
 <spring:url value="/users/adm/editUser/" var="urlEditUser" />
+<spring:url value="/users/emp/viewUser/" var="urlViewUser" />
+<spring:url value="/users/adm/deleteUser/" var="urlDeleteUser" />
 
 <fieldset id="filedsetPerson">
 	<fieldset id="fieldsetStudent">
@@ -194,7 +196,52 @@
 			</div>
 		</div>
 	</fieldset>
-	<c:if test="${empty person.id}">
+	
+	<c:if test="${not empty person.id}">
+	<!-- 	========================= TABLA PADRES ======================= -->
+		<h4 class="col-sm-offset-1"><spring:message code="parentList.title" text="parentList.title not found"/></h4>
+		<div id="divParentsTable" class="col-sm-offset-2 col-sm-8 noPadding">
+			<table id="tableParents" class="stripe hover row-border" width="100%">
+				<thead>
+			  		<tr>
+			  			<th><spring:message code="user.username" text="user.username not found" /></th>
+			    		<th><spring:message code="user.name" text="user.name not found" /></th>
+			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
+			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
+			    		<th></th>
+			  	</thead>
+<!-- 			  	<tfoot> -->
+<!-- 				  	<tr> -->
+<%-- 			    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
+<%-- 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
+<%-- 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
+<!-- 			    		<th></th> -->
+<!-- 				  	</tr> -->
+<!-- 			  	</tfoot> -->
+			  	<tbody>
+			  		<c:forEach items="${lstParents}" var="parent">
+			  		<tr>
+			  			<td>${parent.idUser}</td>
+			  			<td>${parent.name}</td>
+			  			<td>${parent.surname1}</td>
+			  			<td>${parent.surname2}</td>
+			  			<td>
+			  				<div class="text-center">
+			  					<spring:message code="common.go" var="editText" text="common.go not found" />
+			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-arrow-right" title="${editText}"> </i></label>
+			  					<spring:message code="common.delete" var="deleteText" text="common.delete not found" />
+			  					<label id="deleteUser" class="cursorPointer iconTable deleteUser" onclick="confirmDeleteUser('${parent.idUser}')"><i class="glyphicon glyphicon-trash" title="${deleteText}"> </i></label>
+			  				</div>
+			  				
+			  			</td>
+			  		</tr>
+			  		</c:forEach>
+			  	</tbody>
+			</table>
+		</div>
+	</c:if>
+	<div class="clearfix" ></div>
+	<div id="divParent1">
 <!-- 	========================= PADRE 1 ======================= -->
 		<hr>
 		
@@ -365,7 +412,9 @@
 				</div>
 			</fieldset>
 		</fieldset>
+	</div>
 	<!-- 	========================= PADRE 2 ======================= -->
+	<div id="divParent2">
 		<hr>
 		
 		<h4 class="col-sm-offset-1">
@@ -538,48 +587,8 @@
 				</div>
 			</fieldset>
 		</fieldset>
-	</c:if>
-	<c:if test="${not empty person.id}">
-	<!-- 	========================= TABLA PADRES ======================= -->
-		<h4 class="col-sm-offset-1"><spring:message code="parentList.title" text="parentList.title not found"/></h4>
-		<div id="divParentsTable" class="col-sm-offset-2 col-sm-8 noPadding">
-			<table id="tableParents" class="stripe hover row-border" width="100%">
-				<thead>
-			  		<tr>
-			  			<th><spring:message code="user.username" text="user.username not found" /></th>
-			    		<th><spring:message code="user.name" text="user.name not found" /></th>
-			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
-			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
-			    		<th></th>
-			  	</thead>
-<!-- 			  	<tfoot> -->
-<!-- 				  	<tr> -->
-<%-- 			    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
-<%-- 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
-<%-- 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
-<!-- 			    		<th></th> -->
-<!-- 				  	</tr> -->
-<!-- 			  	</tfoot> -->
-			  	<tbody>
-			  		<c:forEach items="${lstParents}" var="parent">
-			  		<tr>
-			  			<td>${parent.idUser}</td>
-			  			<td>${parent.name}</td>
-			  			<td>${parent.surname1}</td>
-			  			<td>${parent.surname2}</td>
-			  			<td>
-			  				<div class="text-center">
-			  					<spring:message code="common.edit" var="editText" text="common.edit not found" />
-			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
-			  				</div>
-			  				
-			  			</td>
-			  		</tr>
-			  		</c:forEach>
-			  	</tbody>
-			</table>
-		</div>
-	</c:if>
+	</div>
+	
 </fieldset>
 
 <script>
@@ -591,11 +600,14 @@
 	var textParent = [' (' + '<spring:message code="parent1.title" text="parent1.title not found"/>' + ')',' (' + '<spring:message code="parent2.title" text="parent2.title not found"/>' + ')'];
 	var checksParent = [{id:true,pass:true},{id:true,pass:true}];
 	var table = null;
-	var idUserParent = null;
 	
 	$(document).ready(function() {
+		
+		
 		if($("#inputIdPerson").val() != ""){
 			hasParent = [false, false];
+			$("#divParent1").hide();
+			$("#divParent2").hide();
 			$("#divCopyAddress").hide();
 			table =  $('#tableParents').DataTable( {
 				"paging": false,
@@ -607,6 +619,20 @@
 			        footer: false
 			    }
 			} );
+			if(!editable){
+				$(".deleteUser").hide()
+			} else {
+				if(table.rows().count() == 0){
+					hasParent = [true, true];
+					$("#divParent1").show();
+					$("#divParent2").show();
+				} else if(table.rows().count() == 1){
+					hasParent = [false, true];
+					$("#divParent2").show();
+					$("#inputIdPar1").val(table.row(0).data()[0]);
+				}
+			}
+			
 		}
 	});
 	
@@ -986,17 +1012,21 @@
 			$("#inputSurname1Par" + parentFocus).val("");
 			$("#inputSurname2Par" + parentFocus).val("");
 		}else {
-			isNewParent[parentFocus-1] = false;
-			$("#fieldsetParent" + parentFocus).prop("disabled",true);
-			$("#fieldsetNewPar" + parentFocus).hide();
-			$("#inputIdPar" + parentFocus).val(parent.idUser);
-			$("#divIdPar" + parentFocus).removeClass("has-error");
-			$("#inputIdPersonPar" + parentFocus).val(parent.id);
-			$("#inputNamePar" + parentFocus).val(parent.name);
-			$("#divNamePar" + parentFocus).removeClass("has-error");
-			$("#inputSurname1Par" + parentFocus).val(parent.surname1);
-			$("#divSurname1Par" + parentFocus).removeClass("has-error");
-			$("#inputSurname2Par" + parentFocus).val(parent.surname2);
+			if($("#inputIdPar1").val() == parent.idUser || $("#inputIdPar2").val() == parent.idUser){
+				alert('<spring:message code="parent.id.select" text="parent.id.select not found" />',null)
+			}else {
+				isNewParent[parentFocus-1] = false;
+				$("#fieldsetParent" + parentFocus).prop("disabled",true);
+				$("#fieldsetNewPar" + parentFocus).hide();
+				$("#inputIdPar" + parentFocus).val(parent.idUser);
+				$("#divIdPar" + parentFocus).removeClass("has-error");
+				$("#inputIdPersonPar" + parentFocus).val(parent.id);
+				$("#inputNamePar" + parentFocus).val(parent.name);
+				$("#divNamePar" + parentFocus).removeClass("has-error");
+				$("#inputSurname1Par" + parentFocus).val(parent.surname1);
+				$("#divSurname1Par" + parentFocus).removeClass("has-error");
+				$("#inputSurname2Par" + parentFocus).val(parent.surname2);
+			}
 		}
 		
 	}
@@ -1069,11 +1099,31 @@
 	}
 	
 	function confirmEditParent(idUser){
-		idUserParent = idUser;
-		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',editParent,null);
+		var url = "";
+		if(editable){
+			url = "${urlEditUser}" + idUser;
+		} else {
+			url = "${urlViewUser}" + idUser;
+		} 
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',function(){redirect(url)},null);
 	}
 	
-	function editParent(){
-		location.href = "${urlEditUser}" + idUserParent ;
+	function confirmDeleteUser(idUSerParent){
+		confirm('<spring:message code="user.delete.quest" text="user.delete.quest not found" />', function(){deleteUser(idUSerParent)}, null);
 	}
+	
+	function deleteUser(idUSerParent){
+		$.ajax({
+			dataType : "text",
+			type:"GET", 
+			url : "${urlDeleteUser}" + idUSerParent,
+			success : function(response) {
+				alert(response, reload);
+			},
+			error: function(){
+				alert('<spring:message code="user.delete.error" text="user.delete.error not found" />', reloadTable);
+			} 
+		});			
+	}
+	
 </script>

@@ -1,10 +1,10 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 
 
-<spring:url value="/users/adm/list" var="urlListUser" />
+<spring:url value="/users/emp/users" var="urlUsersSearch" />
 <spring:url value="/users/adm/checkUser/" var="urlCheckUser" />
 <spring:url value="/users/adm/newPerson/" var="urlNewPerson" />
-<spring:url value="/users/adm/updatePerson/" var="urlUpdatePerson" />
+<spring:url value="/users/emp/updatePerson/" var="urlUpdatePerson" />
 
 
 <div class="row-fluid">
@@ -86,15 +86,24 @@
 			<div class="form-group ">
 		    	<div class="col-sm-offset-4 col-sm-6 text-right">
 		    		<div class="col-sm-4"></div>
-		    		<div class="col-sm-4">
-			      		<button id ="buttonAdd" type="button" class="btn btn-block btn-default"><spring:message code="common.save" text="common.save not found"/></button>
-		    		</div>
-		    		<div class="col-sm-4">
-			      		<button id ="buttonCancel" type="button" class="btn btn-block btn-default" ><spring:message code="common.cancel" text="common.cancel not found"/></button>
-		    		</div>
-<!-- 		    		<div class="col-sm-4"> -->
-<%-- 			      		<button id ="buttonRestore" type="reset" class="btn btn-block btn-default"><spring:message code="common.restore" text="common.restore not found"/></button> --%>
-<!-- 		    		</div> -->
+		    		<c:choose>
+		    			<c:when test="${editable}">
+			    			<div class="col-sm-4">
+					      		<button id ="buttonAdd" type="button" class="btn btn-block btn-default"><spring:message code="common.save" text="common.save not found"/></button>
+				    		</div>
+				    		<div class="col-sm-4">
+					      		<button id ="buttonCancel" type="button" class="btn btn-block btn-default" ><spring:message code="common.cancel" text="common.cancel not found"/></button>
+				    		</div>
+		    			</c:when>
+		    			<c:otherwise>
+		    				<div class="col-sm-4">
+				    		</div>
+				    		<div class="col-sm-4">
+					      		<button id ="buttonCancel" type="button" class="btn btn-block btn-default" ><spring:message code="common.ok" text="common.ok not found"/></button>
+				    		</div>
+		    			</c:otherwise>
+		    		</c:choose>
+		    		
 	      		</div>
       		</div>
 			
@@ -109,12 +118,18 @@
 	var idCorrect = true;
 	var passCorrect = true;
 	
+	var editable = ("${editable}" == "true");
+	
 	$(document).ready(function() {
 		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
 		orderAllOptions();
 		
 		if($("#inputPassword").val() != ""){
 			$("#inputConfirmPassword").val($("#inputPassword").val());
+		}
+		
+		if(!editable){
+			$("#filedsetForm").prop("disabled",true);
 		}
 		
 		if($("#inputId").val() != ""){
@@ -134,7 +149,7 @@
 	});
 	
 	$('#buttonCancel').click(function(event){
-		confirm('<spring:message code="user.form.cancel" text="user.form.cancel not found"/>', reload, null);
+		confirm('<spring:message code="user.form.cancel" text="user.form.cancel not found"/>', redirect("${urlUsersSearch}"), null);
 	});
 	
 	$("#inputId").change(function(){

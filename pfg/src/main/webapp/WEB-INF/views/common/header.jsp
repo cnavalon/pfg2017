@@ -7,7 +7,7 @@
 	<div id="divHeader" class="container-fluid">
 		<div class="row-fluid">
 			<div class="col-sm-6" >
-				<label class="cursorPointer" onclick="goToHome()" style="display: inline-flex;">
+				<label class="cursorPointer" onclick="redirect(${urlHome})" style="display: inline-flex;">
 					<span class="logo-img containerImage"><img src="static/images/logo.png"></img></span>   
 					<h3>
 						<span class="logo-text"><strong><spring:message code="app.name" text="app.name not found" /></strong></span>
@@ -46,8 +46,3 @@
 	</div>
 </header>
 
-<script>
-	function goToHome(){
-		location.href = "${urlHome}";
-	}
-</script>

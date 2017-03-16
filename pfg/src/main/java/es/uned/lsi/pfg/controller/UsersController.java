@@ -55,7 +55,6 @@ public class UsersController {
 	
 	/**
 	 * Obtiene la página de buscador de usuarios
-	 * Permisos: administrador/profesor
 	 * @return la página de buscador de usuarios
 	 * @throws Exception
 	 */
@@ -91,29 +90,23 @@ public class UsersController {
 	
 	/**
 	 * Elimina un usuario
-	 * @param id ID de usuario
-	 * @param idRole ID de perfil
+	 * @param idUser ID de usuario
 	 * @param locale
 	 * @return mensaje de resultado
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/adm/deleteUser/{id}/{idRole}", method = RequestMethod.GET )
-	public String deleteUser(@PathVariable("id") String id, @PathVariable("idRole") String idRole,
-			Locale locale) throws Exception {
-		logger.debug("deleteUser: " + id + "," + idRole);
+	@RequestMapping(value = "/adm/deleteUser/{idUSer}", method = RequestMethod.GET )
+	public String deleteUser(@PathVariable("idUSer") String idUser, Locale locale) throws Exception {
+		logger.debug("deleteUser: " + idUser);
 		
 		String response = "user.delete.error";
-		try {
-			Integer idNumber = Integer.parseInt(id);
-			if(usersService.delete(idNumber, idRole)){
-				logger.debug("Usuario eliminado [" + id + "," + idRole +"]"); 
-				response = "user.deleted";
-			} else {
-				logger.error("No se ha eliminado el usuario [" + id + "," + idRole +"]"); 
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+		
+		if(usersService.delete(idUser)){
+			logger.debug("Usuario eliminado: " + idUser); 
+			response = "user.deleted";
+		} else {
+			logger.error("No se ha eliminado el usuario: " + idUser); 
 		}
 		return messageSource.getMessage(response, null, locale);
 	}
@@ -131,7 +124,7 @@ public class UsersController {
 		String title = messageSource.getMessage("user.title.new", null, locale);
 		User user = new User();
 				
-		return getUserForm(title, user);
+		return getUserForm(title, user, true);
 	}
 	
 	/**
@@ -147,7 +140,23 @@ public class UsersController {
 		String title = messageSource.getMessage("user.title.edit", null, locale);
 		User user = usersService.getUser(idUser);
 				
-		return getUserForm(title, user);
+		return getUserForm(title, user, true);
+	}
+	
+	/**
+	 * Obtiene la página de visualización de usuario
+	 * @param locale
+	 * @param idUser id del usuario
+	 * @return página de visualización de usuario
+	 */
+	@RequestMapping(value = "/emp/viewUser/{idUser}", method = RequestMethod.GET )
+	public ModelAndView viewUser(Locale locale, @PathVariable("idUser")String idUser) {
+		logger.debug("viewUser: " + idUser);
+		
+		String title = messageSource.getMessage("user.title.view", null, locale);
+		User user = usersService.getUser(idUser);
+				
+		return getUserForm(title, user, false);
 	}
 	
 	/**
@@ -189,7 +198,7 @@ public class UsersController {
 	 * @param idRole perfil
 	 * @return el formulario de edicion de persona
 	 */
-	@RequestMapping(value = "/adm/updatePerson/{idUser}/{idRole}", method = RequestMethod.GET )
+	@RequestMapping(value = "/emp/updatePerson/{idUser}/{idRole}", method = RequestMethod.GET )
 	public ModelAndView updatePerson(Locale locale, @PathVariable("idUser") String idUser, @PathVariable("idRole") String idRole) {
 		logger.debug("updatePerson: " + idUser + ", " + idRole);
 		
@@ -295,16 +304,18 @@ public class UsersController {
 	 * Genera el modelo de la pagina de formulario de usuario
 	 * @param title titulo de la pagina
 	 * @param user entidad usuario del usuario
+	 * @param b 
 	 * @param locale 
 	 * @return el modelo de la pagina de formulario de usuario
 	 */
-	private ModelAndView getUserForm(String title, User user) {
+	private ModelAndView getUserForm(String title, User user, boolean editable) {
 		ModelAndView model = new ModelAndView();
 		
 		model.setViewName("userForm");
 		model.addObject("title", title);
 		model.addObject("user", user);
 		model.addObject("lstRoles", rolesService.getAllRoles());
+		model.addObject("editable", editable);
 
 		return model;
 	}

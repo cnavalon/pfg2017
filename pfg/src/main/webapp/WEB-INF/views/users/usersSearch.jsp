@@ -68,6 +68,7 @@
 		<table id="tableUsers" class="stripe hover row-border" width="100%">
 			<thead>
 		  		<tr>
+		    		<th><spring:message code="user.username" text="user.username not found" /></th>
 		    		<th><spring:message code="user.name" text="user.name not found" /></th>
 		    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
 		    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
@@ -76,6 +77,7 @@
 		  	</thead>
 		  	<tfoot>
 			  	<tr>
+		    		<th><spring:message code="user.username" text="user.username not found" /></th>
 		    		<th><spring:message code="user.name" text="user.name not found" /></th>
 		    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
 		    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
@@ -90,12 +92,11 @@
 </div>
 
 <script>
-	var user = null;
 	var role = '${sessionScope.sessionUserRole.idRole}'
 	var table = null;
 	var mapRoles = {};
 	
-	var consultText = '<spring:message code="common.consult" text="common.consult not found" />';
+	var consultText = '<spring:message code="common.view" text="common.view not found" />';
 	var editText = '<spring:message code="common.edit" text="common.edit not found" />';
 	var deleteText = '<spring:message code="common.delete" text="common.delete not found" />';
 	$(document).ready(function() {
@@ -129,7 +130,7 @@
 		        },
 		        columnDefs: [ {
 		            "orderable": false,
-		            "targets": [4]
+		            "targets": [5]
 		        } ],
 		     
 		        ajax : {
@@ -144,10 +145,10 @@
 		   			dataSrc : function ( json ) {
 		   	     		if(json != null && json.length > 0){
 		   		   	    	for (var i = 0; i < json.length; i++) {
-		   	     	    		json[i].operations = '<div class="text-center"><label id="viewUser" class="cursorPointer iconTable" onclick="viewUser(' + json[i].id + ',\'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-search" title="'+ consultText + '"> </i></label>';
+		   	     	    		json[i].operations = '<div class="text-center"><label id="viewUser" class="cursorPointer iconTable" onclick="redirect(\'${urlViewUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-search" title="'+ consultText + '"> </i></label>';
 		   	     	    		if (role === "ROLE_ADM") {
-		   	     	    			json[i].operations += '<label id="editUser" class="cursorPointer iconTable" onclick="editUser(\'' + json[i].idUser + '\')"><i class="glyphicon glyphicon-pencil" title="'+ editText + '"> </i></label>';
-		   	     	    			json[i].operations += '<label id="deleteUser" class="cursorPointer iconTable" onclick="confirmDeleteUser(' + json[i].id + ',\'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-trash" title="'+ deleteText + '"> </i></label>';
+		   	     	    			json[i].operations += '<label id="editUser" class="cursorPointer iconTable" onclick="redirect(\'${urlEditUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-pencil" title="'+ editText + '"> </i></label>';
+		   	     	    			json[i].operations += '<label id="deleteUser" class="cursorPointer iconTable" onclick="confirmDeleteUser(\'' + json[i].idUser + '\')"><i class="glyphicon glyphicon-trash" title="'+ deleteText + '"> </i></label>';
 		   	     	    		}
 		   	     	    		json[i].operations += '</div>';
 		   	     	    		json[i].roleName = mapRoles[json[i].idRole];
@@ -157,15 +158,16 @@
 		   	 	    }
 		   		},
 		   	   	columns : [
-		            { "data": "name", "width":"25%"},
-		       		{ "data": "surname1", "width":"25%" },
-		      		{ "data": "surname2", "width":"25%"},
+		            { "data": "idUser", "width":"15%"},
+		            { "data": "name", "width":"20%"},
+		       		{ "data": "surname1", "width":"20%" },
+		      		{ "data": "surname2", "width":"20%"},
 		      		{ "data": "roleName", "width":"15%"},
 		      		{ "data": "operations", "width":"10%"}	         		
 		  		],
 		        initComplete: function(){
 		        	 table.columns().every( function () {
-		        		 if(this.index() != 4){
+		        		 if(this.index() != 5){
 		        			 var column = this;
 			       			 var that = this;
 						     var title = $(column.footer()).text();
@@ -186,23 +188,15 @@
 		table.order([1, 'asc']).draw();
 	}
 	
-	function editUser(idUser){
-		location.href = "${urlEditUser}" + idUser ;
+	function confirmDeleteUser(idUSer){
+		confirm('<spring:message code="user.delete.quest" text="user.delete.quest not found" />', function(){deleteUser(idUSer)}, null);
 	}
 	
-	function confirmDeleteUser(id, idRole){
-		confirm('<spring:message code="user.delete.quest" text="user.delete.quest not found" />', deleteUser, null);
-		user = {
-			id: id,
-			idRole : idRole
-		}
-	}
-	
-	function deleteUser(){
+	function deleteUser(idUSer){
 		$.ajax({
 			dataType : "text",
 			type:"GET", 
-			url : "${urlDeleteUser}" + user.id + "/" + user.idRole,
+			url : "${urlDeleteUser}" + idUSer,
 			success : function(response) {
 				alert(response, reloadTable);
 			},

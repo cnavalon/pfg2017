@@ -121,18 +121,19 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	@Transactional
-	public boolean delete(Integer id, String idRole) {
+	public boolean delete(String idUser) {
 		try {
-			deletePerson(id, idRole);
-			if(idRole.equals(Constans.ROLE_STUDENT)){
+			User user = usersDAO.findUser(idUser);
+			Integer id = deletePerson(user);
+			if(user.getRole().equals(Constans.ROLE_STUDENT)){
 				List<StudentParent> lstStudentParents = studentParentDAO.findByStudent(id);
 				for(StudentParent studentParent : lstStudentParents){
 					studentParentDAO.remove(studentParent);
 					if(studentParentDAO.findByParent(studentParent.getParent()).isEmpty()){
-						delete(studentParent.getParent(), Constans.ROLE_PARENT);
+						deletePerson(studentParent.getParent(), Constans.ROLE_PARENT);
 					}
 				}
-			} else if(idRole.equals(Constans.ROLE_PARENT)){
+			} else if(user.getRole().equals(Constans.ROLE_PARENT)){
 				List<StudentParent> lstStudentParents = studentParentDAO.findByParent(id);
 				for(StudentParent studentParent : lstStudentParents){
 					studentParentDAO.remove(studentParent);
@@ -140,11 +141,23 @@ public class UsersServiceImpl implements UsersService {
 			}
 			return true;
 		} catch (Exception e) {
-			logger.error("Error borrando persona: " + id + "," + idRole);
+			logger.error("Error borrando persona: " + idUser);
 		}
 		return false;
 	}
 	
+	private Integer deletePerson(User user) throws Exception {
+		logger.debug("delete: " + user);
+		Person person = personDAO.findByIdUser(user.getIdUser(), findClassRole(user.getRole()));
+		person.setEnabled(false);
+		personDAO.upsert(person);
+		
+		user.setEnabled(false);
+		usersDAO.upsert(user);
+		
+		return person.getId();
+	}
+
 	private void deletePerson(Integer id, String idRole) throws Exception {
 		logger.debug("delete: " + id + "," + idRole);
 		
