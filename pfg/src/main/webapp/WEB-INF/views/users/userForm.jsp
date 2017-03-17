@@ -99,7 +99,7 @@
 		    				<div class="col-sm-4">
 				    		</div>
 				    		<div class="col-sm-4">
-					      		<button id ="buttonCancel" type="button" class="btn btn-block btn-default" ><spring:message code="common.ok" text="common.ok not found"/></button>
+					      		<button id ="buttonOk" type="button" class="btn btn-block btn-default" ><spring:message code="common.ok" text="common.ok not found"/></button>
 				    		</div>
 		    			</c:otherwise>
 		    		</c:choose>
@@ -150,6 +150,10 @@
 	
 	$('#buttonCancel').click(function(event){
 		confirm('<spring:message code="user.form.cancel" text="user.form.cancel not found"/>', redirect("${urlUsersSearch}"), null);
+	});
+	
+	$('#buttonOk').click(function(event){
+		redirect("${urlUsersSearch}");
 	});
 	
 	$("#inputId").change(function(){
@@ -224,7 +228,7 @@
 			contentType: "application/json",
 			success : function(error) {
 				if (error == null || error == ""){
-					alert('<spring:message code="user.saved" text="user.saved not found"/>',null);
+					alert('<spring:message code="user.saved" text="user.saved not found"/>',reload);
 				} 
 				else {
 					alert(error, null);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,14 +61,21 @@ public class UsersController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/emp/users", method = RequestMethod.GET)
-	public ModelAndView getUsers () throws Exception {
+	public ModelAndView getUsers (HttpSession session) throws Exception {
 		logger.debug("getUsers");
 		
-		
+		UserSearch userSearch = (UserSearch) session.getAttribute("userSearch");
+		boolean cached = true;
+		if(userSearch == null){
+			userSearch = new UserSearch();
+			cached = false;
+		}
 		
 		ModelAndView model = new ModelAndView();
 		model.setViewName("users");
 		model.addObject("lstRoles", rolesService.getAllRoles());
+		model.addObject("userSearch", userSearch);
+		model.addObject("cached", cached);
 		return model;
 	}
 	
@@ -82,10 +91,13 @@ public class UsersController {
 	@ResponseBody
 	@RequestMapping(value="/emp/usersSearch", method = RequestMethod.POST)
 	public List<UserSearch> usersSearch (@RequestParam String idRole, @RequestParam String name, 
-			@RequestParam String surname1, @RequestParam String surname2 ) throws Exception {
+			@RequestParam String surname1, @RequestParam String surname2, HttpSession session) throws Exception {
 		logger.debug("usersSearch: " + idRole + "," + name + "," + surname1 + "," + surname2);
 		UserSearch user = new UserSearch(null, idRole, name, surname1, surname2, null);
-		return usersService.search(user);
+		List<UserSearch> lstResult = usersService.search(user);
+		session.setAttribute("userSearch", user);
+		
+		return lstResult;
 	}
 	
 	/**

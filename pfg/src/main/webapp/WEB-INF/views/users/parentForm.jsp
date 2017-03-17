@@ -158,7 +158,7 @@
 			  			<td>
 			  				<div class="text-center">
 			  					<spring:message code="common.go" var="editText" text="common.go not found" />
-			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
+			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-arrow-right" title="${editText}"> </i></label>
 			  				</div>
 			  				
 			  			</td>
