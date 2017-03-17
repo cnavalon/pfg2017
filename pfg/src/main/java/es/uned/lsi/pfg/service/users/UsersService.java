@@ -93,6 +93,14 @@ public interface UsersService {
 	 * @return listado de los alumnos
 	 */
 	public List<UserSearch> findStudents(Integer parentId);
+	
+	/**
+	 * Elimina una relación padre-alumno
+	 * @param idParent id del padre
+	 * @param idStudent id del alumno
+	 * @return <code>true</code> si la operación se ha realizado con éxito, en caso contrario <code>false</code>
+	 */
+	public boolean deleteLink(Integer idParent, Integer idStudent);
 
 
 

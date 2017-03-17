@@ -337,4 +337,21 @@ public class UsersServiceImpl implements UsersService {
 		return null;
 	}
 
+	@Transactional
+	@Override
+	public boolean deleteLink(Integer idParent, Integer idStudent) {
+		logger.debug("deleteLink: " + idParent + ", " + idStudent);
+		try {
+			StudentParent studentParent = studentParentDAO.find(idStudent,idParent);
+			studentParentDAO.remove(studentParent);
+			if(studentParentDAO.findByParent(idParent).isEmpty()){
+				deletePerson(idParent, Constans.ROLE_PARENT);
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("ERROR eliminando relacion " + idParent + "-" + idStudent, e);		
+		}
+		return false;
+	}
+
 }

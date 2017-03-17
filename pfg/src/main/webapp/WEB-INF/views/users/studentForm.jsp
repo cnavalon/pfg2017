@@ -3,7 +3,7 @@
 <spring:url value="/users/adm/checkUser/" var="urlCheckUser" />
 <spring:url value="/users/adm/editUser/" var="urlEditUser" />
 <spring:url value="/users/emp/viewUser/" var="urlViewUser" />
-<spring:url value="/users/adm/deleteUser/" var="urlDeleteUser" />
+<spring:url value="/users/adm/deleteParentLink/" var="urlParentLink" />
 
 <fieldset id="filedsetPerson">
 	<fieldset id="fieldsetStudent">
@@ -204,6 +204,7 @@
 			<table id="tableParents" class="stripe hover row-border" width="100%">
 				<thead>
 			  		<tr>
+			  			<th><spring:message code="user.id" text="user.id not found" /></th>
 			  			<th><spring:message code="user.username" text="user.username not found" /></th>
 			    		<th><spring:message code="user.name" text="user.name not found" /></th>
 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
@@ -221,6 +222,7 @@
 			  	<tbody>
 			  		<c:forEach items="${lstParents}" var="parent">
 			  		<tr>
+			  			<td>${parent.id}</td>
 			  			<td>${parent.idUser}</td>
 			  			<td>${parent.name}</td>
 			  			<td>${parent.surname1}</td>
@@ -230,7 +232,7 @@
 			  					<spring:message code="common.go" var="editText" text="common.go not found" />
 			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-arrow-right" title="${editText}"> </i></label>
 			  					<spring:message code="common.delete" var="deleteText" text="common.delete not found" />
-			  					<label id="deleteUser" class="cursorPointer iconTable deleteUser" onclick="confirmDeleteUser('${parent.idUser}')"><i class="glyphicon glyphicon-trash" title="${deleteText}"> </i></label>
+			  					<label id="deleteUser" class="cursorPointer iconTable deleteUser" onclick="confirmDeleteUser('${parent.id}')"><i class="glyphicon glyphicon-trash" title="${deleteText}"> </i></label>
 			  				</div>
 			  				
 			  			</td>
@@ -617,7 +619,13 @@
 			    fixedHeader: {
 			        header: true,
 			        footer: false
-			    }
+			    },
+			    "columnDefs": [
+                   {
+                       "targets": [ 1 ],
+                       "visible": false
+                   }
+            	]
 			} );
 			if(!editable){
 				$(".deleteUser").hide()
@@ -1102,26 +1110,27 @@
 		var url = "";
 		if(editable){
 			url = "${urlEditUser}" + idUser;
+			confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',function(){redirect(url)},null);
 		} else {
 			url = "${urlViewUser}" + idUser;
+			redirect(url);
 		} 
-		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',function(){redirect(url)},null);
 	}
 	
-	function confirmDeleteUser(idUSerParent){
-		confirm('<spring:message code="user.delete.quest" text="user.delete.quest not found" />', function(){deleteUser(idUSerParent)}, null);
+	function confirmDeleteUser(idParent){
+		confirm('<spring:message code="user.deleteRelation.quest" text="user.deleteRelation.quest not found" />', function(){deleteUser(idParent)}, null);
 	}
 	
-	function deleteUser(idUSerParent){
+	function deleteUser(idParent){
 		$.ajax({
 			dataType : "text",
 			type:"GET", 
-			url : "${urlDeleteUser}" + idUSerParent,
+			url : "${urlParentLink}" + idParent + "/" + $("#inputIdPerson").val(),
 			success : function(response) {
 				alert(response, reload);
 			},
 			error: function(){
-				alert('<spring:message code="user.delete.error" text="user.delete.error not found" />', reloadTable);
+				alert('<spring:message code="user.deletedRelation.error" text="user.deletedRelation.error not found" />', reloadTable);
 			} 
 		});			
 	}

@@ -123,6 +123,31 @@ public class UsersController {
 		return messageSource.getMessage(response, null, locale);
 	}
 	
+	/**
+	 * Elimina una relacion padre-alumno
+	 * @param idParent id del padre
+	 * @param idStudent id del alumno
+	 * @param locale
+	 * @return mensaje de resultado
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/adm/deleteParentLink/{idParent}/{idStudent}", method = RequestMethod.GET )
+	public String deleteParentLink(@PathVariable("idParent") Integer idParent, @PathVariable("idStudent") Integer idStudent,
+			Locale locale) throws Exception {
+		logger.debug("deleteParentLink: padre " + idParent + ", alumno " + idStudent);
+		
+		String response = "user.deletedRelation.error";
+		
+		if(usersService.deleteLink(idParent, idStudent)){
+			logger.debug("Usuario eliminado: padre " + idParent + ", alumno " + idStudent); 
+			response = "user.deletedRelation";
+		} else {
+			logger.error("No se ha eliminado el usuario: padre " + idParent + ", alumno " + idStudent); 
+		}
+		return messageSource.getMessage(response, null, locale);
+	}
+	
 	
 	/**
 	 * Obtiene la página de nuevo usuario

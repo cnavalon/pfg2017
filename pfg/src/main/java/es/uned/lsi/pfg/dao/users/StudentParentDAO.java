@@ -41,5 +41,13 @@ public interface StudentParentDAO {
 	 * @throws Exception
 	 */
 	public void remove(StudentParent studentParent) throws Exception;
+	
+	/**
+	 * Encuentra una relacion alumno-padre
+	 * @param idStudent id alumno
+	 * @param idParent id padre
+	 * @return relacion alumno-padre
+	 */
+	public StudentParent find(Integer idStudent, Integer idParent);
 
 }

@@ -269,9 +269,10 @@
 		var url = "";
 		if(editable){
 			url = "${urlEditUser}" + idUser;
+			confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',function(){redirect(url)},null);
 		} else {
 			url = "${urlViewUser}" + idUser;
+			redirect(url);
 		} 
-		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>',function(){redirect(url)},null);
 	}
 </script>

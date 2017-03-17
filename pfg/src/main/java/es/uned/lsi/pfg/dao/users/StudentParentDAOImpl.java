@@ -75,6 +75,20 @@ public class StudentParentDAOImpl extends AbstractJpaDao implements StudentParen
 			throw e;
 		}
 	}
+
+	@Override
+	public StudentParent find(Integer idStudent, Integer idParent) {
+		logger.debug("find: " + idStudent + "," + idParent);
+		try {
+			return (StudentParent) em.createQuery("SELECT x FROM StudentParent x WHERE x.student = " + idStudent + " AND x.parent = " + idParent)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
+		} catch (Exception e) {
+			logger.error("Error obteniendo relacion alumno " + idStudent + " padre " + idParent, e);
+		}
+		return null;
+	}
 	
 	
 }
