@@ -18,7 +18,7 @@
 			<fieldset id="filedsetForm">
 				<div id="divRow0" class="form-group">
 					<div id="divId">
-						<spring:message code="user.id" var="userIdText" text="user.id not found"/>
+						<spring:message code="user.username" var="userIdText" text="user.username not found"/>
 						<label class="col-sm-2 control-label">${userIdText}*</label>
 						<div class="col-sm-3">
 							<input type="text" value="${user.idUser}" class="form-control" id="inputId" placeholder="${userIdText}" onkeypress="return isIDKey(event)">

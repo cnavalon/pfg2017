@@ -129,7 +129,7 @@
 	</div>
 	<c:if test="${not empty person.id}">
 	<!-- 	========================= TABLA HIJOS ======================= -->
-		<h4 class="col-sm-offset-1"><spring:message code="parentList.title" text="parentList.title not found"/></h4>
+		<h4 class="col-sm-offset-1"><spring:message code="student.list" text="student.list not found"/></h4>
 		<div id="divStudentsTable" class="col-sm-offset-2 col-sm-8 noPadding">
 			<table id="tableStudents" class="stripe hover row-border" width="100%">
 				<thead>

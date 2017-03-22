@@ -178,7 +178,7 @@
 	   	     	    		json[i].operations = '<div class="text-center"><label id="viewUser" class="cursorPointer iconTable" onclick="redirect(\'${urlViewUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-search" title="'+ consultText + '"> </i></label>';
 	   	     	    		if (role === "ROLE_ADM") {
 	   	     	    			json[i].operations += '<label id="editUser" class="cursorPointer iconTable" onclick="redirect(\'${urlEditUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-pencil" title="'+ editText + '"> </i></label>';
-	   	     	    			json[i].operations += '<label id="deleteUser" class="cursorPointer iconTable" onclick="confirmDeleteUser(\'' + json[i].idUser + '\')"><i class="glyphicon glyphicon-trash" title="'+ deleteText + '"> </i></label>';
+	   	     	    			json[i].operations += '<label id="deleteUser" class="cursorPointer iconTable" onclick="confirmDeleteUser(\'' + json[i].idUser + '\', \'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-trash" title="'+ deleteText + '"> </i></label>';
 	   	     	    		}
 	   	     	    		json[i].operations += '</div>';
 	   	     	    		json[i].roleName = mapRoles[json[i].idRole];
@@ -215,8 +215,11 @@
 			
 	}
 	
-	function confirmDeleteUser(idUSer){
-		confirm('<spring:message code="user.delete.quest" text="user.delete.quest not found" />', function(){deleteUser(idUSer)}, null);
+	function confirmDeleteUser(idUSer, idRole){
+		var text = '<spring:message code="user.delete.quest" text="user.delete.quest not found" />';
+		if(idRole == 'ROLE_STD')
+			text = text + '<br><br>' + '<spring:message code="user.delete.questStudent" text="user.delete.questStudent not found" />';
+		confirm(text, function(){deleteUser(idUSer)}, null);
 	}
 	
 	function deleteUser(idUSer){

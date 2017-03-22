@@ -199,30 +199,20 @@
 	
 	<c:if test="${not empty person.id}">
 	<!-- 	========================= TABLA PADRES ======================= -->
-		<h4 class="col-sm-offset-1"><spring:message code="parentList.title" text="parentList.title not found"/></h4>
+		<h4 class="col-sm-offset-1"><spring:message code="parent.list" text="parent.list not found"/></h4>
 		<div id="divParentsTable" class="col-sm-offset-2 col-sm-8 noPadding">
 			<table id="tableParents" class="stripe hover row-border" width="100%">
 				<thead>
 			  		<tr>
-			  			<th><spring:message code="user.id" text="user.id not found" /></th>
 			  			<th><spring:message code="user.username" text="user.username not found" /></th>
 			    		<th><spring:message code="user.name" text="user.name not found" /></th>
 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
 			    		<th></th>
 			  	</thead>
-<!-- 			  	<tfoot> -->
-<!-- 				  	<tr> -->
-<%-- 			    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
-<%-- 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
-<%-- 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
-<!-- 			    		<th></th> -->
-<!-- 				  	</tr> -->
-<!-- 			  	</tfoot> -->
 			  	<tbody>
 			  		<c:forEach items="${lstParents}" var="parent">
 			  		<tr>
-			  			<td>${parent.id}</td>
 			  			<td>${parent.idUser}</td>
 			  			<td>${parent.name}</td>
 			  			<td>${parent.surname1}</td>
