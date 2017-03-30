@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Admin;
 import es.uned.lsi.pfg.model.DNITypeEnum;
+import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.Option;
 import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.model.Person;
@@ -29,13 +30,13 @@ import es.uned.lsi.pfg.model.StudentWithParents;
 import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.User;
 import es.uned.lsi.pfg.model.UserSearch;
-import es.uned.lsi.pfg.service.courses.CoursesService;
+import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.users.RolesService;
 import es.uned.lsi.pfg.service.users.UsersService;
 import es.uned.lsi.pfg.utils.Constans;
 
 /**
- * Controlador de pagina de usuarios
+ * Controlador de usuarios
  * @author Carlos Navalon Urrea
  */
 @Controller
@@ -53,7 +54,7 @@ public class UsersController {
     private MessageSource messageSource;
 	
 	@Autowired
-	private CoursesService coursesService;
+	private GroupsService groupService;
 	
 	/**
 	 * Obtiene la página de buscador de usuarios
@@ -216,7 +217,7 @@ public class UsersController {
 				model.addObject("lstDNI", getLstDNI());
 				if(idRole.equals(Constans.ROLE_STUDENT)){
 					model.addObject("lstSex", getLstSex(locale));
-					model.addObject("lstCourses", coursesService.getAllCourses());
+					model.addObject("lstCourses", groupService.getAllCourses());
 				}
 				return model;
 			} catch (Exception e) {
@@ -249,7 +250,7 @@ public class UsersController {
 				if(idRole.equals(Constans.ROLE_STUDENT)){
 					model.addObject("lstDNI", getLstDNI());
 					model.addObject("lstSex", getLstSex(locale));
-					model.addObject("lstCourses", coursesService.getAllCourses());
+					model.addObject("lstCourses", groupService.getAllCourses());
 					model.addObject("lstParents", usersService.findParents(person.getId()));
 				} else if(idRole.equals(Constans.ROLE_PARENT)){
 					model.addObject("lstDNI", getLstDNI());
@@ -436,4 +437,10 @@ public class UsersController {
 		return messageSource.getMessage("user.save.error", null, locale);
 	}
 	
+	@RequestMapping(value = "/adm/getGroups/{course}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Group> getGroups(@PathVariable("course") Integer course) throws Exception {
+		logger.debug("getGroups: " + course);
+		return groupService.getGroupsByCourse(course);
+	}
 }

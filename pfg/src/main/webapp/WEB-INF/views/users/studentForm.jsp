@@ -4,6 +4,7 @@
 <spring:url value="/users/adm/editUser/" var="urlEditUser" />
 <spring:url value="/users/emp/viewUser/" var="urlViewUser" />
 <spring:url value="/users/adm/deleteParentLink/" var="urlParentLink" />
+<spring:url value="/users/adm/getGroups/" var="urlgetGroups" />
 
 <fieldset id="filedsetPerson">
 	<fieldset id="fieldsetStudent">
@@ -97,42 +98,7 @@
 		</div>
 		
 		<div id="divPerRow4" class="form-group">
-			<div id="divBirthdate">
-				<spring:message code="user.birthdate" var="userBirthdateText" text="birthdate not found"/>
-				<label class="col-sm-2 control-label">${userBirthdateText}*</label>
-				<div class="col-sm-3 date">
-					<div id="birthdateAction" class="input-group input-append date">
-						<input type='text' value="${person.birthdate}" class="form-control" id="inputBirthdate" >
-						<span id="spanBirthdate" class="input-group-addon add-on">
-							<span class="glyphicon glyphicon-calendar"></span>
-						</span>
-					</div>
-				</div>
-			</div>
-			
-			<div id="divCourse">
-				<spring:message code="user.course" var="userCourseText" text="user.course not found"/>
-				<label class="col-sm-2 control-label">${userCourseText}*</label>
-				<div class="col-sm-3">
-					<select class="form-control" id="selectCourse" >
-						<option value="" label=""/>
-						<c:forEach items="${lstCourses}" var="course">
-							<c:choose>
-								<c:when test="${course.idCourse == person.course}">
-									<option value="${course.idCourse}" label="${course.name}" selected>${course.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${course.idCourse}" label="${course.name}">${course.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			
-		</div>
 		
-		<div id="divPerRow5" class="form-group">
 			<div id="divSex">
 				<spring:message code="user.sex" var="userSexText" text="user.sex not found"/>
 				<label class="col-sm-2 control-label">${userSexText}*</label>
@@ -156,11 +122,49 @@
 				</div>
 			</div>
 			
-			<div id="divCp">
-				<spring:message code="user.cp" var="userCpText" text="user.cp not found"/>
-				<label class="col-sm-2 control-label">${userCpText}</label>
+			<div id="divBirthdate">
+				<spring:message code="user.birthdate" var="userBirthdateText" text="birthdate not found"/>
+				<label class="col-sm-2 control-label">${userBirthdateText}*</label>
+				<div class="col-sm-3 date">
+					<div id="birthdateAction" class="input-group input-append date">
+						<input type='text' value="${person.birthdate}" class="form-control" id="inputBirthdate" >
+						<span id="spanBirthdate" class="input-group-addon add-on">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div id="divPerRow5" class="form-group">
+			<div id="divCourse">
+				<spring:message code="user.course" var="userCourseText" text="user.course not found"/>
+				<label class="col-sm-2 control-label">${userCourseText}*</label>
 				<div class="col-sm-3">
-					<input type="text" value="${person.cp}" class="form-control" id="inputCp" placeholder="${userCpText}" onkeypress="return isNumberKey(event)" maxlength="5">
+					<select class="form-control" id="selectCourse" >
+						<option value="" label=""/>
+						<c:forEach items="${lstCourses}" var="course">
+							<c:choose>
+								<c:when test="${course.idCourse == person.course}">
+									<option value="${course.idCourse}" label="${course.name}" selected>${course.name}</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${course.idCourse}" label="${course.name}">${course.name}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			
+			<div id="divGroup">
+				<spring:message code="user.group" var="userGroupText" text="user.group not found"/>
+				<label class="col-sm-2 control-label">${userGroupText}</label>
+				<div class="col-sm-3">
+					<select class="form-control" id="selectGroup" >
+						<option value="" label=""/>
+					</select>
 				</div>
 			</div>
 		</div>
@@ -184,6 +188,16 @@
 		</div>
 		
 		<div id="divPerRow7" class="form-group">
+			<div id="divCp">
+				<spring:message code="user.cp" var="userCpText" text="user.cp not found"/>
+				<label class="col-sm-2 control-label">${userCpText}</label>
+				<div class="col-sm-3">
+					<input type="text" value="${person.cp}" class="form-control" id="inputCp" placeholder="${userCpText}" onkeypress="return isNumberKey(event)" maxlength="5">
+				</div>
+			</div>
+		</div>
+		
+		<div id="divPerRow8" class="form-group">
 			<div id="divAddress">
 				<spring:message code="user.address" var="userAddressText" text="user.address not found"/>
 				<label class="col-sm-2 control-label">${userAddressText}</label>
@@ -600,7 +614,7 @@
 			hasParent = [false, false];
 			$("#divParent1").hide();
 			$("#divParent2").hide();
-			$("#divCopyAddress").hide();
+			
 			table =  $('#tableParents').DataTable( {
 				"paging": false,
 			    "ordering": false,
@@ -618,19 +632,27 @@
             	]
 			} );
 			if(!editable){
-				$(".deleteUser").hide()
+				$(".deleteUser").hide();
+				$("#divCopyAddress").hide();
 			} else {
 				if(table.rows().count() == 0){
-					hasParent = [true, true];
 					$("#divParent1").show();
+					$("#fieldsetParent1").hide();
+					$("#checkboxPar1").prop("checked",false);
+					
 					$("#divParent2").show();
+					$("#fieldsetParent2").hide();
+					$("#checkboxPar2").prop("checked",false);
+					$("#checkboxPar2").prop("disabled",true);
+					
 				} else if(table.rows().count() == 1){
-					hasParent = [false, true];
-					$("#divParent2").show();
 					$("#inputIdPar1").val(table.row(0).data()[0]);
+					$("#divParent2").show();
+					$("#fieldsetParent2").hide();
+					$("#checkboxPar2").prop("checked",false);
 				}
 			}
-			
+			getGroups($("#selectCourse").val());
 		}
 	});
 	
@@ -768,6 +790,7 @@
 		if($("#selectCourse").val() != ""){
 			$("#divCourse").removeClass("has-error");
 		}
+		getGroups($("#selectCourse").val());
 	});
 	
 	$("#inputIdPar1").change(function(){
@@ -912,7 +935,8 @@
 			province : $("#inputProvince").val(),
 			cp : $("#inputCp").val(),
 			course : $("#selectCourse").val(),
-			user : getUser()
+			user : getUser(),
+			group : $("#selectGroup").val(),
 		};
 		
 		if(hasParent[0]){
@@ -1123,6 +1147,37 @@
 				alert('<spring:message code="user.deletedRelation.error" text="user.deletedRelation.error not found" />', reloadTable);
 			} 
 		});			
+	}
+	
+	function getGroups(course){
+		if(course != null && course != ""){
+			$.ajax({
+				type:"GET", 
+				url : "${urlgetGroups}" + course,
+				success : function(lstGroups) {
+					$("#selectGroup").empty();
+					$("#selectGroup").append('<option value="" label=""/>');
+					if(lstGroups != null && lstGroups.length > 0){
+						for(var i=0; i<lstGroups.length; i++){
+							var option = '<option value="' + lstGroups[i].id + '" label="' + lstGroups[i].letter + '" ';
+							if(lstGroups[i].id == '${person.group}'){
+								option += 'selected '
+							}
+							option += '/>'
+							$("#selectGroup").append(option);
+						}
+					}
+				},
+				error: function(){
+					$("#selectGroup").empty();
+					$("#selectGroup").append('<option value="" label=""/>');
+					alert('<spring:message code="student.getGroups.error" text="student.getGroups.error not found" />', null);
+				} 
+			});			
+		} else {
+			$("#selectGroup").empty();
+			$("#selectGroup").append('<option value="" label=""/>');
+		}
 	}
 	
 </script>

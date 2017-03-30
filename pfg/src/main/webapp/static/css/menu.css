@@ -30,7 +30,7 @@
   color: #000000;
   background-color: #fbc950;
 }
-.navbar-default .navbar-nav > li > .dropdown-menu > li > .divider {
+.navbar-default .navbar-nav > li > .dropdown-menu .divider {
   background-color: #fbc950;
 }
 .navbar-default .navbar-nav .open .dropdown-menu > .active > a,

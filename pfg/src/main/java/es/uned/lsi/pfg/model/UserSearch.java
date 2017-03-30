@@ -12,6 +12,7 @@ public class UserSearch {
 	private String surname1;
 	private String surname2;
 	private String idUser;
+	private boolean checked;
 	
 	/**
 	 * Constructor
@@ -36,6 +37,26 @@ public class UserSearch {
 		this.surname1 = surname1;
 		this.surname2 = surname2;
 		this.idUser = idUser;
+	}
+	
+	/**
+	 * Cosntructor
+	 * @param id id de persona
+	 * @param idRole id de perfil
+	 * @param name nombre
+	 * @param surname1 primer apellido
+	 * @param surname2 segundo apellido
+	 * @param checked indicador de disponibilidad
+	 */
+	public UserSearch(Integer id, String idRole, String name, String surname1, String surname2, String idUser, boolean checked) {
+		super();
+		this.id = id;
+		this.idRole = idRole;
+		this.name = name;
+		this.surname1 = surname1;
+		this.surname2 = surname2;
+		this.idUser = idUser;
+		this.checked = checked;
 	}
 
 	/**
@@ -123,13 +144,33 @@ public class UserSearch {
 		this.idUser = idUser;
 	}
 
+	/**
+	 * Obtiene disponible
+	 * @return disponible
+	 */
+	public boolean isChecked() {
+		return checked;
+	}
+
+	/**
+	 * Establece disponible
+	 * @param checked disponible
+	 */
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+	
+	public String getFullName(){
+		return name + " " + surname1 + " " + surname2;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "UserSearch [id=" + id + ", idRole=" + idRole + ", name=" + name + ", surname1=" + surname1
-				+ ", surname2=" + surname2 + ", idUser=" + idUser + "]";
+				+ ", surname2=" + surname2 + ", idUser=" + idUser + ", checked=" + checked + "]";
 	}
 
 	/* (non-Javadoc)
@@ -139,6 +180,7 @@ public class UserSearch {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (checked ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idRole == null) ? 0 : idRole.hashCode());
 		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
@@ -160,6 +202,8 @@ public class UserSearch {
 		if (getClass() != obj.getClass())
 			return false;
 		UserSearch other = (UserSearch) obj;
+		if (checked != other.checked)
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -192,6 +236,7 @@ public class UserSearch {
 			return false;
 		return true;
 	}
+
 
 	
 }

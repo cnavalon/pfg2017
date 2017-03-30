@@ -4,7 +4,9 @@
 package es.uned.lsi.pfg.service.users;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.uned.lsi.pfg.dao.users.PersonDAO;
+import es.uned.lsi.pfg.dao.users.StudentDAO;
 import es.uned.lsi.pfg.dao.users.StudentParentDAO;
 import es.uned.lsi.pfg.dao.users.UsersDAO;
 import es.uned.lsi.pfg.model.Admin;
@@ -48,8 +51,8 @@ public class UsersServiceImpl implements UsersService {
 //	@Autowired
 //	private TeacherDAO teacherDAO;
 //	
-//	@Autowired
-//	private StudentDAO studentDAO;
+	@Autowired
+	private StudentDAO studentDAO;
 //	
 //	@Autowired
 //	private ParentDAO parentDAO;
@@ -61,8 +64,21 @@ public class UsersServiceImpl implements UsersService {
 	private ShaPasswordEncoder shaPasswordEncoder;
 	
 	@Override
-	public String getFullName(String idUser, String idRole) {
-		logger.debug("getFullName: " + idUser + "," + idRole);
+	public String getFullName(Integer id, String idRole) {
+		logger.debug("getFullName: " + id + "," + idRole);
+		String fullName = "";
+		try {
+			Person person = personDAO.find(id, findClassRole(idRole));
+			fullName = createFullName(person);
+		} catch (Exception e) {
+			logger.error("ERROR, obteniendo nombre completo: " + id + ", " + idRole,e);
+		}
+		return fullName;
+	}
+	
+	@Override
+	public String getFullNameByUser(String idUser, String idRole) {
+		logger.debug("getFullNameByUser: " + idUser + "," + idRole);
 		String fullName = "";
 		try {
 			Class<? extends Person> classPerson = findClassRole(idRole);
@@ -202,7 +218,7 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	private List<UserSearch> searchPersons(UserSearch userSearch, String role){
 		Class<? extends Person> classperson = findClassRole(role);
-		return convertToUserSearchList(personDAO.searchUsers(userSearch, classperson), role);
+		return convertToUserSearchList(personDAO.searchUsers(userSearch, classperson), role, false);
 	}
 
 	
@@ -233,16 +249,17 @@ public class UsersServiceImpl implements UsersService {
 	 * Convierte un listado de {@link Person} a un listado de {@link UserSearch}
 	 * @param lstPersons listado de {@link Person}
 	 * @param idRole id del perfil del listado de personas
+	 * @param checked checked
 	 * @return listado de {@link UserSearch}
 	 */
-	private List<UserSearch> convertToUserSearchList(List<? extends Person> lstPersons, String idRole) {
+	private List<UserSearch> convertToUserSearchList(List<? extends Person> lstPersons, String idRole, boolean checked) {
 		if(lstPersons == null){
 			return null;
 		}
 		List<UserSearch> lstUserSearch = new ArrayList<UserSearch>();
 		for(Person person : lstPersons){
 			try {
-				UserSearch user = new UserSearch(person.getId(), idRole, person.getName(), person.getSurname1(), person.getSurname2(), person.getIdUser());
+				UserSearch user = new UserSearch(person.getId(), idRole, person.getName(), person.getSurname1(), person.getSurname2(), person.getIdUser(), checked);
 				lstUserSearch.add(user);
 			} catch (Exception e) {
 				logger.error("ERROR, al convertir el usuario " + person, e);
@@ -250,7 +267,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 		return lstUserSearch;
 	}
-
+	
 	@Override
 	@Transactional
 	public boolean upsertStudent(StudentWithParents studentWithParent) {
@@ -277,7 +294,7 @@ public class UsersServiceImpl implements UsersService {
 			}
 			
 			if(parent2 != null){
-				if(parent2.getId() == null || parent1.getId().equals("")){
+				if(parent2.getId() == null || parent2.getId().equals("")){
 					saveUSer(parent2.getUser());
 					personDAO.upsert(parent2);
 					parent2 = personDAO.findByIdUser(parent2.getIdUser(), Parent.class);
@@ -312,7 +329,7 @@ public class UsersServiceImpl implements UsersService {
 				lstParents.add(personDAO.find(studentParent.getParent(), Parent.class));
 			}
 			
-			return convertToUserSearchList(lstParents, Constans.ROLE_PARENT);
+			return convertToUserSearchList(lstParents, Constans.ROLE_PARENT, false);
 		} catch (Exception e) {
 			logger.error("ERROR recuperando padres de " + studentId, e );
 		}
@@ -330,7 +347,7 @@ public class UsersServiceImpl implements UsersService {
 				lstStudents.add(personDAO.find(studentParent.getStudent(), Student.class));
 			}
 			
-			return convertToUserSearchList(lstStudents, Constans.ROLE_STUDENT);
+			return convertToUserSearchList(lstStudents, Constans.ROLE_STUDENT, false);
 		} catch (Exception e) {
 			logger.error("ERROR recuperando padres de " + parentId, e );
 		}
@@ -352,6 +369,32 @@ public class UsersServiceImpl implements UsersService {
 			logger.error("ERROR eliminando relacion " + idParent + "-" + idStudent, e);		
 		}
 		return false;
+	}
+
+	@Override
+	public List<Student> searchStudent(Integer course) {
+		logger.debug("searchStudent:" + course );
+		return studentDAO.findStudentsByCourse(course);
+	}
+	
+	@Override
+	public Map<Integer, Long> getMapGroupCount(List<Integer> lstGroups) {
+		logger.debug("getMapGroupCount: " + lstGroups);
+		Map<Integer, Long> mapGroupCount = new HashMap<Integer,Long>();
+		for(Integer group : lstGroups){
+			mapGroupCount.put(group, studentDAO.countStudents(group));
+		}
+		return mapGroupCount;
+	}
+
+	@Override
+	public List<UserSearch> getStudensToAddGroup(Integer course, Integer group) {
+		logger.debug("getStudensToAddGroup: " + course + ", " + group);
+		List<UserSearch> lstStudents = convertToUserSearchList(studentDAO.findStudentsByCourseWithoutGroup(course),Constans.ROLE_STUDENT, false);
+		if(group != null){
+			lstStudents.addAll(convertToUserSearchList(studentDAO.findStundentsByGroup(group), Constans.ROLE_STUDENT, true));
+		}
+		return lstStudents;
 	}
 
 }

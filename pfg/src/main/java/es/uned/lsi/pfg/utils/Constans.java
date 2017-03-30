@@ -16,7 +16,7 @@ public interface Constans {
 	public static final String SESSION_USER_NAME = "sessionUserFullName";
 	public static final String SESSION_ROLE = "sessionUserRole";
 	
-
+	public static final String NO_LETTER = "-";
 	
 	
 	

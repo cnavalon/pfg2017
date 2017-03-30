@@ -27,6 +27,35 @@ public interface StudentDAO {
 	 * @param student estudiante
 	 * @return <code>true</code> si la operacion se ha realizado correctamente, <code>false</code> en caso contrario
 	 */
-	public boolean upsert(Student student); 
+	public boolean upsert(Student student);
 
+	/**
+	 * Obtiene un listado de estudiantes por curso
+	 * @param course curso
+	 * @return listado de estudiantes
+	 */
+	public List<Student> findStudentsByCourse(Integer course); 
+
+	/**
+	 * Obtiene un listado de estudiantes por curso sin clase asignada
+	 * @param course curso
+	 * @return listado de estudiantes
+	 */
+	public List<Student> findStudentsByCourseWithoutGroup(Integer course);
+	
+	/**
+	 * Cuenta el numero de alumnos de una clase
+	 * @param group clase
+	 * @return el numero de alumnos
+	 */
+	public Long countStudents(Integer group);
+	
+	/**
+	 * Recupera listado de alumnos por clase
+	 * @param group clase
+	 * @return listado de alumnos
+	 */
+	public List<Student> findStundentsByGroup(Integer group);
+
+	
 }

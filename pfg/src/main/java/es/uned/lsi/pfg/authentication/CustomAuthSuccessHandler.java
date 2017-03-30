@@ -58,7 +58,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 				targetUrl = "/login?error=1";
 			} else {
 				session.setAttribute(Constans.SESSION_ROLE, role);
-				session.setAttribute(Constans.SESSION_USER_NAME, usersService.getFullName(idUser, role.getIdRole()));
+				session.setAttribute(Constans.SESSION_USER_NAME, usersService.getFullNameByUser(idUser, role.getIdRole()));
 			}
 			
 		} catch (Exception e) {

@@ -34,7 +34,7 @@ function initTable(id, dataTableLang, noSearchIndexes, selectFilterIndexes){
 		       		 }
 		       		 else {
 		       	  		
-		       	  		var select = $('<select><option value=""></option></select>')
+		       	  		var select = $('<select style="width: 100%;"><option value=""></option></select>')
 		                   .appendTo( $(column.footer()).empty() )
 		                   .on( 'change', function () {
 		                       var val = $.fn.dataTable.util.escapeRegex(

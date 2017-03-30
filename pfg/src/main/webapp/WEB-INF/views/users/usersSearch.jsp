@@ -78,6 +78,7 @@
 		<table id="tableUsers" class="stripe hover row-border" width="100%">
 			<thead>
 		  		<tr>
+		    		<th><spring:message code="user.id" text="user.id not found" /></th>
 		    		<th><spring:message code="user.username" text="user.username not found" /></th>
 		    		<th><spring:message code="user.name" text="user.name not found" /></th>
 		    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
@@ -87,6 +88,7 @@
 		  	</thead>
 		  	<tfoot>
 			  	<tr>
+			  		<th><spring:message code="user.id" text="user.id not found" /></th>
 		    		<th><spring:message code="user.username" text="user.username not found" /></th>
 		    		<th><spring:message code="user.name" text="user.name not found" /></th>
 		    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
@@ -175,7 +177,7 @@
 	   			dataSrc : function ( json ) {
 	   	     		if(json != null && json.length > 0){
 	   		   	    	for (var i = 0; i < json.length; i++) {
-	   	     	    		json[i].operations = '<div class="text-center"><label id="viewUser" class="cursorPointer iconTable" onclick="redirect(\'${urlViewUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-search" title="'+ consultText + '"> </i></label>';
+	   	     	    		json[i].operations = '<div class="text-center"><label id="viewUser" class="cursorPointer iconTable" onclick="redirect(\'${urlViewUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-info-sign" title="'+ consultText + '"> </i></label>';
 	   	     	    		if (role === "ROLE_ADM") {
 	   	     	    			json[i].operations += '<label id="editUser" class="cursorPointer iconTable" onclick="redirect(\'${urlEditUser}' + json[i].idUser + '\')"><i class="glyphicon glyphicon-pencil" title="'+ editText + '"> </i></label>';
 	   	     	    			json[i].operations += '<label id="deleteUser" class="cursorPointer iconTable" onclick="confirmDeleteUser(\'' + json[i].idUser + '\', \'' + json[i].idRole + '\')"><i class="glyphicon glyphicon-trash" title="'+ deleteText + '"> </i></label>';
@@ -188,11 +190,12 @@
 	   	 	    }
 	   		},
 	   	   	columns : [
-	            { "data": "idUser", "width":"15%"},
-	            { "data": "name", "width":"20%"},
-	       		{ "data": "surname1", "width":"20%" },
-	      		{ "data": "surname2", "width":"20%"},
-	      		{ "data": "roleName", "width":"15%"},
+	            { "data": "id", "width":"5%"},
+	            { "data": "idUser", "width":"14%"},
+	            { "data": "name", "width":"19%"},
+	       		{ "data": "surname1", "width":"19%" },
+	      		{ "data": "surname2", "width":"19%"},
+	      		{ "data": "roleName", "width":"14%"},
 	      		{ "data": "operations", "width":"10%"}	         		
 	  		],
 	        initComplete: function(){

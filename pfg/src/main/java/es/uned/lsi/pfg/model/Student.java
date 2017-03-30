@@ -25,7 +25,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NamedQueries({
 	@NamedQuery(name="findStudentById", query="SELECT x FROM Student x WHERE x.id = :id AND x.enabled = 1"),
 	@NamedQuery(name="findAllStudents", query="SELECT x FROM Student x WHERE x.enabled = 1"),
-	@NamedQuery(name="findStudentByIdUser", query="SELECT x FROM Student x WHERE x.idUser = :idUser AND x.enabled = 1")
+	@NamedQuery(name="findStudentByIdUser", query="SELECT x FROM Student x WHERE x.idUser = :idUser AND x.enabled = 1"),
+	@NamedQuery(name="findStudentByCourse", query="SELECT x FROM Student x WHERE x.course = :course AND x.enabled = 1"),
+	@NamedQuery(name="findStudentByCourseWithoutGroup", query="SELECT x FROM Student x WHERE x.course = :course AND x.group IS NULL AND x.enabled = 1"),
+	@NamedQuery(name="countStudentsByGroup", query="SELECT COUNT(x)FROM Student x WHERE x.group = :group AND x.enabled = 1"),
+	@NamedQuery(name="findStudentsByGroup", query="SELECT x FROM Student x WHERE x.group = :group AND x.enabled = 1")
 })
 
 @Entity
@@ -38,6 +42,10 @@ public class Student extends Person implements Serializable {
 	public static final String Q_FIND_BY_ID = "findStudentById";
 	public static final String Q_FIND_ALL = "findAllStudents";
 	public static final String Q_FIND_BY_ID_USER = "findStudentByIdUser";
+	public static final String Q_FIND_BY_COURSE = "findStudentByCourse";
+	public static final String Q_FIND_BY_COURSE_WITHOUT_GROUP = "findStudentByCourseWithoutGroup";
+	public static final String Q_COUNT_BY_GROUP = "countStudentsByGroup";
+	public static final String Q_FIND_BY_GROUP = "findStudentsByGroup";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -77,6 +85,8 @@ public class Student extends Person implements Serializable {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean enabled;
 	private Integer course;
+	@Column(name="_group")
+	private Integer group;
 	
 	/**
 	 * Obtiene el id del estudiante
@@ -331,6 +341,20 @@ public class Student extends Person implements Serializable {
 	public void setCourse(Integer course) {
 		this.course = course;
 	}
+	/**
+	 * Obtiene la clase
+	 * @return la clase
+	 */
+	public Integer getGroup() {
+		return group;
+	}
+	/**
+	 * Establece la clase
+	 * @param group la clase
+	 */
+	public void setGroup(Integer group) {
+		this.group = group;
+	}
 	@Override
 	public String getQueryFindById() {
 		return Q_FIND_BY_ID;
@@ -343,18 +367,16 @@ public class Student extends Person implements Serializable {
 	public String getQueryFindByIdUser() {
 		return Q_FIND_BY_ID_USER;
 	}
-	
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Student [idStudent=" + id + ", idUser=" + idUser + ", name=" + name + ", surname1=" + surname1
-				+ ", surname2=" + surname2 + ", email=" + email + ", telephone1=" + telephone1 + ", telephone2="
-				+ telephone2 + ", dniType=" + dniType + ", dni=" + dni + ", sex=" + sex + ", birthdate=" + birthdate
-				+ ", address=" + address + ", city=" + city + ", province=" + province + ", cp=" + cp + ", enabled="
-				+ enabled + "]";
+		return "Student [id=" + id + ", idUser=" + idUser + ", name=" + name + ", surname1=" + surname1 + ", surname2="
+				+ surname2 + ", email=" + email + ", telephone1=" + telephone1 + ", telephone2=" + telephone2
+				+ ", dniType=" + dniType + ", dni=" + dni + ", sex=" + sex + ", birthdate=" + birthdate + ", address="
+				+ address + ", city=" + city + ", province=" + province + ", cp=" + cp + ", enabled=" + enabled
+				+ ", course=" + course + ", group=" + group + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -366,11 +388,13 @@ public class Student extends Person implements Serializable {
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((course == null) ? 0 : course.hashCode());
 		result = prime * result + ((cp == null) ? 0 : cp.hashCode());
 		result = prime * result + ((dni == null) ? 0 : dni.hashCode());
 		result = prime * result + ((dniType == null) ? 0 : dniType.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -409,6 +433,11 @@ public class Student extends Person implements Serializable {
 				return false;
 		} else if (!city.equals(other.city))
 			return false;
+		if (course == null) {
+			if (other.course != null)
+				return false;
+		} else if (!course.equals(other.course))
+			return false;
 		if (cp == null) {
 			if (other.cp != null)
 				return false;
@@ -430,6 +459,11 @@ public class Student extends Person implements Serializable {
 		} else if (!email.equals(other.email))
 			return false;
 		if (enabled != other.enabled)
+			return false;
+		if (group == null) {
+			if (other.group != null)
+				return false;
+		} else if (!group.equals(other.group))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -478,5 +512,4 @@ public class Student extends Person implements Serializable {
 			return false;
 		return true;
 	}
-	
 }

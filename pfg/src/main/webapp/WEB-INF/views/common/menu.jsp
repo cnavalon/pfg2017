@@ -1,23 +1,48 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 <spring:url value="/users/emp/users" var="urlUsersSearch" />
 <spring:url value="/users/adm/newUser" var="urlNewUser" />
+<spring:url value="/groups/adm/newGroup" var="urlNewGroup" />
+<spring:url value="/groups/adm/groups" var="urlGroupsList" />
+<spring:url value="/groups/schedules" var="urlSchedulesList" />
 
 	
 <nav class="navbar navbar-default">
 	<div class="row-fluid">
 	
 		<ul id="menu" class="nav navbar-nav">
+		
+			<!------------------  USUARIOS ------------------>
+		
 			<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
 				<li class="dropdown" id="menuUsers">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.users" text="menu.users not found" /> <span class="caret"></span></a>
 			        <ul class="dropdown-menu">
+                        <li><a href="${urlUsersSearch}" id="menuUsers_search" ><spring:message code="menu.users.search" text="menu.users.search not found" /></a></li>
 				        <c:if test="${pageContext.request.isUserInRole('ADM')}">
 				        	<li><a href="${urlNewUser}" id="menuUsers_add" ><spring:message code="menu.users.add" text="menu.users.add not found" /></a></li>
 				        </c:if>
-			        	<li><a href="${urlUsersSearch}" id="menuUsers_search" ><spring:message code="menu.users.search" text="menu.users.search not found" /></a></li>
 			        </ul>
 				</li>
 			</c:if>
+			
+			<!------------------  CLASES ------------------>
+			
+			<li class="dropdown" id="menuGroups">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.groups" text="menu.groups not found" /> <span class="caret"></span></a>
+		        <ul class="dropdown-menu">
+			        <c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
+			        	<li><a href="${urlGroupsList}" id="menuGroups_list" ><spring:message code="menu.groups.list" text="menu.groups.list not found" /></a></li>
+			        </c:if>
+		       		<c:if test="${pageContext.request.isUserInRole('ADM')}">
+			        	<li><a href="${urlNewGroup}" id="menuGroups_add" ><spring:message code="menu.groups.add" text="menu.groups.add not found" /></a></li>
+			        	<li role="separator" class="divider"></li>
+			        </c:if>
+			        <c:if test="${not pageContext.request.isUserInRole('ADM')}">
+			        	<li><a href="${urlSchedulesList}" id="menuGroups_schedules" ><spring:message code="menu.groups.mySchedule" text="menu.groups.mySchedule not found" /></a></li>
+			        </c:if>
+		        </ul>
+			</li>
+			
 		</ul>
 	</div>
 </nav>

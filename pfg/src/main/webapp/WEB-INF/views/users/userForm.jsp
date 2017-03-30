@@ -149,7 +149,7 @@
 	});
 	
 	$('#buttonCancel').click(function(event){
-		confirm('<spring:message code="user.form.cancel" text="user.form.cancel not found"/>', redirect("${urlUsersSearch}"), null);
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', redirect("${urlUsersSearch}"), null);
 	});
 	
 	$('#buttonOk').click(function(event){
@@ -206,7 +206,7 @@
 	$("#buttonAdd").click(function(){
 		lstValidator = validForm();
 		if(lstValidator.length > 0){
-			var message = '<spring:message code="user.error.validator" text="user.error.validator not found"/>';
+			var message = '<spring:message code="common.error.validator" text="common.error.validator not found"/>';
 			for(var i=0; i < lstValidator.length; i++){
 				message += "<br>- " + lstValidator[i];
 			}

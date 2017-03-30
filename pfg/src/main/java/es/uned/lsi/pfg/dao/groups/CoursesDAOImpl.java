@@ -1,7 +1,7 @@
 /**
  * 
  */
-package es.uned.lsi.pfg.dao.courses;
+package es.uned.lsi.pfg.dao.groups;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class CoursesDAOImpl extends AbstractJpaDao implements CoursesDAO {
 	 * @see es.uned.lsi.pfg.dao.courses.CoursesDAO#findById(java.lang.String)
 	 */
 	@Override
-	public Course findById(String idCourse) {
+	public Course findById(Integer idCourse) {
 		logger.debug("findById: " + idCourse);
 		try {
 			return em.createNamedQuery(Course.Q_FIND_BY_ID, Course.class)

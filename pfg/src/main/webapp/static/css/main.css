@@ -73,3 +73,10 @@ body {
 .noPadding{
 	padding: 0;
 }
+.selectFileLabel {
+		text-align:center;
+	}
+.selectFileInput {
+		visibility: hidden; 
+		position: absolute;
+	}

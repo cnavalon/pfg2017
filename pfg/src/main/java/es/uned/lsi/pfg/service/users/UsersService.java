@@ -4,8 +4,10 @@
 package es.uned.lsi.pfg.service.users;
 
 import java.util.List;
+import java.util.Map;
 
 import es.uned.lsi.pfg.model.Person;
+import es.uned.lsi.pfg.model.Student;
 import es.uned.lsi.pfg.model.StudentWithParents;
 import es.uned.lsi.pfg.model.User;
 import es.uned.lsi.pfg.model.UserSearch;
@@ -16,12 +18,20 @@ import es.uned.lsi.pfg.model.UserSearch;
  */
 public interface UsersService {
 	/**
+	 * Obtiene el nombre completo (nombre y apellidos) por id y perfil
+	 * @param id
+	 * @param idRole perfil 
+	 * @return nombre completo
+	 */
+	public String getFullName(Integer id, String idRole);
+	
+	/**
 	 * Obtiene el nombre completo de usuario (nombre y apellidos) por id de usuario y perfil
 	 * @param id id de usuario
 	 * @param idRole perfil de usuario
 	 * @return nombre completo de usuario
 	 */
-	public String getFullName(String id, String idRole);
+	public String getFullNameByUser(String idUser, String idRole);
 
 	/**
 	 * Obtiene un usuario por id
@@ -102,8 +112,27 @@ public interface UsersService {
 	 */
 	public boolean deleteLink(Integer idParent, Integer idStudent);
 
+	/**
+	 * Busca estudiantes por curso
+	 * @param course id de curso
+	 * @return
+	 */
+	public List<Student> searchStudent(Integer course);
 
+	/**
+	 * Recupera un mapa con el numero de alumnos por clase
+	 * @param lstGroups 
+	 * @return mapa con el numero de alumnos por clase
+	 */
+	public Map<Integer,Long> getMapGroupCount(List<Integer> lstGroups);
 
-
+	/**
+	 * Recupera un listado de estudiantes disponibles para formar una clase, es decir,
+	 * los que pertenencen a la clase y los del curso sin clase asignada
+	 * @param course curso
+	 * @param group clase
+	 * @return listado de estudiantes disponibles
+	 */
+	public List<UserSearch> getStudensToAddGroup(Integer course, Integer group);
 	
 }
