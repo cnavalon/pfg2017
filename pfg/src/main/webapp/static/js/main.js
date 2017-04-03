@@ -242,3 +242,19 @@ function post(params) {
 function redirect(url){
 	location.href = url;
 }
+
+function compareOptions(a,b) {
+	if (a.label < b.label)
+		return -1;
+	if (a.label > b.label)
+		return 1;
+	return 0;
+}
+
+function getValues(lstOptions){
+	var lstValues = [];
+	for(var i = 0; i < lstOptions.length; i++){
+		lstValues.push(lstOptions[i].value);
+	}
+	return lstValues;
+}

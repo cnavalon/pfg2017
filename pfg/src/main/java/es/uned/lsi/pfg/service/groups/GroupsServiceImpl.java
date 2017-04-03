@@ -70,6 +70,13 @@ public class GroupsServiceImpl implements GroupsService {
 		return groupsDAO.findByCourse(course);
 	}
 
+	@Override
+	public Integer saveGroup(Group group) {
+		logger.debug("saveGroup: " + group);
+		Group newGroup = groupsDAO.upsert(group);
+		return newGroup.getId();
+	}
+
 	
 
 }

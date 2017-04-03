@@ -126,13 +126,28 @@ public interface UsersService {
 	 */
 	public Map<Integer,Long> getMapGroupCount(List<Integer> lstGroups);
 
+//	/**
+//	 * Recupera un listado de estudiantes disponibles para formar una clase, es decir,
+//	 * los que pertenencen a la clase y los del curso sin clase asignada
+//	 * @param course curso
+//	 * @param group clase
+//	 * @return listado de estudiantes disponibles
+//	 */
+//	public List<UserSearch> getStudensToAddGroup(Integer course, Integer group);
+
 	/**
-	 * Recupera un listado de estudiantes disponibles para formar una clase, es decir,
-	 * los que pertenencen a la clase y los del curso sin clase asignada
+	 * Recupera un listado de estudiantes sin clase asignada por curso
 	 * @param course curso
-	 * @param group clase
-	 * @return listado de estudiantes disponibles
+	 * @return listado de estudiantes sin clase asignada
 	 */
-	public List<UserSearch> getStudensToAddGroup(Integer course, Integer group);
+	public List<Student> getFreeStudensByGroup(Integer course);
+
+	/**
+	 * Actualiza el campo clase de los alumnos
+	 * @param idGroup id de clase
+	 * @param lstStudents listado de alumnos que pertenecen a esa clase
+	 * @throws Exception 
+	 */
+	public void saveStudentsGroup(Integer idGroup, List<Integer> lstStudents) throws Exception;
 	
 }

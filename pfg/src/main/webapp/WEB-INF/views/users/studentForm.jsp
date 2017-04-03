@@ -218,6 +218,7 @@
 			<table id="tableParents" class="stripe hover row-border" width="100%">
 				<thead>
 			  		<tr>
+			  			<th><spring:message code="user.id" text="user.id not found" /></th>
 			  			<th><spring:message code="user.username" text="user.username not found" /></th>
 			    		<th><spring:message code="user.name" text="user.name not found" /></th>
 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
@@ -227,6 +228,7 @@
 			  	<tbody>
 			  		<c:forEach items="${lstParents}" var="parent">
 			  		<tr>
+			  			<td class="text-center">${parent.id}</td>
 			  			<td>${parent.idUser}</td>
 			  			<td>${parent.name}</td>
 			  			<td>${parent.surname1}</td>
@@ -624,12 +626,14 @@
 			        header: true,
 			        footer: false
 			    },
-			    "columnDefs": [
-                   {
-                       "targets": [ 1 ],
-                       "visible": false
-                   }
-            	]
+			    columns : [
+		            { "width":"5%"},
+		            { "width":"16%"},
+		            { "width":"23%"},
+		            { "width":"23%"},
+		            { "width":"23%"},
+		            { "width":"10%"}
+		  		],
 			} );
 			if(!editable){
 				$(".deleteUser").hide();

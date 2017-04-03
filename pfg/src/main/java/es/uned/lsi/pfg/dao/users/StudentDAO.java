@@ -1,5 +1,6 @@
 package es.uned.lsi.pfg.dao.users;
 
+import java.util.HashSet;
 import java.util.List;
 
 import es.uned.lsi.pfg.model.Student;
@@ -56,6 +57,14 @@ public interface StudentDAO {
 	 * @return listado de alumnos
 	 */
 	public List<Student> findStundentsByGroup(Integer group);
+
+	/**
+	 * Actualiza el camo clase de una lista de alumnos
+	 * @param students id de alumnos
+	 * @param group clase
+	 * @return numero de alumnos actualizados
+	 */
+	public Integer updateGroup(HashSet<Integer> students, Integer group);
 
 	
 }

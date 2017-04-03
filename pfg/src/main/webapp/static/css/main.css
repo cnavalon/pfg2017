@@ -80,3 +80,19 @@ body {
 		visibility: hidden; 
 		position: absolute;
 	}
+.flex-parent{
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+ 
+.flex-child{
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.header-options{
+	padding-bottom: 5px;
+}

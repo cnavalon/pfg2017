@@ -58,11 +58,26 @@ public class Group implements Serializable {
 	private Teacher tutor;
 	@Column(name="schedule_file")
 	private String scheduleFile;
-	
-	
-//	@Transient
-//	private List<Student> students;
 
+	/**
+	 * Constructor
+	 */
+	public Group(){
+		
+	}
+	
+	/**
+	 * Constructor
+	 * @param group otra clases
+	 */
+	public Group(Group group){
+		this.id = group.getId();
+		this.letter = group.getLetter();
+		this.course = group.getCourse();
+		this.tutor = group.getTutor();
+		this.scheduleFile = group.getScheduleFile();
+	}
+	
 	/**
 	 * Obtiene el id clase
 	 * @return id de clase

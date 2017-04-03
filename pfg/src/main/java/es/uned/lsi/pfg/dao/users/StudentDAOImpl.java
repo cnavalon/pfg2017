@@ -4,6 +4,7 @@
 package es.uned.lsi.pfg.dao.users;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -144,4 +145,21 @@ public class StudentDAOImpl extends AbstractJpaDao implements StudentDAO {
 		}
 		return lstStudents;
 	}
+
+	@Override
+	public Integer updateGroup(HashSet<Integer> students, Integer group) {
+		logger.debug("updateGroup: " + students + ", " + group);
+		try {
+			if(students.size() == 0)
+				return 0;
+			
+			return em.createNamedQuery(Student.Q_UPDATE_GROUP)
+				.setParameter("group", group)
+				.setParameter("lstIds", students).executeUpdate();
+		} catch (Exception e) {
+			logger.error("Error actualizando la clase de alumnos (" + students + ", " + group + "). "  +  e.getMessage());
+			throw e;
+		}
+	}
+
 }

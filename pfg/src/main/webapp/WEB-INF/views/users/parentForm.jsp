@@ -134,23 +134,17 @@
 			<table id="tableStudents" class="stripe hover row-border" width="100%">
 				<thead>
 			  		<tr>
+			  			<th><spring:message code="user.id" text="user.id not found" /></th>
 			  			<th><spring:message code="user.username" text="user.username not found" /></th>
 			    		<th><spring:message code="user.name" text="user.name not found" /></th>
 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
 			    		<th></th>
 			  	</thead>
-<!-- 			  	<tfoot> -->
-<!-- 				  	<tr> -->
-<%-- 			    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
-<%-- 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
-<%-- 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
-<!-- 			    		<th></th> -->
-<!-- 				  	</tr> -->
-<!-- 			  	</tfoot> -->
 			  	<tbody>
 			  		<c:forEach items="${lstStudents}" var="student">
 			  		<tr>
+			  			<td class="text-center">${student.id}</td>
 			  			<td>${student.idUser}</td>
 			  			<td>${student.name}</td>
 			  			<td>${student.surname1}</td>
@@ -182,7 +176,15 @@
 			    fixedHeader: {
 			        header: true,
 			        footer: false
-			    }
+			    },
+			    columns : [
+		            { "width":"5%"},
+		            { "width":"16%"},
+		            { "width":"23%"},
+		            { "width":"23%"},
+		            { "width":"23%"},
+		            { "width":"10%"}
+		  		]
 			} );
 		}
 	});

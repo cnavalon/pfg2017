@@ -56,11 +56,12 @@ public class GroupsDAOImpl extends AbstractJpaDao implements GroupsDAO {
 	}
 
 	@Override
-	public void upsert(Group group) {
+	public Group upsert(Group group) {
 		logger.debug("upsert: " + group);
 		try {
-			em.merge(group);
+			Group newGroup = em.merge(group);
 			em.flush();
+			return newGroup;
 		} catch (Exception e) {
 			logger.error("Error insertando/actualizando clase en BBDD: " + group + ". " + e.getMessage());
 			throw e;

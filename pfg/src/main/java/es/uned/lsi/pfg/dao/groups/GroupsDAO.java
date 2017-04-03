@@ -31,7 +31,7 @@ public interface GroupsDAO {
 	 * Inserta o actualiza una clase
 	 * @param group clase
 	 */
-	public void upsert(Group group);
+	public Group upsert(Group group);
 	
 	/**
 	 * Elimina una clase

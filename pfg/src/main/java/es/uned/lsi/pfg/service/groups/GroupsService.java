@@ -55,5 +55,12 @@ public interface GroupsService {
 	 * @return listado de clases
 	 */
 	public List<Group> getGroupsByCourse(Integer course);
+	
+	/**
+	 * Inserta/actualiza una clase
+	 * @param group clase
+	 * @return Id de la clase
+	 */
+	public Integer saveGroup(Group group);
 
 }

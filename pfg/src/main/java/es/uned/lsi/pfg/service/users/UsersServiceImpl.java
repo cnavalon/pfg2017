@@ -5,8 +5,10 @@ package es.uned.lsi.pfg.service.users;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -253,16 +255,15 @@ public class UsersServiceImpl implements UsersService {
 	 * @return listado de {@link UserSearch}
 	 */
 	private List<UserSearch> convertToUserSearchList(List<? extends Person> lstPersons, String idRole, boolean checked) {
-		if(lstPersons == null){
-			return null;
-		}
 		List<UserSearch> lstUserSearch = new ArrayList<UserSearch>();
-		for(Person person : lstPersons){
-			try {
-				UserSearch user = new UserSearch(person.getId(), idRole, person.getName(), person.getSurname1(), person.getSurname2(), person.getIdUser(), checked);
-				lstUserSearch.add(user);
-			} catch (Exception e) {
-				logger.error("ERROR, al convertir el usuario " + person, e);
+		if(lstPersons != null){
+			for(Person person : lstPersons){
+				try {
+					UserSearch user = new UserSearch(person.getId(), idRole, person.getName(), person.getSurname1(), person.getSurname2(), person.getIdUser(), checked);
+					lstUserSearch.add(user);
+				} catch (Exception e) {
+					logger.error("ERROR, al convertir el usuario " + person, e);
+				}
 			}
 		}
 		return lstUserSearch;
@@ -387,14 +388,49 @@ public class UsersServiceImpl implements UsersService {
 		return mapGroupCount;
 	}
 
+//	@Override
+//	public List<UserSearch> getStudensToAddGroup(Integer course, Integer group) {
+//		logger.debug("getStudensToAddGroup: " + course + ", " + group);
+//		List<UserSearch> lstStudents = convertToUserSearchList(studentDAO.findStudentsByCourseWithoutGroup(course),Constans.ROLE_STUDENT, false);
+//		if(group != null){
+//			lstStudents.addAll(convertToUserSearchList(studentDAO.findStundentsByGroup(group), Constans.ROLE_STUDENT, true));
+//		}
+//		return lstStudents;
+//	}
+	
 	@Override
-	public List<UserSearch> getStudensToAddGroup(Integer course, Integer group) {
-		logger.debug("getStudensToAddGroup: " + course + ", " + group);
-		List<UserSearch> lstStudents = convertToUserSearchList(studentDAO.findStudentsByCourseWithoutGroup(course),Constans.ROLE_STUDENT, false);
-		if(group != null){
-			lstStudents.addAll(convertToUserSearchList(studentDAO.findStundentsByGroup(group), Constans.ROLE_STUDENT, true));
+	public List<Student> getFreeStudensByGroup(Integer course) {
+		logger.debug("getFreeStudensByGroup: " + course );
+		return studentDAO.findStudentsByCourseWithoutGroup(course);
+	}
+
+	@Override
+	public void saveStudentsGroup(Integer idGroup, List<Integer> lstStudents) throws Exception {
+		Set<Integer> hsPresentStudents = new HashSet<Integer>(lstStudents);
+		List<Student> lstPreviousStundents = studentDAO.findStundentsByGroup(idGroup);
+		Set<Integer> hsPreviousStudents = new HashSet<Integer>();
+		
+		for(Student student : lstPreviousStundents){
+			hsPreviousStudents.add(student.getId());
 		}
-		return lstStudents;
+		
+		//Eliminamos los descartes
+		HashSet<Integer> hsRemove = new HashSet<Integer>(hsPreviousStudents);
+		hsRemove.removeAll(hsPresentStudents);
+		Integer removed = studentDAO.updateGroup(hsRemove, null);
+		if(removed != hsRemove.size()){
+			logger.error("No se han eliminado todos los alumnos (" + removed + " de " + hsRemove.size() + ")");
+			throw new Exception("No se han eliminado todos los alumnos (" + removed + " de " + hsRemove.size() + ")" );
+		}
+		
+		//Actualizamos los nuevos
+		HashSet<Integer> hsAdd = new HashSet<Integer>(hsPresentStudents);
+		hsAdd.removeAll(hsPreviousStudents);
+		Integer added = studentDAO.updateGroup(hsAdd, idGroup);
+		if(added != hsAdd.size()){
+			logger.error("No se han eliminado todos los alumnos (" + added + " de " + hsAdd.size() + ")");
+			throw new Exception("No se han eliminado todos los alumnos (" + added + " de " + hsAdd.size() + ")" );
+		}
 	}
 
 }

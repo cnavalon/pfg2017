@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Group;
+import es.uned.lsi.pfg.model.GroupForm;
+import es.uned.lsi.pfg.model.Option;
+import es.uned.lsi.pfg.model.Student;
 import es.uned.lsi.pfg.model.UserSearch;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.users.UsersService;
@@ -79,7 +85,7 @@ public class GroupsController {
 		logger.debug("newGroup");
 		
 		ModelAndView model = new ModelAndView("groupForm");
-		model.addObject("group", new Group());
+		model.addObject("group", new GroupForm());
 		model.addObject("lstCourses", groupsService.getAllCourses());
 		model.addObject("lstTeachers", usersService.search(new UserSearch(null, Constans.ROLE_TEACHER, null, null, null, null)));
 		
@@ -87,37 +93,89 @@ public class GroupsController {
 		return model;
 	}
 	
+//	/**
+//	 * Obtiene un listado de alumnos por curso y por clase o sin clase asignada
+//	 * @param course id de curso
+//	 * @param letter letra de clase
+//	 * @return listado de alumnos por curso y por clase o sin clase
+//	 * @throws Exception
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/adm/searchStudents", method = RequestMethod.POST)
+//	public List<UserSearch> searchStudents (@RequestParam Integer course, @RequestParam String letter) throws Exception {
+//		logger.debug("searchStudents: " + course + ", " + letter );
+//		try {
+//			Group group = groupsService.getGroupByCourseAndLetter(course, letter);
+//			Integer groupId = group == null? null : group.getId();
+//			return usersService.getStudensToAddGroup(course, groupId);
+//		} catch (Exception e) {
+//			logger.error("ERROR recuperando listado de alumnos por clase: " + course + "," + letter, e);
+//		}
+//		return null;
+//	}
 	/**
-	 * Obtiene un listado de alumnos por curso y por clase o sin clase asignada
-	 * @param course id de curso
-	 * @param letter letra de clase
-	 * @return listado de alumnos por curso y por clase o sin clase
+	 * Obtiene un listado de alumnos sin clase asignada para un curso
+	 * @param course curso 
+	 * @return istado de alumnos sin clase asignada
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value="/adm/searchStudents", method = RequestMethod.POST)
-	public List<UserSearch> searchStudents (@RequestParam Integer course, @RequestParam String letter) throws Exception {
-		logger.debug("searchStudents: " + course + ", " + letter );
-		try {
-			Group group = groupsService.getGroupByCourseAndLetter(course, letter);
-			Integer groupId = group == null? null : group.getId();
-			List<UserSearch> lstStudents = usersService.getStudensToAddGroup(course, groupId);
-			return lstStudents;
-		} catch (Exception e) {
-			logger.error("ERROR recuperando listado de alumnos por clase: " + course + "," + letter, e);
+	@RequestMapping(value="/adm/searchFreeStudents/{course}", method = RequestMethod.GET)
+	public List<Option> searchFreeStudents (@PathVariable("course") Integer course) throws Exception {
+		logger.debug("searchFreeStudents: " + course );
+		List<Option> lstOptions = new ArrayList<Option>();
+		List<Student> lstStudents = usersService.getFreeStudensByGroup(course);
+		for(Student student : lstStudents){
+			lstOptions.add(new Option(Integer.toString(student.getId()), student.getSurname1() + " " + student.getSurname2() + ", " + student.getName() + " (" + student.getId() + ")"));
 		}
-		return null;
+		return lstOptions;
+		 
+	}
+	/**
+	 * Valida la combinación curso y letra para una clase
+	 * @param course curso
+	 * @param letter letra
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value="/adm/validLetter", method = RequestMethod.POST)
+	public String validLetter (@RequestParam Integer course, @RequestParam String letter, Locale locale) throws Exception {
+		logger.debug("validLetter: " + course + ", " + letter );
+		String error = "";
+		if(groupsService.getGroupByCourseAndLetter(course, letter) != null){
+			error = messageSource.getMessage("group.exist", null, locale);
+		}
+		return error;
 	}
 	
+	/**
+	 * Inserta/actualiza una clase
+	 * @param groupForm formulario de clase
+	 * @param locale
+	 * @return mensaje de error si existe, en caso contrario cadena vacia
+	 * @throws Exception
+	 */
+	@Transactional
 	@ResponseBody
 	@RequestMapping(value="/adm/save", method = RequestMethod.POST)
-	public String saveGroup(@RequestParam("course") String course, @RequestParam("letter") String letter,@RequestParam("tutor") String tutor) throws Exception {
-		logger.debug("saveGroup");
-		
-		System.out.println(course + letter + tutor);
-		
-		
-		return null;
+	public String saveGroup(@ModelAttribute GroupForm groupForm, Locale locale) throws Exception {
+		logger.debug("saveGroup: " + groupForm);
+		String error = "";
+		try {
+			Integer idGroup = groupsService.saveGroup(new Group(groupForm));
+			if(!groupForm.isSkipStudents()){
+				usersService.saveStudentsGroup(idGroup, groupForm.getLstStudents());
+			}
+			if(!groupForm.isSkipSchedule()){
+//				groupsService.saveSchedule(idGroup, groupForm.getFile());
+			}
+		} catch (Exception e) {
+			logger.error("Error saving group: " + groupForm, e);
+			error = messageSource.getMessage("group.save.error", null, locale);
+			error += "<br><br>" + e.getMessage();
+		}
+		return error;
 	}
-
 }
