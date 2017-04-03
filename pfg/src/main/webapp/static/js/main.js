@@ -8,19 +8,26 @@ var csrf = null;
  * @param selectFilterIndexes array de columnas con filtros por select
  * @returns la tabla
  */
-function initTable(id, dataTableLang, noSearchIndexes, selectFilterIndexes){
+function initTable(id, dataTableLang, noSearchIndexes, selectFilterIndexes, hideColumns){
 	var table = $(id).DataTable({
     	sDom:'<lrtip>',
         language: {
             "url": dataTableLang
         },
-        columnDefs: [ {
-            "orderable": false,
-            "targets": noSearchIndexes
-        } ],
+        columnDefs: [ 
+            {
+	            "orderable": false,
+	            "targets": noSearchIndexes
+            },
+            {
+            	"targets": hideColumns,
+            	"visible": false
+            }
+            	
+        ],
         initComplete: function(){
         	 table.columns().every( function () {
-        		 if(noSearchIndexes.indexOf(this.index()) == -1){
+        		 if(noSearchIndexes.indexOf(this.index()) == -1 && hideColumns.indexOf(this.index()) == -1){
         			 var column = this;
 		       		 if (selectFilterIndexes.indexOf(this.index()) == -1) {
 		       			 var that = this;

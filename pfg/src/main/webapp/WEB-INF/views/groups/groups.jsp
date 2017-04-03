@@ -19,6 +19,8 @@
 		    		<th><spring:message code="group.tutor" text="group.tutor not found" /></th>
 		    		<th><spring:message code="group.students" text="group.students not found" /></th>
 		    		<th></th>
+		    		<th></th>
+		    		<th></th>
 		  	</thead>
 		  	<tfoot>
 			  	<tr>
@@ -27,6 +29,8 @@
 		    		<th><spring:message code="group.tutor" text="group.tutor not found" /></th>
 		    		<th><spring:message code="group.students" text="group.students not found" /></th>
 		    		<th></th>
+			  		<th></th>
+			  		<th></th>
 			  	</tr>
 		  	</tfoot>
 		  	<tbody>
@@ -48,6 +52,8 @@
 			    				</c:if>
 		    				</div>
 			    		</td>
+			    		<td>${group.course.stage}</td>
+			    		<td>${group.course.level}</td>
 				  	</tr>
 		  		</c:forEach>
 		  	</tbody>
@@ -59,7 +65,8 @@
 	var tableGroups = null;
 	$(document).ready(function() {
 		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
-		tableGroups = initTable("#tableGroups",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[4],[1]);
+		tableGroups = initTable("#tableGroups",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[4],[1],[5,6]);
+		tableGroups.order([ 5, 'asc' ],[ 6, 'asc' ],[ 1, 'asc' ]).draw();
 	} );
 	
 	function confirmDeleteGroup(group){

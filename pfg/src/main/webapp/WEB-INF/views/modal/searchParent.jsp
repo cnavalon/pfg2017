@@ -51,7 +51,7 @@
 
 <script>
 
-var tableSearchParents = initTable("#tableSearchParents",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[],[]);
+var tableSearchParents = initTable("#tableSearchParents",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[],[],[]);
 
 $('#tableSearchParents tbody').on( 'click', 'tr', function () {
     if ( $(this).hasClass('selected') ) {

@@ -78,6 +78,5 @@ $('#tableStudents').DataTable( {
     "order": [[ 2, "asc" ]]
 } );
 
-// var tableStudents = initTable("#tableStudents",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[],[]);
 
 </script>
