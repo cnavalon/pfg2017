@@ -140,7 +140,7 @@ public interface UsersService {
 	 * @param course curso
 	 * @return listado de estudiantes sin clase asignada
 	 */
-	public List<Student> getFreeStudensByGroup(Integer course);
+	public List<Student> getFreeStudensByCourse(Integer course);
 
 	/**
 	 * Actualiza el campo clase de los alumnos
@@ -149,5 +149,18 @@ public interface UsersService {
 	 * @throws Exception 
 	 */
 	public void saveStudentsGroup(Integer idGroup, List<Integer> lstStudents) throws Exception;
+
+	/**
+	 * Recupera un listado de alumnos por grupo
+	 * @param idGroup grupo
+	 * @return listado de alumnos
+	 */
+	public List<Student> getStudensByGroup(Integer idGroup);
+	
+	/**
+	 * Vacia el campo clase de todos los alumnos de una clase
+	 * @param idGroup clase
+	 */
+	public void deleteStudentsGroup(Integer idGroup);
 	
 }

@@ -2,7 +2,7 @@
 <spring:url value="/users/emp/users" var="urlUsersSearch" />
 <spring:url value="/users/adm/newUser" var="urlNewUser" />
 <spring:url value="/groups/adm/newGroup" var="urlNewGroup" />
-<spring:url value="/groups/adm/groups" var="urlGroupsList" />
+<spring:url value="/groups/emp/groups" var="urlGroupsList" />
 <spring:url value="/groups/schedules" var="urlSchedulesList" />
 
 	

@@ -56,12 +56,11 @@ public class GroupsController {
 	 * @return la pagina de listado de clases
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/adm/groups", method = RequestMethod.GET)
-	public ModelAndView getGroups(Locale locale) throws Exception {
+	@RequestMapping(value="/emp/groups", method = RequestMethod.GET)
+	public ModelAndView getGroups() throws Exception {
 		logger.debug("getGroups");
 		
 		ModelAndView model = new ModelAndView("groups");
-		model.addObject("title", messageSource.getMessage("group.title.new", null, locale));
 		
 		List<Group> lstGroups = groupsService.getAllGroups();
 		model.addObject("lstGroups",  lstGroups);
@@ -76,19 +75,90 @@ public class GroupsController {
 	}
 	
 	/**
-	 * Obtiene la página de nueva clase
-	 * @return la página de nueva clase
+	 * Obtiene la pagina de nueva clase
+	 * @return la pagina de nueva clase
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/adm/newGroup", method = RequestMethod.GET)
-	public ModelAndView newGroup() throws Exception {
+	public ModelAndView newGroup(Locale locale) throws Exception {
 		logger.debug("newGroup");
-		
+		return getGroupForm(locale, "group.title.new", new GroupForm(), true);
+	}
+	
+	/**
+	 * Obtiene la pagina de editar clase
+	 * @param idGroup clase
+	 * @param locale
+	 * @return la pagina de editar clase
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/adm/editGroup/{idGroup}", method = RequestMethod.GET)
+	public ModelAndView editGroup(@PathVariable("idGroup") Integer idGroup, Locale locale) throws Exception {
+		logger.debug("editGroup: " + idGroup);
+		Group group = groupsService.getGroup(idGroup);
+		if(group.getLetter() != null && group.getLetter().equals(Constans.NO_LETTER))
+			group.setLetter("");
+		return getGroupForm(locale, "group.title.edit", new GroupForm(group), false);
+	}
+
+	/**
+	 * Obtiene el formulario de clase
+	 * @param locale
+	 * @param title titulo
+	 * @param group clase
+	 * @return el formulario de clase
+	 */
+	private ModelAndView getGroupForm(Locale locale, String title, GroupForm group, boolean isNew) {
 		ModelAndView model = new ModelAndView("groupForm");
-		model.addObject("group", new GroupForm());
+		model.addObject("title", messageSource.getMessage(title, null, locale));
+		model.addObject("group", group);
+		model.addObject("isNew", isNew);
 		model.addObject("lstCourses", groupsService.getAllCourses());
 		model.addObject("lstTeachers", usersService.search(new UserSearch(null, Constans.ROLE_TEACHER, null, null, null, null)));
 		
+		
+		return model;
+	}
+	
+	/**
+	 * Elimna una clase
+	 * @param idGroup clase
+	 * @param locale
+	 * @return mensaje de resultado de la operacion
+	 * @throws Exception
+	 */
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value="/adm/deleteGroup/{idGroup}", method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable("idGroup") Integer idGroup, Locale locale) throws Exception {
+		logger.debug("deleteGroup: " + idGroup);
+		String error = "";
+		try {
+			usersService.deleteStudentsGroup(idGroup);
+			//TODO borrar horario
+			groupsService.deleteGroup(idGroup);
+			error = messageSource.getMessage("group.deleted", null, locale);
+		} catch (Exception e) {
+			logger.error("Error deleting group: " + idGroup, e);
+			error = messageSource.getMessage("group.delete.error", null, locale);
+		}
+		return error;
+	}
+	
+	/**
+	 * Obtiene un modal de vista de clase
+	 * @param idGroup id de clase
+	 * @param locale
+	 * @return modal de vista de clase
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/emp/viewGroup/{idGroup}", method = RequestMethod.GET)
+	public ModelAndView viewGroup(@PathVariable("idGroup") Integer idGroup, Locale locale) throws Exception {
+		logger.debug("viewGroup: " + idGroup);
+		
+		ModelAndView model = new ModelAndView("viewGroup");
+		model.addObject("group", groupsService.getGroup(idGroup));
+		model.addObject("lstStudents", usersService.getStudensByGroup(idGroup));
 		
 		return model;
 	}
@@ -124,9 +194,32 @@ public class GroupsController {
 	public List<Option> searchFreeStudents (@PathVariable("course") Integer course) throws Exception {
 		logger.debug("searchFreeStudents: " + course );
 		List<Option> lstOptions = new ArrayList<Option>();
-		List<Student> lstStudents = usersService.getFreeStudensByGroup(course);
+		List<Student> lstStudents = usersService.getFreeStudensByCourse(course);
 		for(Student student : lstStudents){
 			lstOptions.add(new Option(Integer.toString(student.getId()), student.getSurname1() + " " + student.getSurname2() + ", " + student.getName() + " (" + student.getId() + ")"));
+		}
+		return lstOptions;
+		 
+	}
+	
+	/**
+	 * Obtiene un listado de los alumnos por curso y letra de clase
+	 * @param course curso
+	 * @param letter letra de clase
+	 * @return listado de alumnos
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value="/adm/searchSelectedStudents", method = RequestMethod.POST)
+	public List<Option> searchSelectedStudents (@RequestParam Integer course, @RequestParam String letter) throws Exception {
+		logger.debug("searchSelectedStudents: " + course + ", " + letter);
+		List<Option> lstOptions = new ArrayList<Option>();
+		Group group = groupsService.getGroupByCourseAndLetter(course, letter);
+		if(group != null){
+			List<Student> lstStudents = usersService.getStudensByGroup(group.getId());
+			for(Student student : lstStudents){
+				lstOptions.add(new Option(Integer.toString(student.getId()), student.getSurname1() + " " + student.getSurname2() + ", " + student.getName() + " (" + student.getId() + ")"));
+			}
 		}
 		return lstOptions;
 		 

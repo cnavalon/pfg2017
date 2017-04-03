@@ -62,5 +62,11 @@ public interface GroupsService {
 	 * @return Id de la clase
 	 */
 	public Integer saveGroup(Group group);
+	
+	/**
+	 * Elimina una clase
+	 * @param idGroup clase
+	 */
+	public void deleteGroup(Integer idGroup);
 
 }

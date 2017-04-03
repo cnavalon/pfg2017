@@ -162,4 +162,17 @@ public class StudentDAOImpl extends AbstractJpaDao implements StudentDAO {
 		}
 	}
 
+	@Override
+	public void removeGroup(Integer idGroup) {
+		logger.debug("removeGroup: " + idGroup);
+		try {
+			em.createNamedQuery(Student.Q_REMOVE_GROUP)
+			.setParameter("group", idGroup).executeUpdate();
+		} catch (Exception e) {
+			logger.error("Error eliminando la clase de alumnos: " + idGroup + ". " +  e.getMessage());
+			throw e;
+		}
+		
+	}
+
 }

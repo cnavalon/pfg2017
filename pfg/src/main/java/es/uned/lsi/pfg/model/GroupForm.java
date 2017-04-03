@@ -21,6 +21,21 @@ public class GroupForm extends Group {
 	private boolean skipSchedule;
 	
 	/**
+	 * Constructor
+	 */
+	public GroupForm(){
+		super();
+	}
+	
+	/**
+	 * Constructor
+	 * @param group clase
+	 */
+	public GroupForm(Group group){
+		super(group);
+	}
+	
+	/**
 	 * Obtiene listado de alumnos 
 	 * @return listado de alumnos 
 	 */

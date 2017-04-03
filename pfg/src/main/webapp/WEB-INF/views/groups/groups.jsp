@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 
-<spring:url value="/users/adm/editUser/" var="urlEditUser" />
+<spring:url value="/groups/emp/viewGroup/" var="urlViewGroup" />
+<spring:url value="/groups/adm/editGroup/" var="urlEditGroup" />
+<spring:url value="/groups/adm/deleteGroup/" var="urlDeleteGroup" />
 
 
 <div class="row-fluid">
@@ -37,7 +39,15 @@
 				  		</c:choose>
 			    		<td>${group.tutor.name} ${group.tutor.surname1} ${group.tutor.surname2}</td>
 			    		<td class="text-center">${mapGroupCount[group.id]}</td>
-			    		<td></td>
+			    		<td>
+			    			<div class="text-center">
+			    				<label id="viewGroup" class="cursorPointer iconTable" onclick="modal('${urlViewGroup}${group.id}',null)"><i class="glyphicon glyphicon-info-sign" title='<spring:message code="common.view" text="common.view not found" />'></i></label>
+			    				 <c:if test="${pageContext.request.isUserInRole('ADM')}">
+				    				<label id="editGroup" class="cursorPointer iconTable" onclick="redirect('${urlEditGroup}${group.id}')"><i class="glyphicon glyphicon-pencil" title='<spring:message code="common.edit" text="common.edit not found" />'></i></label>
+				    				<label id="viewGroup" class="cursorPointer iconTable" onclick="confirmDeleteGroup('${group.id}')"><i class="glyphicon glyphicon-trash" title='<spring:message code="common.delete" text="common.delete not found" />'></i></label>
+			    				</c:if>
+		    				</div>
+			    		</td>
 				  	</tr>
 		  		</c:forEach>
 		  	</tbody>
@@ -49,8 +59,26 @@
 	var tableGroups = null;
 	$(document).ready(function() {
 		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
-		tableGroups = initTable("#tableGroups",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[4],[0,1]);
+		tableGroups = initTable("#tableGroups",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[4],[1]);
 	} );
+	
+	function confirmDeleteGroup(group){
+		confirm('<spring:message code="group.delete.quest" text="group.delete.quest not found" />', function(){deleteGroup(group)}, null)
+	}
+	
+	function deleteGroup(group){
+		$.ajax({
+			dataType : "text",
+			type:"GET", 
+			url : "${urlDeleteGroup}" + group,
+			success : function(response) {
+				alert(response, reload);
+			},
+			error: function(){
+				alert('<spring:message code="group.delete.error" text="group.delete.error not found" />', reload);
+			} 
+		});			
+	}
 	
 
 </script>

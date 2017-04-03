@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 
 <div id="dataModal" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"> 
-	<div class="modal-dialog"> 
+	<div class="modal-dialog modal-lg"> 
 		<div class="modal-content"> 
 	 		<div class="modal-header"> 		        			
 	 			<h3 id="dataModalLabel"><spring:message code="parent.search.title" text="parent.search.title not found"/></h3> 

@@ -30,7 +30,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 	@NamedQuery(name="findStudentByCourseWithoutGroup", query="SELECT x FROM Student x WHERE x.course = :course AND x.group IS NULL AND x.enabled = 1"),
 	@NamedQuery(name="countStudentsByGroup", query="SELECT COUNT(x)FROM Student x WHERE x.group = :group AND x.enabled = 1"),
 	@NamedQuery(name="findStudentsByGroup", query="SELECT x FROM Student x WHERE x.group = :group AND x.enabled = 1"),
-	@NamedQuery(name="updateGroup", query="UPDATE Student x SET x.group = :group WHERE x.id IN :lstIds")
+	@NamedQuery(name="updateGroup", query="UPDATE Student x SET x.group = :group WHERE x.id IN :lstIds"),
+	@NamedQuery(name="removeGroup", query="UPDATE Student x SET x.group = NULL WHERE x.group = :group")
 })
 
 @Entity
@@ -48,6 +49,7 @@ public class Student extends Person implements Serializable {
 	public static final String Q_COUNT_BY_GROUP = "countStudentsByGroup";
 	public static final String Q_FIND_BY_GROUP = "findStudentsByGroup";
 	public static final String Q_UPDATE_GROUP = "updateGroup";
+	public static final String Q_REMOVE_GROUP = "removeGroup";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

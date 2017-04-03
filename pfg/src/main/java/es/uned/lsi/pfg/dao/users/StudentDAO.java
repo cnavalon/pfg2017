@@ -66,5 +66,11 @@ public interface StudentDAO {
 	 */
 	public Integer updateGroup(HashSet<Integer> students, Integer group);
 
+	/**
+	 * Vacia el campo clase de todos los alumnos de una clase
+	 * @param idGroup clase
+	 */
+	public void removeGroup(Integer idGroup);
+
 	
 }

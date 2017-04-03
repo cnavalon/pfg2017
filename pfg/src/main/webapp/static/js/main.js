@@ -113,7 +113,9 @@ function confirm(text, callback, callbackCancel) {
 		});
 		
 		$("#dataConfirmModal").find('#dataConfirmOK').click(function(event) {
-			callback();
+			if(callback != null){
+				callback();
+			}
 			$('#dataConfirmModal').modal('hide');
 			return true;
 		});
@@ -140,7 +142,9 @@ function modal(url, callback, callbackCancel) {
 		});
 		
 		$("#dataModal").find('#dataModalOK').click(function(event) {
-			callback();
+			if(callback != null){
+				callback();
+			}
 			$('#dataModal').modal('hide');
 			return true;
 		});

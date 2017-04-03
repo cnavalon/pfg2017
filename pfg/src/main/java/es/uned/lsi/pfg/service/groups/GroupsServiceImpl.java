@@ -77,6 +77,13 @@ public class GroupsServiceImpl implements GroupsService {
 		return newGroup.getId();
 	}
 
+	@Override
+	public void deleteGroup(Integer idGroup) {
+		logger.debug("deleteGroup: " + idGroup);
+		Group group = groupsDAO.findById(idGroup);
+		groupsDAO.remove(group);
+	}
+
 	
 
 }

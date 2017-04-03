@@ -24,7 +24,7 @@
 	<!-- Modal -->
 	<definition name="alert" template="/WEB-INF/views/modal/alert.jsp" />
 	<definition name="confirm" template="/WEB-INF/views/modal/confirm.jsp" />
-	<definition name="searchParent" template="/WEB-INF/views/modal/searchParent.jsp" />
+
 
 	<!-- Home -->
 	<definition name="adminHome" extends="base.definition">
@@ -53,6 +53,8 @@
 	<definition name="studentForm" template="/WEB-INF/views/users/studentForm.jsp" />
 	<definition name="parentForm" template="/WEB-INF/views/users/parentForm.jsp" />
 	
+	<definition name="searchParent" template="/WEB-INF/views/modal/searchParent.jsp" />
+	
 	<!-- Groups  -->
 	<definition name="groups" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/groups/groups.jsp" />
@@ -60,5 +62,7 @@
 	<definition name="groupForm" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/groups/groupForm.jsp" />
 	</definition>
+	
+	<definition name="viewGroup" template="/WEB-INF/views/modal/viewGroup.jsp" />
 
 </tiles-definitions>

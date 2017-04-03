@@ -149,7 +149,7 @@
 	});
 	
 	$('#buttonCancel').click(function(event){
-		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', redirect("${urlUsersSearch}"), null);
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', function(){redirect("${urlUsersSearch}")}, null);
 	});
 	
 	$('#buttonOk').click(function(event){

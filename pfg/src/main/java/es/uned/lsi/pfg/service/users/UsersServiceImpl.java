@@ -399,8 +399,8 @@ public class UsersServiceImpl implements UsersService {
 //	}
 	
 	@Override
-	public List<Student> getFreeStudensByGroup(Integer course) {
-		logger.debug("getFreeStudensByGroup: " + course );
+	public List<Student> getFreeStudensByCourse(Integer course) {
+		logger.debug("getFreeStudensByCourse: " + course );
 		return studentDAO.findStudentsByCourseWithoutGroup(course);
 	}
 
@@ -432,5 +432,18 @@ public class UsersServiceImpl implements UsersService {
 			throw new Exception("No se han eliminado todos los alumnos (" + added + " de " + hsAdd.size() + ")" );
 		}
 	}
+
+	@Override
+	public List<Student> getStudensByGroup(Integer idGroup) {
+		logger.debug("getStudensByGroup: " + idGroup);
+		return studentDAO.findStundentsByGroup(idGroup);
+	}
+
+	@Override
+	public void deleteStudentsGroup(Integer idGroup) {
+		logger.debug("deleteStudentsGroup: " + idGroup);
+		studentDAO.removeGroup(idGroup);
+	}
+
 
 }

@@ -1,9 +1,10 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 
 <spring:url value="/groups/adm/save?${_csrf.parameterName}=${_csrf.token}" var="urlSaveGroup" />
-<spring:url value="/groups/adm/groups" var="urlGroupsList" />
+<spring:url value="/groups/emp/groups" var="urlGroupsList" />
 <%-- <spring:url value="/groups/adm/searchStudents?${_csrf.parameterName}=${_csrf.token}" var="urlSearchStudents" /> --%>
 <spring:url value="/groups/adm/searchFreeStudents/" var="urlSearchFreeStudents" />
+<spring:url value="/groups/adm/searchSelectedStudents?${_csrf.parameterName}=${_csrf.token}" var="urlSearchSelectedStudents" />
 <spring:url value="/groups/adm/validLetter?${_csrf.parameterName}=${_csrf.token}" var="urlValidLetter" />
 
 <div class="row-fluid">
@@ -15,15 +16,24 @@
 	<div class="col-sm-12">
 		<form:form id="groupForm" class="form-horizontal" method="post" modelAttribute="group" enctype="multipart/form-data" action="javascript:;">
 			<fieldset id="filedsetForm">
+				<form:input type="hidden" path="id" id="inputId"/>
 				<div id="divRow0" class="form-group">
 					<div id="divCourse">
 						<spring:message code="group.course" var="courseIdText" text="group.course not found"/>
 						<label class="col-sm-2 control-label">${courseIdText}*</label>
 						<div class="col-sm-3">
-							<form:select class="form-control" id="selectCourse" path="course.idCourse">
-	      						<form:option value="" label=""/>
-	      						<form:options items="${lstCourses}" itemValue="idCourse" itemLabel="name"/>
-	 						</form:select>
+							<c:choose>
+								<c:when test="${isNew}">
+									<form:select class="form-control" id="selectCourse" path="course.idCourse">
+			      						<form:option value="" label=""/>
+			      						<form:options items="${lstCourses}" itemValue="idCourse" itemLabel="name"/>
+			 						</form:select>
+								</c:when>
+								<c:otherwise>
+									<form:input type="hidden" path="course.idCourse" id="selectCourse"/>
+									<form:input type="text" path="course.name" class="form-control" id="inputCourseName" disabled="true"/>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 					
@@ -64,37 +74,6 @@
 				</div>
 			</fieldset>
 			
-<!-- 			<div id="divRow2" class="form-group"> -->
-<!-- 				<div id="divStudentsTitle"> -->
-<%-- 					<spring:message code="group.students" var="StudentsText" text="group.students not found"/> --%>
-<%-- 					<label class="col-sm-2 control-label">${StudentsText}</label> --%>
-<!-- 				</div> -->
-<!-- 				<div id="divStudentsTable" class="col-sm-offset-1 col-sm-10"> -->
-<!-- 					<table id="tableStudents" class="stripe hover row-border" width="100%"> -->
-<!-- 						<thead> -->
-<!-- 					  		<tr> -->
-<!-- 					    		<th class="text-center"><input type="checkbox" onclick="selectAll(this)"></th> -->
-<%-- 					    		<th><spring:message code="user.id" text="user.id not found" /></th> --%>
-<%-- 					    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
-<%-- 					    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
-<%-- 					    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
-<!-- 				    		</tr> -->
-<!-- 					  	</thead> -->
-<!-- 					  	<tfoot> -->
-<!-- 						  	<tr> -->
-<!-- 					    		<th></th> -->
-<%-- 						  		<th><spring:message code="user.id" text="user.id not found" /></th> --%>
-<%-- 					    		<th><spring:message code="user.name" text="user.name not found" /></th> --%>
-<%-- 					    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th> --%>
-<%-- 					    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th> --%>
-<!-- 						  	</tr> -->
-<!-- 					  	</tfoot> -->
-<!-- 					  	<tbody> -->
-<!-- 					  	</tbody> -->
-<!-- 					</table> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			
 			<div id="divRow2" class="form-group">
 				<div id="divStudentsTitle">
 					<label class="col-sm-2 control-label">
@@ -111,7 +90,7 @@
 							<spring:message code="group.students.free" text="group.students.free not found"/> : 
 							<span id="spanFreeStudentsCount"></span>
 						</label>
-						<select id="selectFreeStudents" class="form-control" multiple size="20">
+						<select id="selectFreeStudents" class="form-control" multiple size="15">
 						</select>
 					</div>
 					<div class="col-sm-2 flex-child">
@@ -127,7 +106,7 @@
 							<spring:message code="group.students.selected" text="group.students.selected not found"/> : 
 							<span id="spanSelectedStudentsCount"></span>
 						</label>
-						<select id="selectSelectedStudents" class="form-control" multiple="true" size="20">
+						<select id="selectSelectedStudents" class="form-control" multiple="true" size="15">
 						<select>
 					</div>
 				</div>
@@ -155,16 +134,21 @@
 	var freeStudents = [];
 	var skipStudents = true;
 	var skipSchedule = true;
-	
+	var isNew = ("${isNew}" == "true");
+	var letterOriginal = null;
 	
 	$(document).ready(function() {
 		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
 		orderOptions("#selectTutor");
-		drawAllStudentsList();
+		if(!isNew){
+			searchFreeStudents($("#selectCourse").val());
+			searchSelectedStudents($("#selectCourse").val(), $("#inputLetter").val());
+			letterOriginal = $("#inputLetter").val();
+		}
 	} );
 	
 	$('#buttonCancel').click(function(event){
-		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', redirect("${urlGroupsList}"), null);
+		confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', function(){redirect("${urlGroupsList}")}, null);
 	});
 	
 	$("#selectCourse").change(function(){
@@ -183,7 +167,12 @@
 			$("#inputLetter").val($("#inputLetter").val().toUpperCase());
 		}
 		if($("#selectCourse").val() != ""){
-			validGroupLetter($("#selectCourse").val(), $("#inputLetter").val().trim());
+			if(isNew || $("#inputLetter").val().trim() != letterOriginal){
+				validGroupLetter($("#selectCourse").val(), $("#inputLetter").val().trim());
+			} else {
+				$("#divLetter").removeClass("has-error");
+				$("#buttonAdd").prop("disabled",false);
+			}
 		}
 	})
 	
@@ -252,96 +241,6 @@
 	}
 	
 	
-// 	function searchStudents(){
-// 		if(tableStudents == null){
-// 			createTable();
-// 		} else {
-// 			reloadTable();
-// 		}
-// 		selectedStudents = {};
-// 		$("#divStudentsTable").show();
-// 	}
-	
-// 	function cleanStudents(){
-// 		selectedStudents = {};
-// // 		$("#divStudentsTable").hide();
-// 	}
-	
-// 	function createTable(){
-// 		tableStudents = $("#tableStudents").DataTable({
-// 	    	sDom:'<lrtip>',
-// 	        language: {
-// 	            "url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
-// 	        },
-// 	        ajax : {
-// 	   			url : '${urlSearchStudents}',
-// 	   			type : "POST",
-// 	   			data : function(d){
-// 	   				d.course = $("#selectCourse").val().trim();
-// 	   				d.letter = $("#inputLetter").val().trim();
-// 	   			},
-// 	   			dataSrc : function ( json ) {
-// 	   	     		if(json != null && json.length > 0){
-// 	   		   	    	for (var i = 0; i < json.length; i++) {
-// 	   	     	    		json[i].check = '<div class="text-center"><input type="checkbox" onChange="checkStudent(' + json[i].id + ')" ';
-// 	   	     	    		if (json[i].checked) {
-// 	   	     	    			json[i].check += 'checked';
-// 	   	     	    			selectedStudents[json[i].id] = true;
-// 	   	     	    		} else {
-// 		   	     	    		selectedStudents[json[i].id] = false;
-// 	   	     	    		}
-// 	   	     	    		json[i].check += '></div>';
-	   	     	    		
-// 	   	     	    	}
-// 	   	     		}
-// 	   	 	      	return json;
-// 	   	 	    }
-// 	   		},
-// 	   	   	columns : [
-// 	            { "data": "check", "width":"10%", "orderable": false},
-// 	            { "data": "id", "visible":false},
-// 	            { "data": "name", "width":"30%"},
-// 	       		{ "data": "surname1", "width":"30%" },
-// 	      		{ "data": "surname2", "width":"30%"},
-// 	  		],
-// 	  		order : [[3,"asc"]],
-// 	        initComplete: function(){
-// 	        	tableStudents.columns().every( function () {
-// 	        		 if(this.index() != 0){
-// 	        			 var column = this;
-// 		       			 var that = this;
-// 					     var title = $(column.footer()).text();
-// 					     $(column.footer()).html( '<input type="text" class="filterTables" placeholder="'+title+'"/>' );
-// 					     $( 'input', this.footer() ).on('keyup change', function () {
-// 					    	 if ( that.search() !== this.value ) {
-// 					    		 that.search( this.value ).draw();
-// 					    	 }
-// 					     } );
-// 	        		 }
-// 	       	  	} ); 
-// 	    		$("#tableStudents tfoot tr").insertBefore($("#tableStudents thead tr"));
-// 			}
-// 	    });
-			
-// 	}
-	
-// 	function reloadTable(){
-// 		tableStudents.ajax.reload();
-// 	}
-// 	function checkStudent(id){
-// 		selectedStudents[id] = !selectedStudents[id];
-// 	}
-	
-// 	function selectAll(cb){
-// 		$(":checkbox", $("#tableStudents").dataTable().fnGetNodes()).each(function () { 
-// 			  $(this).prop("checked", cb.checked);
-// 		}); 
-// 		for (var student in selectedStudents) {
-// 		    if (selectedStudents.hasOwnProperty(student)) {
-// 		    	selectedStudents[student] = cb.checked;
-// 		    }
-// 		}
-// 	}
 	
 	$("#scheduleFile").change(function() {
 		$("#textFile").text($("#scheduleFile").val().split('\\').pop());
@@ -435,6 +334,29 @@
 			},
 			error: function(){
 				alert('<spring:message code="group.freeStudents.error" text="group.freeStudents.error"/>',null);
+				drawAllStudentsList();
+			}
+		});		
+	}
+	
+	function searchSelectedStudents(course, letter){
+		selectedStudents = [];
+		var data = {
+				course : course,
+				letter : letter
+			};
+		$.ajax({
+			url : '${urlSearchSelectedStudents}',
+			type: "POST", 
+			data: data,
+			success : function(data) {
+				if (data != null && data.length > 0){
+					selectedStudents = data;
+				} 
+				drawAllStudentsList();
+			},
+			error: function(){
+				alert('<spring:message code="group.selectedStudents.error" text="group.selectedStudents.error"/>',null);
 				drawAllStudentsList();
 			}
 		});		

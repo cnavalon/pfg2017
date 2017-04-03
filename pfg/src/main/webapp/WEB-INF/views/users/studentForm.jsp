@@ -1018,13 +1018,13 @@
 	$("#iconSearchPar1").click(function(){
 		parent = null;
 		parentFocus = 1;
-		modal("modal/searchParent",fillParent,null);
+		modal("users/searchParent",fillParent,null);
 	});
 	
 	$("#iconSearchPar2").click(function(){
 		parent = null;
 		parentFocus = 2;
-		modal("modal/searchParent",fillParent,null);
+		modal("users/searchParent",fillParent,null);
 	});
 	
 	function fillParent(){

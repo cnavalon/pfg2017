@@ -437,10 +437,29 @@ public class UsersController {
 		return messageSource.getMessage("user.save.error", null, locale);
 	}
 	
+	/**
+	 * Obtiene las clases de un curso
+	 * @param course curso
+	 * @return las clases de un curso
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/adm/getGroups/{course}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Group> getGroups(@PathVariable("course") Integer course) throws Exception {
 		logger.debug("getGroups: " + course);
 		return groupService.getGroupsByCourse(course);
+	}
+	
+	/**
+	 * Obtiene el modal de busqueda de padres
+	 * @return el modal de busqueda de padres
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/searchParent")
+	public ModelAndView searchParent() throws Exception{
+		logger.debug("searchParent" );
+		ModelAndView model = new ModelAndView("searchParent");
+		model.addObject("lstParents",usersService.search(new UserSearch(null, Constans.ROLE_PARENT, null, null, null, null)));
+		return model;
 	}
 }
