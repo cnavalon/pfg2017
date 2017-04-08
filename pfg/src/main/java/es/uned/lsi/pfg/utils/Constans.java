@@ -15,8 +15,11 @@ public interface Constans {
 	//SESSION FIELDS
 	public static final String SESSION_USER_NAME = "sessionUserFullName";
 	public static final String SESSION_ROLE = "sessionUserRole";
+	public static final String SESSION_USER_ID = "sessionUserId";
 	
+	//GROUPS PARAMETERS
 	public static final String NO_LETTER = "-";
+	public static final Integer DAYS_OF_WEEK = 5;
 	
 	
 	

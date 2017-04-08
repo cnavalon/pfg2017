@@ -5,6 +5,7 @@
 <spring:url value="/users/adm/checkUser/" var="urlCheckUser" />
 <spring:url value="/users/adm/newPerson/" var="urlNewPerson" />
 <spring:url value="/users/emp/updatePerson/" var="urlUpdatePerson" />
+<spring:url value="/users/adm/editUser/" var="urlEditUser" />
 
 
 <div class="row-fluid">
@@ -97,6 +98,9 @@
 		    			</c:when>
 		    			<c:otherwise>
 		    				<div class="col-sm-4">
+		    					<c:if test="${pageContext.request.isUserInRole('ADM')}">
+			    					<button id ="buttonEdit" type="button" class="btn btn-block btn-default" ><spring:message code="common.edit" text="common.edit not found"/></button>
+		    					</c:if>
 				    		</div>
 				    		<div class="col-sm-4">
 					      		<button id ="buttonOk" type="button" class="btn btn-block btn-default" ><spring:message code="common.ok" text="common.ok not found"/></button>
@@ -154,6 +158,10 @@
 	
 	$('#buttonOk').click(function(event){
 		redirect("${urlUsersSearch}");
+	});
+	
+	$('#buttonEdit').click(function(event){
+		redirect("${urlEditUser}" + "${user.idUser}");
 	});
 	
 	$("#inputId").change(function(){

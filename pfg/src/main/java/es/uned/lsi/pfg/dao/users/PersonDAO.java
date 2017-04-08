@@ -47,7 +47,14 @@ public interface PersonDAO {
 	 * @param classPerson clase de persona segun su perfil
 	 * @return listado de todas las personas de la clase buscada que coincidan con los datos de busqueda
 	 */
-	public <T extends Person> List<T> searchUsers(UserSearch userSearch, Class<T> classPerson); 
+	public <T extends Person> List<T> searchUsers(UserSearch userSearch, Class<T> classPerson);
+
+	/**
+	 * Obtiene un listado de todas las personas en base a su perfil
+	 * @param classPerson clase de la persona segun su perfil
+	 * @return un listado con todas las personas de la clase buscada
+	 */
+	public <T extends Person> List<T> findAllHistoric(Class<T> classPerson); 
 	
 	
 }

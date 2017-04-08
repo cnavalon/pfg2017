@@ -255,6 +255,8 @@ public class UsersController {
 				} else if(idRole.equals(Constans.ROLE_PARENT)){
 					model.addObject("lstDNI", getLstDNI());
 					model.addObject("lstStudents", usersService.findStudents(person.getId()));
+				} else if(idRole.equals(Constans.ROLE_TEACHER)){
+					model.addObject("group", groupService.getGroupByTutor(person.getId()));
 				}
 				return model;
 			} catch (Exception e) {
@@ -443,7 +445,7 @@ public class UsersController {
 	 * @return las clases de un curso
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/adm/getGroups/{course}", method = RequestMethod.GET)
+	@RequestMapping(value = "/emp/getGroups/{course}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Group> getGroups(@PathVariable("course") Integer course) throws Exception {
 		logger.debug("getGroups: " + course);

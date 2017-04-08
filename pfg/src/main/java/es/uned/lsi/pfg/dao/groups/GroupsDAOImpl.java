@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import es.uned.lsi.pfg.dao.AbstractJpaDao;
 import es.uned.lsi.pfg.model.Group;
+import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion de repositorio de clases
@@ -59,6 +60,9 @@ public class GroupsDAOImpl extends AbstractJpaDao implements GroupsDAO {
 	public Group upsert(Group group) {
 		logger.debug("upsert: " + group);
 		try {
+			if(group.getLetter() == null || group.getLetter().trim().equals("")){
+				group.setLetter(Constans.NO_LETTER);
+			}
 			Group newGroup = em.merge(group);
 			em.flush();
 			return newGroup;
@@ -112,6 +116,21 @@ public class GroupsDAOImpl extends AbstractJpaDao implements GroupsDAO {
 			throw e;
 		}
 		return lstGroups;
+	}
+
+	@Override
+	public Group findByTutor(Integer tutor) {
+		logger.debug("findByTutor: " + tutor);
+		try {
+			return em.createNamedQuery(Group.Q_FIND_BY_TUTOR, Group.class)
+					.setParameter("tutor", tutor)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
+		} catch (Exception e) {
+			logger.error("Error recuperando clase por tutor: " + tutor, e);
+		}
+		return null;
 	}
 
 }

@@ -162,5 +162,27 @@ public interface UsersService {
 	 * @param idGroup clase
 	 */
 	public void deleteStudentsGroup(Integer idGroup);
+
+	/**
+	 * Devuelve un listado de personas por tipo
+	 * @param classPerson tipo de persona
+	 * @return listado de personas
+	 */
+	public  <T extends Person> List<T> getByClass(Class<T> classPerson);
+
+	/**
+	 * Devuelve una persona por id y tipo
+	 * @param id id persona
+	 * @param classPerson tipo
+	 * @return persona
+	 */
+	public <T extends Person> T getById(Integer id, Class<T> classPerson);
+
+	/**
+	 * Devuelve un listado de personas por tipo, incluyendo historico
+	 * @param classPerson tipo de persona
+	 * @return listado de personas
+	 */
+	public  <T extends Person> List<T> getByClassHistoric(Class<T> classPerson);
 	
 }

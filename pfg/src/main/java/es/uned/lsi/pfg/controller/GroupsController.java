@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.GroupForm;
 import es.uned.lsi.pfg.model.Option;
+import es.uned.lsi.pfg.model.Role;
 import es.uned.lsi.pfg.model.Student;
+import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.UserSearch;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.users.UsersService;
@@ -159,30 +163,13 @@ public class GroupsController {
 		ModelAndView model = new ModelAndView("viewGroup");
 		model.addObject("group", groupsService.getGroup(idGroup));
 		model.addObject("lstStudents", usersService.getStudensByGroup(idGroup));
+		Group group = groupsService.getGroup(idGroup);
+		List<Teacher> lstTeachers = usersService.getByClassHistoric(Teacher.class);
+		model.addObject("schedule", groupsService.getScheduleByGroup(group, lstTeachers));
 		
 		return model;
 	}
 	
-//	/**
-//	 * Obtiene un listado de alumnos por curso y por clase o sin clase asignada
-//	 * @param course id de curso
-//	 * @param letter letra de clase
-//	 * @return listado de alumnos por curso y por clase o sin clase
-//	 * @throws Exception
-//	 */
-//	@ResponseBody
-//	@RequestMapping(value="/adm/searchStudents", method = RequestMethod.POST)
-//	public List<UserSearch> searchStudents (@RequestParam Integer course, @RequestParam String letter) throws Exception {
-//		logger.debug("searchStudents: " + course + ", " + letter );
-//		try {
-//			Group group = groupsService.getGroupByCourseAndLetter(course, letter);
-//			Integer groupId = group == null? null : group.getId();
-//			return usersService.getStudensToAddGroup(course, groupId);
-//		} catch (Exception e) {
-//			logger.error("ERROR recuperando listado de alumnos por clase: " + course + "," + letter, e);
-//		}
-//		return null;
-//	}
 	/**
 	 * Obtiene un listado de alumnos sin clase asignada para un curso
 	 * @param course curso 
@@ -262,7 +249,7 @@ public class GroupsController {
 				usersService.saveStudentsGroup(idGroup, groupForm.getLstStudents());
 			}
 			if(!groupForm.isSkipSchedule()){
-//				groupsService.saveSchedule(idGroup, groupForm.getFile());
+				groupsService.saveSchedule(idGroup, groupForm.getFile());
 			}
 		} catch (Exception e) {
 			logger.error("Error saving group: " + groupForm, e);
@@ -270,5 +257,74 @@ public class GroupsController {
 			error += "<br><br>" + e.getMessage();
 		}
 		return error;
+	}
+	
+	/**
+	 * Procesa una clase 
+	 * @param groupForm clase
+	 * @throws Exception
+	 */
+	@Transactional
+	private void processGroup(GroupForm groupForm) throws Exception{
+		
+		Integer idGroup = groupsService.saveGroup(new Group(groupForm));
+		if(!groupForm.isSkipStudents()){
+			usersService.saveStudentsGroup(idGroup, groupForm.getLstStudents());
+		}
+		if(!groupForm.isSkipSchedule()){
+			groupsService.saveSchedule(idGroup, groupForm.getFile());
+		}
+	}
+	
+	/**
+	 * Obtiene la pagina del horario según el usuario activo
+	 * @return pagina de horario
+	 */
+	@RequestMapping(value="/schedule", method = RequestMethod.GET)
+	public ModelAndView getSchedule(HttpSession session){
+		logger.debug("getSchedule");
+		ModelAndView model = new ModelAndView("schedule");
+		List<UserSearch> lstUsers = null;
+		Role role = (Role) session.getAttribute(Constans.SESSION_ROLE);
+		Integer id = (Integer) session.getAttribute(Constans.SESSION_USER_ID);
+		
+		if(role.getIdRole().equals(Constans.ROLE_ADMIN)){ //Horario de todos los profesores
+			lstUsers = usersService.search(new UserSearch(null, Constans.ROLE_TEACHER, null, null, null, null));
+		} else if(role.getIdRole().equals(Constans.ROLE_TEACHER)){//Horario del profesor
+			lstUsers = usersService.search(new UserSearch(id, Constans.ROLE_TEACHER, null, null, null, null));
+		} else if(role.getIdRole().equals(Constans.ROLE_PARENT)){ //Horario del profesor
+			lstUsers = usersService.findStudents(id);
+		} else if(role.getIdRole().equals(Constans.ROLE_STUDENT)){ //Horario del profesor
+			lstUsers = usersService.search(new UserSearch(id, Constans.ROLE_STUDENT, null, null, null, null));
+		} else {
+			logger.error("Perfil no valido");
+		}
+		
+		model.addObject("lstUsers", lstUsers);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="/getStudentSchedule/{id}", method = RequestMethod.GET)
+	public ModelAndView getStudentSchedule(@PathVariable("id") Integer id){
+		logger.debug("getStudentSchedule: " + id);
+		ModelAndView model = new ModelAndView("scheduleGroup");
+		Student student = usersService.getById(id, Student.class);
+		Group group = groupsService.getGroup(student.getGroup());
+		if(group != null){
+			model.addObject("schedule", groupsService.getScheduleByGroup(group, usersService.getByClassHistoric(Teacher.class)));
+		}
+		
+		return model;
+	}
+	
+	@RequestMapping(value="/emp/getTeacherSchedule/{id}", method = RequestMethod.GET)
+	public ModelAndView getTeacherSchedule(@PathVariable("id") Integer id){
+		logger.debug("getTeacherSchedule: " + id);
+		ModelAndView model = new ModelAndView("scheduleTeacher");
+		Teacher teacher = usersService.getById(id, Teacher.class);
+		model.addObject("schedule", groupsService.getScheduleByTeacher(teacher));
+		
+		return model;
 	}
 }

@@ -29,7 +29,7 @@
 			<spring:message code="user.surname2" var="userSurname2Text" text="user.surname2 not found"/>
 			<label class="col-sm-2 control-label">${userSurname2Text}</label>
 			<div class="col-sm-3">
-				<input type="text" value="${person.surname1}"  class="form-control" id="inputSurname2" placeholder="${userSurname2Text}">
+				<input type="text" value="${person.surname2}"  class="form-control" id="inputSurname2" placeholder="${userSurname2Text}">
 			</div>
 		</div>
 		
@@ -58,7 +58,19 @@
 				<input type="text" value="${person.telephone2}"class="form-control" id="inputTelephone2" placeholder="${userTelephone2Text}" onkeypress="return isNumberKey(event)" maxlength="9">
 			</div>
 		</div>
+		
 	</div>
+	<c:if test="${not empty person.id}">
+		<div id="divPerRow3" class="form-group">
+			<div id=divTutorial>
+				<spring:message code="user.tutorial" var="userTutorialText" text="user.tutorial not found"/>
+				<label class="col-sm-2 control-label">${userTutorialText}</label>
+				<div class="col-sm-3">
+					<span class="form-control" disabled>${group.course.name} ${group.letter}</span>
+				</div>
+			</div>
+		</div>
+	</c:if>
 </fieldset>
 
 <script>

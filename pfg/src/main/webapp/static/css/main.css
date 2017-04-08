@@ -74,12 +74,12 @@ body {
 	padding: 0;
 }
 .selectFileLabel {
-		text-align:center;
-	}
+	text-align:center;
+}
 .selectFileInput {
-		visibility: hidden; 
-		position: absolute;
-	}
+	visibility: hidden; 
+	position: absolute;
+}
 .flex-parent{
   display: -ms-flex;
   display: -webkit-flex;
@@ -98,4 +98,7 @@ body {
 }
 .modal-padding{
 	padding: 0 5% 0 5%
+}
+.modal-xl{
+	width: 85%;
 }

@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -17,12 +19,22 @@ import javax.persistence.Table;
  * @author Carlos Navalon Urrea
  *
  */
+@NamedQueries({
+	@NamedQuery(name="findAllSubject", query="SELECT x FROM Subject x"),
+	@NamedQuery(name="findSubjectById", query="SELECT x FROM Subject x WHERE x.id = :id"),
+	@NamedQuery(name="findSubjectByCode", query="SELECT x FROM Subject x WHERE x.code = :code")
+})
 @Entity
 @Table(name="subjects")
 public class Subject implements Serializable {
 
 	private static final long serialVersionUID = -8081470506622326605L;
 
+	/** Queries **/
+	public static final String Q_FIND_ALL = "findAllSubject";
+	public static final String Q_FIND_BY_ID = "findSubjectById";
+	public static final String Q_FIND_BY_CODE = "findSubjectByCode";
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_subject")

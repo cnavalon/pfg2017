@@ -161,7 +161,7 @@ public class UserSearch {
 	}
 	
 	public String getFullName(){
-		return name + " " + surname1 + " " + surname2;
+		return surname1 + " " + surname2 + ", " + name;
 	}
 
 	/* (non-Javadoc)

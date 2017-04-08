@@ -104,13 +104,33 @@ public class PersonDAOImpl extends AbstractJpaDao implements PersonDAO {
 				query += " AND x.surname1 LIKE '%" + userSearch.getSurname1() + "%'";
 			if(userSearch.getSurname2() != null && !userSearch.getSurname2().equals(""))
 				query += " AND x.surname2 LIKE '%" + userSearch.getSurname2() + "%'";
+			if(userSearch.getId() != null)
+				query += " AND x.id = " + userSearch.getId();
+			if(userSearch.getIdUser() != null && !userSearch.getIdUser().equals(""))
+				query += " AND x.idUser LIKE '%" + userSearch.getIdUser() + "%'";
 			
-			return em.createQuery(query).getResultList(); 
+			
+			return em.createQuery(query, classPerson).getResultList(); 
 		} catch (NoResultException e) {
 			logger.debug("Empty results");
 		} catch (Exception e) {
 			logger.error("Error buscando personas: " + userSearch + "," + classPerson, e);
 		}
 		return null;
+	}
+
+	@Override
+	public <T extends Person> List<T> findAllHistoric(Class<T> classPerson) {
+		logger.debug("findAllHistoric: " + classPerson);
+		List<T> lstPersons = null;
+		try {
+			lstPersons =  em.createQuery("SELECT x FROM " + classPerson.getName() + " x", classPerson)
+					.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
+		} catch (Exception e) {
+			logger.error("Error recuperando todos: " + classPerson, e);
+		}
+		return lstPersons;
 	}
 }

@@ -40,7 +40,7 @@ public class StudentGroupDAOImpl extends AbstractJpaDao implements StudentGroupD
 		logger.debug("findStundentsByGroup: " + group);
 		List<Integer> lstStudents = new ArrayList<Integer>();
 		try {
-			lstStudents = em.createQuery("SELECT x.student FROM StudentGroup x WHERE x.group = " + group).getResultList();
+			lstStudents = em.createQuery("SELECT x.student FROM StudentGroup x WHERE x.group = " + group, Integer.class).getResultList();
 		} catch (NoResultException e) {
 			logger.debug("Empty results");
 		} catch (Exception e) {

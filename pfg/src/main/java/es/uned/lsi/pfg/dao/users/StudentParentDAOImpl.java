@@ -40,7 +40,7 @@ public class StudentParentDAOImpl extends AbstractJpaDao implements StudentParen
 		logger.debug("findByStudent: " + student);
 		List<StudentParent> lstStudentParent = new ArrayList<StudentParent>();
 		try {
-			lstStudentParent = em.createQuery("SELECT x FROM StudentParent x WHERE x.student = " + student).getResultList();
+			lstStudentParent = em.createQuery("SELECT x FROM StudentParent x WHERE x.student = " + student, StudentParent.class).getResultList();
 		} catch (NoResultException e) {
 			logger.debug("Empty results");
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public class StudentParentDAOImpl extends AbstractJpaDao implements StudentParen
 		logger.debug("findByParent: " + parent);
 		List<StudentParent> lstStudentParent = new ArrayList<StudentParent>();
 		try {
-			lstStudentParent = em.createQuery("SELECT x FROM StudentParent x WHERE x.parent = " + parent).getResultList();
+			lstStudentParent = em.createQuery("SELECT x FROM StudentParent x WHERE x.parent = " + parent, StudentParent.class).getResultList();
 		} catch (NoResultException e) {
 			logger.debug("Empty results");
 		} catch (Exception e) {

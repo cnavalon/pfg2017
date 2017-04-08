@@ -26,7 +26,8 @@ import javax.persistence.Table;
 	@NamedQuery(name="findGroupById", query="SELECT x FROM Group x WHERE x.id = :id"),
 	@NamedQuery(name="findAllGroups", query="SELECT x FROM Group x"),
 	@NamedQuery(name="findGroupByCourseAndLetter", query="SELECT x FROM Group x WHERE x.course.idCourse = :course AND x.letter = :letter"),
-	@NamedQuery(name="findGroupByCourse", query="SELECT x FROM Group x WHERE x.course.idCourse = :course")
+	@NamedQuery(name="findGroupByCourse", query="SELECT x FROM Group x WHERE x.course.idCourse = :course"),
+	@NamedQuery(name="findGroupByTutor", query="SELECT x FROM Group x WHERE x.tutor.id = :tutor")
 })
 @Entity
 @Table(name="groups")
@@ -39,6 +40,7 @@ public class Group implements Serializable {
 	public static final String Q_FIND_ALL = "findAllGroups";
 	public static final String Q_FIND_BY_COURSE_LETTER = "findGroupByCourseAndLetter";
 	public static final String Q_FIND_BY_COURSE = "findGroupByCourse";
+	public static final String Q_FIND_BY_TUTOR = "findGroupByTutor";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

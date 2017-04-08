@@ -53,5 +53,12 @@ public interface GroupsDAO {
 	 * @return listado de clases por curso
 	 */
 	public List<Group> findByCourse(Integer course);
+
+	/**
+	 * Recupera una clase por tutor
+	 * @param tutor tutot
+	 * @return clase
+	 */
+	public Group findByTutor(Integer tutor);
 }
 

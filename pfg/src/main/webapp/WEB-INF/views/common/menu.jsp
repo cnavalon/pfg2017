@@ -3,7 +3,7 @@
 <spring:url value="/users/adm/newUser" var="urlNewUser" />
 <spring:url value="/groups/adm/newGroup" var="urlNewGroup" />
 <spring:url value="/groups/emp/groups" var="urlGroupsList" />
-<spring:url value="/groups/schedules" var="urlSchedulesList" />
+<spring:url value="/groups/schedule" var="urlSchedule" />
 
 	
 <nav class="navbar navbar-default">
@@ -37,9 +37,7 @@
 			        	<li><a href="${urlNewGroup}" id="menuGroups_add" ><spring:message code="menu.groups.add" text="menu.groups.add not found" /></a></li>
 			        	<li role="separator" class="divider"></li>
 			        </c:if>
-			        <c:if test="${not pageContext.request.isUserInRole('ADM')}">
-			        	<li><a href="${urlSchedulesList}" id="menuGroups_schedules" ><spring:message code="menu.groups.mySchedule" text="menu.groups.mySchedule not found" /></a></li>
-			        </c:if>
+		        	<li><a href="${urlSchedule}" id="menuGroups_schedule" ><spring:message code="menu.groups.schedule" text="menu.groups.schedule not found" /></a></li>
 		        </ul>
 			</li>
 			

@@ -151,7 +151,7 @@
 		} else {
 			reloadTable();
 		}
-		table.order([1, 'asc']).draw();
+		table.order([3, 'asc']).draw();
 	}
 	
 	function createTable(){
@@ -162,7 +162,7 @@
 	        },
 	        columnDefs: [ {
 	            "orderable": false,
-	            "targets": [5]
+	            "targets": [6]
 	        } ],
 	     
 	        ajax : {
@@ -200,7 +200,7 @@
 	  		],
 	        initComplete: function(){
 	        	 table.columns().every( function () {
-	        		 if(this.index() != 5){
+	        		 if(this.index() != 6){
 	        			 var column = this;
 		       			 var that = this;
 					     var title = $(column.footer()).text();

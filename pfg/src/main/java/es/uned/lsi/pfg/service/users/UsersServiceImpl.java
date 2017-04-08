@@ -444,6 +444,24 @@ public class UsersServiceImpl implements UsersService {
 		logger.debug("deleteStudentsGroup: " + idGroup);
 		studentDAO.removeGroup(idGroup);
 	}
+	
+	@Override
+	public <T extends Person> List<T> getByClass(Class<T> classPerson){
+		logger.debug("getByClass: " + classPerson);
+		return personDAO.findAll(classPerson);
+	}
+
+	@Override
+	public <T extends Person> T getById(Integer id, Class<T> classPerson) {
+		logger.debug("getById: " + id + ", " + classPerson);
+		return personDAO.find(id, classPerson);
+	}
+
+	@Override
+	public <T extends Person> List<T> getByClassHistoric(Class<T> classPerson) {
+		logger.debug("getByClassHistoric: " + classPerson);
+		return personDAO.findAllHistoric(classPerson);
+	}
 
 
 }

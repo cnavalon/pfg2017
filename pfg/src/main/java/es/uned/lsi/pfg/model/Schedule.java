@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -17,11 +19,29 @@ import javax.persistence.Table;
  * @author Carlos Navalon Urrea
  *
  */
+@NamedQueries({
+	@NamedQuery(name="findAllSchedule", query="SELECT x FROM Schedule x"),
+	@NamedQuery(name="findScheduleByGroup", query="SELECT x FROM Schedule x WHERE x.group = :group"),
+	@NamedQuery(name="findScheduleByTeacher", query="SELECT x FROM Schedule x WHERE x.teacher = :teacher"),
+	@NamedQuery(name="removeScheduleByGroup", query="DELETE FROM Schedule x WHERE x.group = :group"),
+	@NamedQuery(name="updateScheduleByTeacher", query="UPDATE Schedule x SET x.teacher = NULL WHERE x.teacher = :teacher"),
+	@NamedQuery(name="findMaxHourByGroup", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.group = :group"),
+	@NamedQuery(name="findMaxHourByTeacher", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.teacher = :teacher")
+})
 @Entity
 @Table(name="schedules")
 public class Schedule implements Serializable {
 
 	private static final long serialVersionUID = 5309209055982349929L;
+	
+	/** Queries **/
+	public static final String Q_FIND_ALL = "findAllSchedule";
+	public static final String Q_FIND_BY_GROUP = "findScheduleByGroup";
+	public static final String Q_FIND_BY_TEACHER = "findScheduleByTeacher";
+	public static final String Q_REMOVE_BY_GROUP = "removeScheduleByGroup";
+	public static final String Q_UPDATE_TEACHER = "updateScheduleByTeacher";
+	public static final String Q_FIND_MAX_HOUR_BY_GROUP = "findMaxHourByGroup";
+	public static final String Q_FIND_MAX_HOUR_BY_TEACHER = "findMaxHourByTeacher";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -41,6 +61,36 @@ public class Schedule implements Serializable {
 	@Column(name="end_hour")
 	private String endHour;
 	
+	/**
+	 * Constructor
+	 */
+	public Schedule(){
+	}
+	
+	/**
+	 * Constructor
+	 * @param id id
+	 * @param group clase
+	 * @param day dia
+	 * @param hour hora
+	 * @param subject asignatura
+	 * @param teacher profesor
+	 * @param initHour hora de inicio
+	 * @param endHour hora de fin
+	 */
+	public Schedule(Integer id, Integer group, Integer day, Integer hour, String subject, Integer teacher,
+			String initHour, String endHour) {
+		super();
+		this.id = id;
+		this.group = group;
+		this.day = day;
+		this.hour = hour;
+		this.subject = subject;
+		this.teacher = teacher;
+		this.initHour = initHour;
+		this.endHour = endHour;
+	}
+
 	/**
 	 * Obtiene el id de horario
 	 * @return id de horario

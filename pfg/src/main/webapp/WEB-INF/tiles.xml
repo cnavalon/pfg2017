@@ -64,5 +64,12 @@
 	</definition>
 	
 	<definition name="viewGroup" template="/WEB-INF/views/modal/viewGroup.jsp" />
+	
+	<definition name="schedule" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/schedule/schedule.jsp" />
+	</definition>
+	
+	<definition name="scheduleGroup" template="/WEB-INF/views/schedule/scheduleGroup.jsp" />
+	<definition name="scheduleTeacher" template="/WEB-INF/views/schedule/scheduleTeacher.jsp" />
 
 </tiles-definitions>

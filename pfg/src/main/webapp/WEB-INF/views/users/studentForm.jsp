@@ -4,7 +4,7 @@
 <spring:url value="/users/adm/editUser/" var="urlEditUser" />
 <spring:url value="/users/emp/viewUser/" var="urlViewUser" />
 <spring:url value="/users/adm/deleteParentLink/" var="urlParentLink" />
-<spring:url value="/users/adm/getGroups/" var="urlgetGroups" />
+<spring:url value="/users/emp/getGroups/" var="urlgetGroups" />
 
 <fieldset id="filedsetPerson">
 	<fieldset id="fieldsetStudent">
@@ -36,7 +36,7 @@
 				<spring:message code="user.surname2" var="userSurname2Text" text="user.surname2 not found"/>
 				<label class="col-sm-2 control-label">${userSurname2Text}</label>
 				<div class="col-sm-3">
-					<input type="text" value="${person.surname1}"  class="form-control" id="inputSurname2" placeholder="${userSurname2Text}">
+					<input type="text" value="${person.surname2}"  class="form-control" id="inputSurname2" placeholder="${userSurname2Text}">
 				</div>
 			</div>
 			

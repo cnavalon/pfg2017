@@ -3,10 +3,15 @@
  */
 package es.uned.lsi.pfg.service.groups;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import es.uned.lsi.pfg.model.Course;
 import es.uned.lsi.pfg.model.Group;
+import es.uned.lsi.pfg.model.ScheduleTable;
+import es.uned.lsi.pfg.model.Teacher;
 
 /**
  * Servicio de clases
@@ -68,5 +73,36 @@ public interface GroupsService {
 	 * @param idGroup clase
 	 */
 	public void deleteGroup(Integer idGroup);
+
+	/**
+	 * Procesa un fichero de horario de una clase 
+	 * @param idGroup clase
+	 * @param file fichero de horario
+	 * @throws IOException 
+	 */
+	public void saveSchedule(Integer idGroup, MultipartFile file) throws IOException;
+
+	/**
+	 * Recupera un horario por grupo
+	 * @param idGroup grupo
+	 * * @param lstTeacher listado de todos los profesores
+	 * @return horario
+	 */
+	public ScheduleTable getScheduleByGroup(Group group, List<Teacher> lstTeacher);
+	
+	/**
+	 * Recupera un horario por profesor
+	 * @param teacher profesor
+	 * @return horario
+	 */
+	public ScheduleTable getScheduleByTeacher(Teacher teacher);
+
+	/**
+	 * Obtiene una clase por tutor
+	 * @param tutor tutor
+	 * @return clase
+	 */
+	public Group getGroupByTutor(Integer tutor);
+
 
 }

@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
+import es.uned.lsi.pfg.model.Person;
 import es.uned.lsi.pfg.model.Role;
 import es.uned.lsi.pfg.service.users.RolesService;
 import es.uned.lsi.pfg.service.users.UsersService;
@@ -58,7 +59,9 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 				targetUrl = "/login?error=1";
 			} else {
 				session.setAttribute(Constans.SESSION_ROLE, role);
-				session.setAttribute(Constans.SESSION_USER_NAME, usersService.getFullNameByUser(idUser, role.getIdRole()));
+				Person person = usersService.getByUser(role.getIdRole(), idUser);
+				session.setAttribute(Constans.SESSION_USER_NAME, person.getName() + " " + person.getSurname1() + " " + person.getSurname2());
+				session.setAttribute(Constans.SESSION_USER_ID, person.getId());
 			}
 			
 		} catch (Exception e) {
