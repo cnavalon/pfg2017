@@ -123,4 +123,21 @@ public class SchedulesDAOImpl extends AbstractJpaDao implements SchedulesDAO {
 		}
 	}
 
+	@Override
+	public List<Schedule> findScheduleBySubject(String subject) {
+		logger.debug("findSchfindScheduleBySubjecteduleByTeacher: " + subject);
+		List<Schedule> lstSchedule = new ArrayList<Schedule>();
+		try {
+			lstSchedule = em.createNamedQuery(Schedule.Q_FIND_BY_SUBJECT, Schedule.class)
+				.setParameter("subject", subject)
+				.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
+		} catch (Exception e) {
+			logger.error("Error recuperando horarios por asignatura: " + subject, e);
+			throw e;
+		}
+		return lstSchedule;
+	}
+
 }

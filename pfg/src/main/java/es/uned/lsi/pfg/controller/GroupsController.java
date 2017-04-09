@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,7 @@ import es.uned.lsi.pfg.model.GroupForm;
 import es.uned.lsi.pfg.model.Option;
 import es.uned.lsi.pfg.model.Role;
 import es.uned.lsi.pfg.model.Student;
+import es.uned.lsi.pfg.model.Subject;
 import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.UserSearch;
 import es.uned.lsi.pfg.service.groups.GroupsService;
@@ -326,5 +328,65 @@ public class GroupsController {
 		model.addObject("schedule", groupsService.getScheduleByTeacher(teacher));
 		
 		return model;
+	}
+	
+	@RequestMapping(value="/adm/subjects", method = RequestMethod.GET)
+	public ModelAndView getSubjects(){
+		logger.debug("getSubjects");
+		ModelAndView model = new ModelAndView("subject");
+		model.addObject("lstSubjects", groupsService.getSubjects());
+		return model;
+	}
+	
+	/**
+	 * Obitiene el modal de editar asignatura
+	 * @param idSubject codigo de asignatura
+	 * @return modal de editar asignatura
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/adm/modalSubject/{subject}", method = RequestMethod.GET)
+	public ModelAndView modalSubject(@PathVariable("subject") Integer idSubject) throws Exception {
+		logger.debug("modalSubject: " + idSubject);
+		ModelAndView model = new ModelAndView("modalSubject");
+		model.addObject("subject", groupsService.getSubject(idSubject));
+		return model;
+		
+	}
+	
+	/**
+	 * Obitiene el modal de crear asignatura
+	 * @return modal de crear asignatura
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/adm/modalSubject", method = RequestMethod.GET)
+	public ModelAndView modalSubject() throws Exception {
+		logger.debug("modalSubject");
+		ModelAndView model = new ModelAndView("modalSubject");
+		model.addObject("subject", new Subject());
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/adm/deleteSubject/{subject}", method = RequestMethod.GET)
+	public String deleteSubject(@PathVariable("subject") Integer idSubject, Locale locale) throws Exception {
+		logger.debug("deleteSubject: " + idSubject);
+		String response = groupsService.deleteSubject(idSubject);
+		return messageSource.getMessage(response, null, locale);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/adm/saveSubject", method = RequestMethod.POST)
+	public String saveSubject(@RequestBody Subject subject, Locale locale) throws Exception {
+		logger.debug("saveSubject: " + subject);
+		String response = "subject.save.error";
+		if(subject != null){
+			if(subject.getId() == null && groupsService.getSubjectByCode(subject.getCode()) != null){
+				response = "subject.save.error.exist";
+			}
+			groupsService.upsertSubject(subject);
+			response = "subject.saved";
+			
+		}
+		return messageSource.getMessage(response, null, locale);
 	}
 }

@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.uned.lsi.pfg.dao.groups.CoursesDAO;
@@ -242,6 +243,45 @@ public class GroupsServiceImpl implements GroupsService {
 	public Group getGroupByTutor(Integer tutor) {
 		logger.debug("getGroupByTutor: " + tutor);
 		return groupsDAO.findByTutor(tutor);
+	}
+
+	@Override
+	public List<Subject> getSubjects() {
+		logger.debug("getSubjects");
+		return subjectDAO.findAll();
+	}
+
+	@Override
+	public Subject getSubject(Integer idSubject) {
+		logger.debug("getSubject: " + idSubject);
+		return subjectDAO.findById(idSubject);
+	}
+
+	@Override
+	@Transactional
+	public void upsertSubject(Subject subject) {
+		logger.debug("upsertSubject: " + subject);
+		subjectDAO.upsert(subject);
+	}
+
+	@Override
+	@Transactional
+	public String deleteSubject(Integer idSubject) {
+		logger.debug("deleteSubject: " + idSubject);
+		Subject subject = getSubject(idSubject);
+		if(schedulesDAO.findScheduleBySubject(subject.getCode()).isEmpty()){
+			subjectDAO.delete(subject);
+			return "subject.deleted";
+		} else {
+			return "subject.delete.error.existSchedule";
+		}
+		
+	}
+
+	@Override
+	public Subject getSubjectByCode(String code) {
+		logger.debug("getSubjectByCode: " + code);
+		return subjectDAO.findByCode(code);
 	}
 	
 

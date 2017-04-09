@@ -62,14 +62,17 @@
 	<definition name="groupForm" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/groups/groupForm.jsp" />
 	</definition>
-	
 	<definition name="viewGroup" template="/WEB-INF/views/modal/viewGroup.jsp" />
 	
 	<definition name="schedule" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/schedule/schedule.jsp" />
 	</definition>
-	
 	<definition name="scheduleGroup" template="/WEB-INF/views/schedule/scheduleGroup.jsp" />
 	<definition name="scheduleTeacher" template="/WEB-INF/views/schedule/scheduleTeacher.jsp" />
+	
+	<definition name="subject" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/groups/subject.jsp" />
+	</definition>
+	<definition name="modalSubject" template="/WEB-INF/views/modal/modalSubject.jsp" />
 
 </tiles-definitions>

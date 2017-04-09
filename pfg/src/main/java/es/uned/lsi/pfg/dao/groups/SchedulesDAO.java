@@ -59,4 +59,11 @@ public interface SchedulesDAO {
 	 * @return la mayor hora
 	 */
 	public Integer findMaxHourByTeacher(Integer teacher);
+
+	/**
+	 * Devuelve un listado de horarios por codigo de asignatura
+	 * @param subject codigo de asignatura
+	 * @return listado de horarios
+	 */
+	public List<Schedule> findScheduleBySubject(String subject);
 }

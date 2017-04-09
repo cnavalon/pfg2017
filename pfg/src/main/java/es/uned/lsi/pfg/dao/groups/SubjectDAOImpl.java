@@ -84,4 +84,15 @@ public class SubjectDAOImpl extends AbstractJpaDao implements SubjectDAO {
 		}
 	}
 
+	@Override
+	public void delete(Subject subject) {
+		logger.debug("delete: " + subject);
+		try {
+			em.remove(subject);
+		} catch (Exception e) {
+			logger.error("Error eliminando asignatura: " + subject, e);
+			throw e;
+		}
+	}
+
 }

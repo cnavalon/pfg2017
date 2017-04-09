@@ -26,7 +26,8 @@ import javax.persistence.Table;
 	@NamedQuery(name="removeScheduleByGroup", query="DELETE FROM Schedule x WHERE x.group = :group"),
 	@NamedQuery(name="updateScheduleByTeacher", query="UPDATE Schedule x SET x.teacher = NULL WHERE x.teacher = :teacher"),
 	@NamedQuery(name="findMaxHourByGroup", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.group = :group"),
-	@NamedQuery(name="findMaxHourByTeacher", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.teacher = :teacher")
+	@NamedQuery(name="findMaxHourByTeacher", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.teacher = :teacher"),
+	@NamedQuery(name="findScheduleBySubject", query="SELECT x FROM Schedule x WHERE x.subject = :subject")
 })
 @Entity
 @Table(name="schedules")
@@ -42,6 +43,7 @@ public class Schedule implements Serializable {
 	public static final String Q_UPDATE_TEACHER = "updateScheduleByTeacher";
 	public static final String Q_FIND_MAX_HOUR_BY_GROUP = "findMaxHourByGroup";
 	public static final String Q_FIND_MAX_HOUR_BY_TEACHER = "findMaxHourByTeacher";
+	public static final String Q_FIND_BY_SUBJECT= "findScheduleBySubject";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

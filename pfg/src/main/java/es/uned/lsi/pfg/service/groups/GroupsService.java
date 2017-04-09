@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import es.uned.lsi.pfg.model.Course;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.ScheduleTable;
+import es.uned.lsi.pfg.model.Subject;
 import es.uned.lsi.pfg.model.Teacher;
 
 /**
@@ -104,5 +105,37 @@ public interface GroupsService {
 	 */
 	public Group getGroupByTutor(Integer tutor);
 
+	/**
+	 * Obtiene un listado de todas las asignaturas
+	 * @return listado de todas las asignaturas
+	 */
+	public List<Subject> getSubjects();
 
+	/**
+	 * Obtiene una asignatura por id
+	 * @param idSubject id
+	 * @return asignatura
+	 */
+	public Subject getSubject(Integer idSubject);
+
+	/**
+	 * Inserta/actualiza una asignatura
+	 * @param subject asignatura
+	 */
+	public void upsertSubject(Subject subject);
+	
+	/**
+	 * Eliminia una asignatura
+	 * @param idSubject id asignatura
+	 * @return mensaje con el resultado de la operacion
+	 */
+	public String deleteSubject(Integer idSubject);
+
+	/**
+	 * Obtiene una asignatura por codigo
+	 * @param code codigo
+	 * @return asignatura
+	 */
+	public Subject getSubjectByCode(String code);
+	
 }

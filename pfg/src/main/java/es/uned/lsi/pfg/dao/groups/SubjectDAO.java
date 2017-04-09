@@ -40,4 +40,10 @@ public interface SubjectDAO {
 	 * @return asignatura actualizada
 	 */
 	public Subject upsert(Subject subject);
+
+	/**
+	 * Elimina una asignatura
+	 * @param subject asignatura
+	 */
+	public void delete(Subject subject);
 }
