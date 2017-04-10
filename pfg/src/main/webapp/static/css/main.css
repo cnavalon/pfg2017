@@ -73,6 +73,9 @@ body {
 .noPadding{
 	padding: 0;
 }
+.aling-input{
+    padding-top: 6px;
+}
 .selectFileLabel {
 	text-align:center;
 }

@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 function getSchedule(){
 	$("#divTable").empty();
-	if(lastUser != $("#selectUser").val().trim()){
+	if(lastUser != $("#selectUser").val().trim() && $("#selectUser").val().trim() != ""){
 		lastUser = $("#selectUser").val().trim();
 		var userData = lastUser.split("#");
 		if(userData != null && userData.length == 2){

@@ -5,6 +5,7 @@
 <spring:url value="/groups/emp/groups" var="urlGroupsList" />
 <spring:url value="/groups/schedule" var="urlSchedule" />
 <spring:url value="/groups/adm/subjects" var="urlSubjects" />
+<spring:url value="/meetings/emp/schedules" var="urlScheduleMeetings" />
 
 	
 <nav class="navbar navbar-default">
@@ -37,12 +38,29 @@
 		       		<c:if test="${pageContext.request.isUserInRole('ADM')}">
 			        	<li><a href="${urlNewGroup}" id="menuGroups_add" ><spring:message code="menu.groups.add" text="menu.groups.add not found" /></a></li>
 			        	<li role="separator" class="divider"></li>
-			        	<li><a href="${urlSubjects}" id="menuGroups_subjects" ><spring:message code="menu.groups.subjects" text="menu.groups.add not found" /></a></li>
+			        	<li><a href="${urlSubjects}" id="menuGroups_subjects" ><spring:message code="menu.groups.subjects" text="menu.groups.subjects not found" /></a></li>
 			        	<li role="separator" class="divider"></li>
 			        </c:if>
 		        	<li><a href="${urlSchedule}" id="menuGroups_schedule" ><spring:message code="menu.groups.schedule" text="menu.groups.schedule not found" /></a></li>
 		        </ul>
 			</li>
+			
+			<!------------------  TUTORIAS ------------------>
+			
+			<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH') || pageContext.request.isUserInRole('PAR')}">
+				<li class="dropdown" id="menuMeetings">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.meetings" text="menu.meetings not found" /> <span class="caret"></span></a>
+			        <ul class="dropdown-menu">
+				        <c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
+				        	<li><a href="${urlScheduleMeetings}" id="menuMeetings_schedule" ><spring:message code="menu.meeting.schedule" text="menu.meeting.schedulenot found" /></a></li>
+				        </c:if>
+			        	<li><a href="" id="menuMeetings_list" ><spring:message code="menu.meeting.list" text="menu.meeting.list not found" /></a></li>
+			        	<li><a href="" id="menuMeetings_request" ><spring:message code="menu.meeting.request" text="menu.meeting.request not found" /></a></li>
+			        	<li role="separator" class="divider"></li>
+			        	<li><a href="" id="menuMeetings_parents" ><spring:message code="menu.meeting.parentsMeeting" text="menu.meeting.parentsMeeting not found" /></a></li>
+			        </ul>
+				</li>
+			</c:if>
 			
 		</ul>
 	</div>

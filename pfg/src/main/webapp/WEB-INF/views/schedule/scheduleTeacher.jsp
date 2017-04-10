@@ -4,11 +4,11 @@
 	<thead>
   		<tr>
     		<th></th>
-    		<th><spring:message code="schedule.monday" text="schedule.monday not found" /></th>
-    		<th><spring:message code="schedule.tuesday" text="schedule.tuesday not found" /></th>
-    		<th><spring:message code="schedule.wednesday" text="schedule.wednesday not found" /></th>
-    		<th><spring:message code="schedule.thursday" text="schedule.thursday not found" /></th>
-    		<th><spring:message code="schedule.friday" text="schedule.friday not found" /></th>
+    		<th><spring:message code="common.monday" text="common.monday not found" /></th>
+    		<th><spring:message code="common.tuesday" text="common.tuesday not found" /></th>
+    		<th><spring:message code="common.wednesday" text="common.wednesday not found" /></th>
+    		<th><spring:message code="common.thursday" text="common.thursday not found" /></th>
+    		<th><spring:message code="common.friday" text="common.friday not found" /></th>
    		</tr>
   	</thead>
   	<tbody>
