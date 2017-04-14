@@ -6,6 +6,7 @@ package es.uned.lsi.pfg.service.users;
 import java.util.List;
 import java.util.Map;
 
+import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.model.Person;
 import es.uned.lsi.pfg.model.Student;
 import es.uned.lsi.pfg.model.StudentWithParents;
@@ -96,6 +97,13 @@ public interface UsersService {
 	 * @return listado de los padres
 	 */
 	public List<UserSearch> findParents(Integer studentId);
+	
+	/**
+	 * Obtiene un listado de los padres de un alumno 
+	 * @param studentId id de alumno
+	 * @return listado de los padres
+	 */
+	public List<Parent> findParentsList(Integer studentId);
 
 	/**
 	 * Obtiene un listado de los alumnos de un padre
@@ -103,6 +111,13 @@ public interface UsersService {
 	 * @return listado de los alumnos
 	 */
 	public List<UserSearch> findStudents(Integer parentId);
+	
+	/**
+	 * Obtiene un listado de los alumnos de un padre
+	 * @param parentId id del padre
+	 * @return listado de los alumnos
+	 */
+	public List<Student> findStudentsList(Integer parentId);
 	
 	/**
 	 * Elimina una relación padre-alumno
@@ -184,5 +199,7 @@ public interface UsersService {
 	 * @return listado de personas
 	 */
 	public  <T extends Person> List<T> getByClassHistoric(Class<T> classPerson);
+
+	
 	
 }

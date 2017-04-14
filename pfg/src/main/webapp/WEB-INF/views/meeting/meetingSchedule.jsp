@@ -30,9 +30,9 @@
 			<table id="tableScheduleMeetings" class="stripe hover row-border" width="90%">
 				<thead>
 			  		<tr>
-			    		<th><spring:message code="meeting.schedule.day" text="meeting.schedule.day not found" /></th>
-			    		<th><spring:message code="meeting.schedule.startHour" text="meeting.schedule.startHour not found" /></th>
-			    		<th><spring:message code="meeting.schedule.endHour" text="meeting.schedule.endHour not found" /></th>
+			    		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
+			    		<th><spring:message code="meeting.startHour" text="meeting.startHour not found" /></th>
+			    		<th><spring:message code="meeting.endHour" text="meeting.endHour not found" /></th>
 			    		<th></th>
 			  	</thead>
 			  	<tbody>
@@ -43,8 +43,8 @@
 	<div id="divForm" class="col-sm-6">
 		<form class="form-horizontal" action="">
 			<div class="form-group">
-				<label class="col-sm-2 control-label"><spring:message code="meeting.schedule.day" text="meeting.schedule.day not found"/></label>
-				<div class="col-sm-3">
+				<label class="col-sm-1 control-label"><spring:message code="meeting.day" text="meeting.day not found"/></label>
+				<div class="col-sm-4">
 					<select class="form-control" id="selectDay">
 						<option value="0" label='<spring:message code="common.monday" text="common.monday not found" />'><spring:message code="common.monday" text="common.monday not found" /></option>
 						<option value="1" label='<spring:message code="common.tuesday" text="common.tuesday not found" />'><spring:message code="common.monday" text="common.monday not found" /></option>
@@ -61,8 +61,8 @@
 	      		</div>	
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label"><spring:message code="meeting.schedule.startHour" text="meeting.schedule.startHour not found"/></label>
-				<div class="col-sm-3">
+				<label class="col-sm-1 control-label"><spring:message code="meeting.startHour" text="meeting.startHour not found"/></label>
+				<div class="col-sm-4">
 					<div class="col-sm-5 noPadding">
 						<input type="number" id="inputInitHour" class="form-control" min="0" max="23" onkeypress="return isNumberKey(event)" value="00">
 					</div>
@@ -71,8 +71,8 @@
 						<input type="number" id="inputInitMinute" class="form-control" min="0" max="59" step="5" onkeypress="return isNumberKey(event)" value="00">
 					</div>
 				</div>
-				<label class="col-sm-2 control-label"><spring:message code="meeting.schedule.endHour" text="meeting.schedule.endHour not found"/></label>
-				<div class="col-sm-3">
+				<label class="col-sm-1 control-label"><spring:message code="meeting.endHour" text="meeting.endHour not found"/></label>
+				<div class="col-sm-4">
 					<div class="col-sm-5 noPadding">
 						<input type="number" id="inputEndHour" class="form-control" min="0" max="23" onkeypress="return isNumberKey(event)" value="00">
 					</div>

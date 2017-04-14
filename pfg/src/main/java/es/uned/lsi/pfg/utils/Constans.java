@@ -21,6 +21,10 @@ public interface Constans {
 	public static final String NO_LETTER = "-";
 	public static final Integer DAYS_OF_WEEK = 5;
 	
+	//MEETINGS TYPE
+	public static final Object MEETING_TYPE_PRIVATE = "T";
+	public static final Object MEETING_TYPE_PARENT = "P";
+	
 	
 	
 }

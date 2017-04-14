@@ -323,6 +323,18 @@ public class UsersServiceImpl implements UsersService {
 	public List<UserSearch> findParents(Integer studentId) {
 		logger.debug("findParents: " + studentId);
 		try {
+			List<Parent> lstParents = findParentsList(studentId);
+			return convertToUserSearchList(lstParents, Constans.ROLE_PARENT, false);
+		} catch (Exception e) {
+			logger.error("ERROR recuperando padres de " + studentId, e );
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Parent> findParentsList(Integer studentId) {
+		logger.debug("findStudents: " + studentId);
+		try {
 			List<Parent> lstParents = new ArrayList<Parent>();
 			List<StudentParent> lstParentsIds = studentParentDAO.findByStudent(studentId);
 			
@@ -330,7 +342,7 @@ public class UsersServiceImpl implements UsersService {
 				lstParents.add(personDAO.find(studentParent.getParent(), Parent.class));
 			}
 			
-			return convertToUserSearchList(lstParents, Constans.ROLE_PARENT, false);
+			return lstParents;
 		} catch (Exception e) {
 			logger.error("ERROR recuperando padres de " + studentId, e );
 		}
@@ -341,6 +353,18 @@ public class UsersServiceImpl implements UsersService {
 	public List<UserSearch> findStudents(Integer parentId) {
 		logger.debug("findStudents: " + parentId);
 		try {
+			List<Student> lstStudents = findStudentsList( parentId);
+			return convertToUserSearchList(lstStudents, Constans.ROLE_STUDENT, false);
+		} catch (Exception e) {
+			logger.error("ERROR recuperando padres de " + parentId, e );
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Student> findStudentsList(Integer parentId) {
+		logger.debug("findStudents: " + parentId);
+		try {
 			List<Student> lstStudents = new ArrayList<Student>();
 			List<StudentParent> lstStudentsIds = studentParentDAO.findByParent(parentId);
 			
@@ -348,7 +372,7 @@ public class UsersServiceImpl implements UsersService {
 				lstStudents.add(personDAO.find(studentParent.getStudent(), Student.class));
 			}
 			
-			return convertToUserSearchList(lstStudents, Constans.ROLE_STUDENT, false);
+			return lstStudents;
 		} catch (Exception e) {
 			logger.error("ERROR recuperando padres de " + parentId, e );
 		}

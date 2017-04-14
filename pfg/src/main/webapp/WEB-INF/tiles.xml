@@ -79,4 +79,13 @@
 	<definition name="meetingSchedule" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/meeting/meetingSchedule.jsp" />
 	</definition>
+	
+	<definition name="meetingRequest" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/meeting/meetingRequest.jsp" />
+	</definition>
+	
+	<definition name="meetingParentsRequest" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/meeting/meetingParentsRequest.jsp" />
+	</definition>
+	
 </tiles-definitions>

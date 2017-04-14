@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.env.Environment;
 
+import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.service.common.MailServiceImpl;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +30,6 @@ public class MailServiceTest {
 		MockitoAnnotations.initMocks(this);
 		when(env.getProperty("email.user")).thenReturn("pfg.sender@gmail.com");
 		when(env.getProperty("email.pass")).thenReturn("pfgsenderpass");
-		mailServiceImpl.init();
 	}
 
 	@After
@@ -38,12 +38,14 @@ public class MailServiceTest {
 
 	@Test
 	public void sendMail() throws Exception {
-		mailServiceImpl.sendMail("pruebas.pfg@gmail.com", "Prueba", "Mensaje de prueba");
+		Parent person = new Parent();
+		person.setEmail("pruebas.pfg@gmail.com");
+		mailServiceImpl.sendMail(person, "tutoría 5", "Tiene una nueva solicitud de tutoría. Fecha: 13/04/2017 10:00 - 11:00.<br>Un saludo");
 	}
 	
-	@Test
-	public void sendMailList() throws Exception {
-		mailServiceImpl.sendListMail(Arrays.asList("pruebas.pfg@gmail.com","pfg.sender@gmail.com"), "Prueba", "Mensaje de prueba");
-	}
+//	@Test
+//	public void sendMailList() throws Exception {
+//		mailServiceImpl.sendListMail(Arrays.asList("pruebas.pfg@gmail.com","pfg.sender@gmail.com"), "Prueba", "Mensaje de prueba");
+//	}
 
 }

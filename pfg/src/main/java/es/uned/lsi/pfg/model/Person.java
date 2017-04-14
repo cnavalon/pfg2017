@@ -28,6 +28,7 @@ public abstract class Person {
 	public abstract String getSurname1();
 	public abstract String getSurname2();
 	public abstract String getIdUser();
+	public abstract String getEmail();
 	public abstract void setEnabled(boolean enable);
 	public abstract boolean isEnabled();
 	

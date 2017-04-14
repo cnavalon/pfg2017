@@ -3,22 +3,23 @@
  */
 package es.uned.lsi.pfg.service.common;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import es.uned.lsi.pfg.model.Person;
 
 /**
  * Implementacion de servicio de correo electronico
@@ -31,67 +32,59 @@ public class MailServiceImpl implements MailService {
 	private static final Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 	
 	@Autowired
-	private Environment env;
+	private JavaMailSender mailSender;
 	
-	private String user;
-	private String pass;
+	@Autowired
+	private MessageSource messageSource;
 	
-	private Session session;
+	@Autowired
+	private HttpServletRequest servletContext;
 	
-	@PostConstruct
-	public void init(){
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
+	@Override
+	public void sendMail(Person person, String subject, String text) throws Exception {
+		logger.debug("sendMail: " + person + ", " + subject + ", " + text);
+		if(person.getEmail() != null){
+			send(InternetAddress.parse(person.getEmail()), subject, text);
+		}
+	}
+	
+	private void send(InternetAddress[] address, String subject, String text) throws Exception {
+		text += getFootEmail();
+		MimeMessage email = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(email);
+		if(address.length == 1){
+			helper.setTo(address);
+		} else {
+			helper.setBcc(address);
+		}
+		helper.setSubject(subject);
+		helper.setText(text, true);
 		
-		user = env.getProperty("email.user");
-		pass = env.getProperty("email.pass");
+		mailSender.send(email);
 		
-		session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(user,pass);
+		logger.info("Correo electronico enviado a : " + address);
+	}
+
+	@Override
+	public void sendListMail(List<Person> lstPerson, String subject, String text) throws Exception {
+		logger.debug("sendListMail: " + lstPerson + ", " + subject + ", " + text);
+		List<InternetAddress> lstEmail = new ArrayList<InternetAddress>();
+		for(Person person : lstPerson){
+			if(person.getEmail() != null){
+				try {
+					lstEmail.add(new InternetAddress(person.getEmail()));
+				} catch (Exception e) {
+					logger.error("Error parsing email: " + person.getEmail());
 				}
-			});
-	}
-	
-	@Override
-	public void sendMail(String email, String subject, String text) throws Exception {
-		logger.debug("sendMail: " + email + ", " + subject + ", " + text);
-		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
-			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(email));
-			message.setSubject(subject);
-			message.setText(text);
-	
-			Transport.send(message);
-		} catch (Exception e) {
-			logger.error("ERROR enviando mensaje: " + email + ", " + subject + ", " + text + ". " + e.getMessage());
-			throw e;
-		}
-	}
-	
-	@Override
-	public void sendListMail(List<String> lstEmail, String subject, String text) throws Exception {
-		logger.debug("sendListMail: " + lstEmail + ", " + subject + ", " + text);
-		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
-			for(String email : lstEmail){
-				message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse(email));
 			}
-			message.setSubject(subject);
-			message.setText(text);
-	
-			Transport.send(message);
-		} catch (Exception e) {
-			logger.error("ERROR enviando mensaje: " + lstEmail + ", " + subject + ", " + text + ". " + e.getMessage());
-			throw e;
 		}
+		send(lstEmail.toArray(new InternetAddress[0]), subject, text);
+	}
+	
+	private String getFootEmail(){
+		String url = servletContext.getServerName() + ":" + servletContext.getServerPort() + servletContext.getContextPath();
+		String link = "<html><a href='http://"+ url + "/'>web</a></html>";
+		return messageSource.getMessage("common.email.foot", new String[]{link}, LocaleContextHolder.getLocale());
 	}
 	
 

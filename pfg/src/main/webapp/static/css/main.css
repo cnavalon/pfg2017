@@ -105,3 +105,14 @@ body {
 .modal-xl{
 	width: 85%;
 }
+.form-box{
+    width: 100%;
+    padding: 6px 12px 12px 12px;
+    font-size: 14px;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0px 15px;
+}

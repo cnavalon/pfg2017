@@ -5,7 +5,11 @@ package es.uned.lsi.pfg.service.meetings;
 
 import java.util.List;
 
+import es.uned.lsi.pfg.model.Meeting;
+import es.uned.lsi.pfg.model.MeetingFull;
 import es.uned.lsi.pfg.model.ScheduleMeeting;
+import es.uned.lsi.pfg.model.Teacher;
+import es.uned.lsi.pfg.model.TeacherMeeting;
 
 /**
  * Servicio de tutorias
@@ -32,5 +36,19 @@ public interface MeetingsService {
 	 * @param id id de horario de tutorias
 	 */
 	public void deleteScheduleMeeting(Integer id);
+
+	/**
+	 * Obtiene un profesor con horario de tutorias
+	 * @param teacher profesor
+	 * @return profesor con horario de tutorias
+	 */
+	public TeacherMeeting getTeacherMeeting(Teacher teacher);
+
+	/**
+	 * Inserta una reunion
+	 * @param meetingFull reunion con listado de asistentes
+	 * @return tutoria
+	 */
+	public Meeting saveMeeting(MeetingFull meetingFull);
 
 }

@@ -81,7 +81,7 @@
 			</fieldset>
 			
 			<div class="form-group">
-				<span class="col-sm-offset-2 col-sm-3"><small>* Campos obligatorios</small></span>
+				<span class="col-sm-offset-2 col-sm-3"><small>* <spring:message code="common.mandatoryFields"  text="common.mandatoryFields not found"/></small></span>
 			</div>
 			
 			<div class="form-group ">
@@ -125,7 +125,6 @@
 	var editable = ("${editable}" == "true");
 	
 	$(document).ready(function() {
-		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
 		orderAllOptions();
 		
 		if($("#inputPassword").val() != ""){

@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/*/std/**").hasAuthority(Constans.ROLE_STUDENT)
         .antMatchers("/*/par/**").hasAuthority(Constans.ROLE_PARENT)
         .antMatchers("/*/emp/**").hasAnyAuthority(Constans.ROLE_ADMIN,Constans.ROLE_TEACHER)
+        .antMatchers("/*/tut/**").hasAnyAuthority(Constans.ROLE_PARENT,Constans.ROLE_TEACHER)
         .anyRequest().authenticated()
         .and().exceptionHandling().accessDeniedPage("/accessDenied")
         .and().formLogin().loginPage("/login")

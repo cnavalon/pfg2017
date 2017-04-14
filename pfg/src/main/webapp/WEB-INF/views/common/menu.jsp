@@ -6,6 +6,9 @@
 <spring:url value="/groups/schedule" var="urlSchedule" />
 <spring:url value="/groups/adm/subjects" var="urlSubjects" />
 <spring:url value="/meetings/emp/schedules" var="urlScheduleMeetings" />
+<spring:url value="/meetings/tut/requestMeetingPage" var="urlRequestMeetingsPage" />
+<spring:url value="/meetings/tch/requestMeetingParentsPage" var="urlRequestMeetingParentsPage" />
+<spring:url value="/meetings/tch/requestMeetingParentsPage" var="urlRequestMeetingParentsPage" />
 
 	
 <nav class="navbar navbar-default">
@@ -54,10 +57,13 @@
 				        <c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
 				        	<li><a href="${urlScheduleMeetings}" id="menuMeetings_schedule" ><spring:message code="menu.meeting.schedule" text="menu.meeting.schedulenot found" /></a></li>
 				        </c:if>
-			        	<li><a href="" id="menuMeetings_list" ><spring:message code="menu.meeting.list" text="menu.meeting.list not found" /></a></li>
-			        	<li><a href="" id="menuMeetings_request" ><spring:message code="menu.meeting.request" text="menu.meeting.request not found" /></a></li>
-			        	<li role="separator" class="divider"></li>
-			        	<li><a href="" id="menuMeetings_parents" ><spring:message code="menu.meeting.parentsMeeting" text="menu.meeting.parentsMeeting not found" /></a></li>
+				        <c:if test="${not pageContext.request.isUserInRole('ADM')}">
+				        	<li><a href="${urlRequestMeetingsPage}" id="menuMeetings_request" ><spring:message code="menu.meeting.request" text="menu.meeting.request not found" /></a></li>
+				        	 <c:if test="${pageContext.request.isUserInRole('TCH')}">
+				        		<li><a href="${urlRequestMeetingParentsPage}" id="menuMeetings_parents" ><spring:message code="menu.meeting.parentsMeeting" text="menu.meeting.parentsMeeting not found" /></a></li>
+			        		</c:if>
+				        	<li><a href="" id="menuMeetings_list" ><spring:message code="menu.meeting.list" text="menu.meeting.list not found" /></a></li>
+			        	</c:if>
 			        </ul>
 				</li>
 			</c:if>

@@ -138,7 +138,6 @@
 	var letterOriginal = null;
 	
 	$(document).ready(function() {
-		$(document).ajaxStart(function() {blockUI();}).ajaxStop(function() {unblockUI();});
 		orderOptions("#selectTutor");
 		if(!isNew){
 			searchFreeStudents($("#selectCourse").val());
