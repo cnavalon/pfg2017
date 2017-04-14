@@ -11,7 +11,7 @@
 	 		<div id="dataModalBody" class="modal-body">
 	 			<div class="container-fluid modal-padding">
 		 			<div class="row">
-						<h4><b><spring:message code="group.tutor" text="group.tutor not found"/>:</b> ${group.tutor.surname1} ${group.tutor.surname2}, ${group.tutor.name} </h4>
+						<h4><b><spring:message code="group.tutor" text="group.tutor not found"/>:</b> ${group.tutor.fullName}</h4>
 		 			</div>
 		 			
 	 				<div class="row">
@@ -63,6 +63,9 @@
 
 <script>
 var tableStudent = $('#tableStudents').DataTable( {
+	"language": {
+        "url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
+    },
     "paging":   false,
     "searching": false,
     "info":     false,

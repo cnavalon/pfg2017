@@ -25,6 +25,9 @@
 
 <script>
 var tableSchedule = $('#tableSchedule').DataTable( {
+	"language": {
+        "url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
+    },
 	"paging": false,
     "ordering": false,
     "info": false,

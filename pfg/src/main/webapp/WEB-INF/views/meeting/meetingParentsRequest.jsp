@@ -61,7 +61,7 @@
 				</div>
 				
 				<div id="divRow3" class="form-group">
-					<label class=" col-sm-2 control-label"><spring:message code="meeting.attendees" text="meeting.attendees not found"/> (<span id="attendeesCount"></span>)*</label>
+					<label class=" col-sm-2 control-label"><spring:message code="meeting.sentTo" text="meeting.sentTo not found"/> (<span id="attendeesCount"></span>)*</label>
 					<div  class="col-sm-8 form-group">
 						<div id="divAttendees" class="form-box">
 							<c:forEach items="${mapStudentParent}" var="item">
@@ -69,9 +69,9 @@
 								<c:forEach items="${item.value}" var="parent">
 									<div class="checkbox">
 										<label>
-											<input id="${parent.idUser}#${student.id}" type="checkbox" value="" onclick="countAttendees()" checked >
-											${parent.surname1} ${parent.surname2}, ${parent.name} 
-											(<spring:message code="role.student" text="role.student not found"/>: ${student.surname1} ${student.surname2}, ${student.name})
+											<input id="${parent.idUser}" type="checkbox" value="" onclick="countAttendees()" checked >
+											${parent.fullName}
+											(<spring:message code="role.student" text="role.student not found"/>: ${student.fullName})
 										</label>
 									</div>								
 								</c:forEach>							
@@ -148,11 +148,10 @@ function requestMeeting(){
 	
 	var lstAttendee = [];
 	$("input[type=checkbox]:checked").each(function() {
-		var line = $(this).prop("id").split("#");
 		var attende = {
-				user : line[0],
-				student : line[1],
+				user : $(this).prop("id"),
 				active : true,
+				status : 'P'
 		}
 		lstAttendee.push(attende);
 	});
@@ -162,6 +161,8 @@ function requestMeeting(){
 			user : "${group.tutor.idUser}",
 			date : $('#dayAction').data("DateTimePicker").date(),
 			hour : getHour(),
+			group : {id: "${group.id}"},
+			status : 'P',
 			comments : $("#comments").val(),
 			active : true,
 			lstAttendee : lstAttendee

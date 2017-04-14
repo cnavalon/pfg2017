@@ -8,9 +8,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -50,18 +53,31 @@ public class Meeting implements Serializable{
 	private Date date;
 	@Column(name="hour_meeting", length=15, nullable=false)
 	private String hour;
+	@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "id_student")
+	private Student student;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="id_group")
+	private Group group;
+	@Column(length=1, nullable=false)
+	private String status;
 	private String comments;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;
 	
 	public Meeting() {	}
 	
-	public Meeting(Integer id, String type, String user, Date date, String hour, String comments, boolean active) {
+	public Meeting(Integer id, String type, String user, Date date, String hour, Student student, Group group,
+			String status, String comments, boolean active) {
+		super();
 		this.id = id;
 		this.type = type;
 		this.user = user;
 		this.date = date;
 		this.hour = hour;
+		this.student = student;
+		this.group = group;
+		this.status = status;
 		this.comments = comments;
 		this.active = active;
 	}
@@ -72,6 +88,9 @@ public class Meeting implements Serializable{
 		this.user = meeting.getUser();
 		this.date = meeting.getDate();
 		this.hour = meeting.getHour();
+		this.student = meeting.getStudent();
+		this.group = meeting.getGroup();
+		this.status = meeting.getStatus();
 		this.comments = meeting.getComments();
 		this.active = meeting.isActive();
 	}
@@ -106,6 +125,26 @@ public class Meeting implements Serializable{
 	public void setHour(String hour) {
 		this.hour = hour;
 	}
+	public Student getStudent() {
+		return student;
+	}
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+	public Group getGroup() {
+		return group;
+	}
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getComments() {
 		return comments;
 	}
@@ -118,11 +157,14 @@ public class Meeting implements Serializable{
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
 	@Override
 	public String toString() {
 		return "Meeting [id=" + id + ", type=" + type + ", user=" + user + ", date=" + date + ", hour=" + hour
-				+ ", comments=" + comments + ", active=" + active + "]";
+				+ ", student=" + student + ", group=" + group + ", status=" + status + ", comments=" + comments
+				+ ", active=" + active + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,12 +172,16 @@ public class Meeting implements Serializable{
 		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((hour == null) ? 0 : hour.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((student == null) ? 0 : student.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -157,6 +203,11 @@ public class Meeting implements Serializable{
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
+		if (group == null) {
+			if (other.group != null)
+				return false;
+		} else if (!group.equals(other.group))
+			return false;
 		if (hour == null) {
 			if (other.hour != null)
 				return false;
@@ -166,6 +217,16 @@ public class Meeting implements Serializable{
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (student == null) {
+			if (other.student != null)
+				return false;
+		} else if (!student.equals(other.student))
 			return false;
 		if (type == null) {
 			if (other.type != null)

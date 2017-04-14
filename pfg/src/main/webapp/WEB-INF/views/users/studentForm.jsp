@@ -618,6 +618,9 @@
 			$("#divParent2").hide();
 			
 			table =  $('#tableParents').DataTable( {
+				"language": {
+			         "url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
+			     },
 				"paging": false,
 			    "ordering": false,
 			    "info": false,

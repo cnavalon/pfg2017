@@ -16,7 +16,7 @@
 	  		<tr>
   				<td>${row.initHour} <br> ${row.endHour}</td>
 	  			<c:forEach items="${row.cells}" var="cell">
-	  				<td><b>${cell.subject.name}</b><br> ${cell.teacher.surname1} ${cell.teacher.surname2}, ${cell.teacher.name} </td>
+	  				<td><b>${cell.subject.name}</b><br> ${cell.teacher.fullName} </td>
 				</c:forEach>
 	  		</tr>
   		</c:forEach>
@@ -25,6 +25,9 @@
 
 <script>
 $('#tableSchedule').DataTable( {
+	"language": {
+         "url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
+     },
 	"paging": false,
     "ordering": false,
     "info": false,

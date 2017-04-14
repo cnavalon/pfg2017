@@ -42,10 +42,8 @@ public class Attendee implements Serializable {
 	private Integer meeting;
 	@Column(name="id_user", length=20, nullable=false)
 	private String user;
-	@Column(name="id_student", nullable=false)
-	private Integer student;
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	private Boolean confirm;
+	@Column(length=1, nullable=false)
+	private String status;
 	private String comments;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;
@@ -68,17 +66,11 @@ public class Attendee implements Serializable {
 	public void setUser(String user) {
 		this.user = user;
 	}
-	public Integer getStudent() {
-		return student;
+	public String getStatus() {
+		return status;
 	}
-	public void setStudent(Integer student) {
-		this.student = student;
-	}
-	public Boolean getConfirm() {
-		return confirm;
-	}
-	public void setConfirm(Boolean confirm) {
-		this.confirm = confirm;
+	public void setConfirm(String status) {
+		this.status = status;
 	}
 	public String getComments() {
 		return comments;
@@ -94,8 +86,8 @@ public class Attendee implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Attendee [id=" + id + ", meeting=" + meeting + ", user=" + user + ", student=" + student + ", confirm="
-				+ confirm + ", comments=" + comments + ", active=" + active + "]";
+		return "Attendee [id=" + id + ", meeting=" + meeting + ", user=" + user + ", status=" + status + ", comments="
+				+ comments + ", active=" + active + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -103,10 +95,9 @@ public class Attendee implements Serializable {
 		int result = 1;
 		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-		result = prime * result + ((confirm == null) ? 0 : confirm.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((student == null) ? 0 : student.hashCode());
 		result = prime * result + ((meeting == null) ? 0 : meeting.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -126,25 +117,20 @@ public class Attendee implements Serializable {
 				return false;
 		} else if (!comments.equals(other.comments))
 			return false;
-		if (confirm == null) {
-			if (other.confirm != null)
-				return false;
-		} else if (!confirm.equals(other.confirm))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (student == null) {
-			if (other.student != null)
-				return false;
-		} else if (!student.equals(other.student))
-			return false;
 		if (meeting == null) {
 			if (other.meeting != null)
 				return false;
 		} else if (!meeting.equals(other.meeting))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -153,4 +139,5 @@ public class Attendee implements Serializable {
 			return false;
 		return true;
 	}
+	
 }

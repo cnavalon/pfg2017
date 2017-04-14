@@ -185,7 +185,7 @@ public class GroupsController {
 		List<Option> lstOptions = new ArrayList<Option>();
 		List<Student> lstStudents = usersService.getFreeStudensByCourse(course);
 		for(Student student : lstStudents){
-			lstOptions.add(new Option(Integer.toString(student.getId()), student.getSurname1() + " " + student.getSurname2() + ", " + student.getName() + " (" + student.getId() + ")"));
+			lstOptions.add(new Option(Integer.toString(student.getId()), student.getFullName() + " (Id: " + student.getId() + ")"));
 		}
 		return lstOptions;
 		 
@@ -207,7 +207,7 @@ public class GroupsController {
 		if(group != null){
 			List<Student> lstStudents = usersService.getStudensByGroup(group.getId());
 			for(Student student : lstStudents){
-				lstOptions.add(new Option(Integer.toString(student.getId()), student.getSurname1() + " " + student.getSurname2() + ", " + student.getName() + " (" + student.getId() + ")"));
+				lstOptions.add(new Option(Integer.toString(student.getId()), student.getFullName() + " (Id: " + student.getId() + ")"));
 			}
 		}
 		return lstOptions;

@@ -60,7 +60,7 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 			} else {
 				session.setAttribute(Constans.SESSION_ROLE, role);
 				Person person = usersService.getByUser(role.getIdRole(), idUser);
-				session.setAttribute(Constans.SESSION_USER_NAME, person.getName() + " " + person.getSurname1() + " " + person.getSurname2());
+				session.setAttribute(Constans.SESSION_USER_NAME, person.getFullName());
 				session.setAttribute(Constans.SESSION_USER_ID, person.getId());
 			}
 			

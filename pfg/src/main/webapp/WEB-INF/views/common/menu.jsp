@@ -8,7 +8,8 @@
 <spring:url value="/meetings/emp/schedules" var="urlScheduleMeetings" />
 <spring:url value="/meetings/tut/requestMeetingPage" var="urlRequestMeetingsPage" />
 <spring:url value="/meetings/tch/requestMeetingParentsPage" var="urlRequestMeetingParentsPage" />
-<spring:url value="/meetings/tch/requestMeetingParentsPage" var="urlRequestMeetingParentsPage" />
+<spring:url value="/meetings/atp/diary" var="urlDiary" />
+
 
 	
 <nav class="navbar navbar-default">
@@ -62,8 +63,8 @@
 				        	 <c:if test="${pageContext.request.isUserInRole('TCH')}">
 				        		<li><a href="${urlRequestMeetingParentsPage}" id="menuMeetings_parents" ><spring:message code="menu.meeting.parentsMeeting" text="menu.meeting.parentsMeeting not found" /></a></li>
 			        		</c:if>
-				        	<li><a href="" id="menuMeetings_list" ><spring:message code="menu.meeting.list" text="menu.meeting.list not found" /></a></li>
 			        	</c:if>
+			        	<li><a href="${urlDiary}" id="menuMeetings_diary" ><spring:message code="menu.meeting.diary" text="menu.meeting.diary not found" /></a></li>
 			        </ul>
 				</li>
 			</c:if>

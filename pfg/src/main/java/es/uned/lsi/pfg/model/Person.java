@@ -31,7 +31,13 @@ public abstract class Person {
 	public abstract String getEmail();
 	public abstract void setEnabled(boolean enable);
 	public abstract boolean isEnabled();
-	
+	public String getFullName(){
+		if(getSurname2() != null && !getSurname2().equals("")){
+			return getSurname1() + " " + getSurname2() + ", " + getName();
+		} else {
+			return getSurname1() + ", " + getName();
+		}
+	}
 	
 	
 }

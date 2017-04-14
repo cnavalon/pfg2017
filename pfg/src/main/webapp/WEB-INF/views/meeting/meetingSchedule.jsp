@@ -16,7 +16,7 @@
 			<div class="col-sm-3">
 				<select class="form-control" id="selectUser">
 					<c:forEach items="${lstTeachers}" var="teacher">
-						<option value="${teacher.id}" label="${teacher.surname1} ${teacher.surname1}, ${teacher.name}">${teacher.surname1} ${teacher.surname1}, ${teacher.name}</option>
+						<option value="${teacher.id}" label="${teacher.fullName}">${teacher.fullName}</option>
 					</c:forEach>
 				</select>
 			</div>

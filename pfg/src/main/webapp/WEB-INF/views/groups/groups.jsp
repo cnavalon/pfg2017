@@ -42,7 +42,7 @@
 				  			<c:when test="${empty group.letter}"><td>-</td></c:when>
 				  			<c:otherwise><td>${group.letter}</td></c:otherwise>
 				  		</c:choose>
-			    		<td>${group.tutor.name} ${group.tutor.surname1} ${group.tutor.surname2}</td>
+			    		<td>${group.tutor.fullName}</td>
 			    		<td class="text-center">${mapGroupCount[group.id]}</td>
 			    		<td>
 			    			<div class="text-center">

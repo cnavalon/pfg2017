@@ -26,7 +26,7 @@
 						<div class="col-sm-3">
 							<select class="form-control" id="selectStudent">
 								<c:forEach items="${lstStudent}" var="student">
-									<option value="${student.id}" label="${student.surname1} ${student.surname2}, ${student.name}">${student.surname1} ${student.surname1}, ${student.name}</option>
+									<option value="${student.id}#${student.group}" label="${student.fullName}">${student.fullName}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -56,7 +56,7 @@
 				</div>
 				
 				<div id="divRow3" class="form-group">
-					<label class=" col-sm-2 control-label"><spring:message code="meeting.attendees" text="meeting.attendees not found"/> (<span id="attendeesCount"></span>)*</label>
+					<label class=" col-sm-2 control-label"><spring:message code="meeting.sentTo" text="meeting.sentTo not found"/> (<span id="attendeesCount"></span>)*</label>
 					<div  class="col-sm-8 form-group">
 						<div id="divAttendees" class="form-box">				
 						</div>
@@ -100,12 +100,17 @@ var student = null;
 var parents = [];
 var me = null;
 var meId = "${sessionScope.sessionUserId}";
+var group = null;
 
 $(document).ready(function() {
 	<c:if test="${not empty lstStudent}">
 		orderAllOptions();
 		$("#selectStudent").val($("#selectStudent option:first").val());
-		student = $("#selectStudent").val();
+		var infoStudent = $("#selectStudent").val().split("#");
+		student = infoStudent[0];
+		if(infoStudent.length > 1){
+			group = infoStudent[1];
+		}
 		if(isTeacher){
 			loadTeacher(student);
 		}
@@ -123,7 +128,11 @@ function loadData(){
 	
 	$("#divAttendees").empty();
 	$("#comments").val("");
-	student = $("#selectStudent").val();
+	var infoStudent = $("#selectStudent").val().split("#");
+	student = infoStudent[0];
+	if(infoStudent.length > 1){
+		group = infoStudent[1];
+	}
 	if(!isTeacher){
 		$("#inputDay").val("");
 		$("#selectHour").empty();
@@ -241,8 +250,8 @@ function requestMeeting(){
 	$("input[type=checkbox]:checked").each(function() {
 		var attende = {
 				user : $(this).prop("id"),
-				student : student,
 				active : true,
+				status : 'P'
 		}
 		lstAttendee.push(attende);
 	});
@@ -252,6 +261,9 @@ function requestMeeting(){
 			user : me.idUser,
 			date : $('#dayAction').data("DateTimePicker").date(),
 			hour : $("#selectHour").val(),
+			student : {id: student},
+			group : {id: group},
+			status : 'P',
 			comments : $("#comments").val(),
 			active : true,
 			lstAttendee : lstAttendee

@@ -25,9 +25,6 @@ public class RolesServiceImpl implements RolesService {
 	@Autowired
 	private RolesDAO rolesDAO;
 	
-	/* (non-Javadoc)
-	 * @see es.uned.lsi.pfg.service.RolesService#getAllRoles()
-	 */
 	@Override
 	public List<Role> getAllRoles() {
 		logger.debug("getAllRoles");

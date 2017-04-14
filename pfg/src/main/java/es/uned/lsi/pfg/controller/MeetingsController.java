@@ -218,11 +218,11 @@ public class MeetingsController {
 			List<Person> lstPerson = new ArrayList<Person>();
 
 			if(meeting.getType().equals(Constans.MEETING_TYPE_PRIVATE)){
-				type = messageSource.getMessage("meeting.privateMeeting", null, locale);
+				type = messageSource.getMessage("meeting.type.T", null, locale);
 			} else if (meeting.getType().equals(Constans.MEETING_TYPE_PARENT)) {
-				type = messageSource.getMessage("meeting.parentsMeeting", null, locale);
+				type = messageSource.getMessage("meeting.type.P", null, locale);
 			} else {
-				type = messageSource.getMessage("meeting.default", null, locale);
+				type = messageSource.getMessage("meeting.type.default", null, locale);
 			}
 			String date = format.format(meeting.getDate()) + " " + meeting.getHour(); 
 			String subject = messageSource.getMessage("meeting.email.subject", new String[]{type, meeting.getId().toString()}, locale);
@@ -244,10 +244,10 @@ public class MeetingsController {
 	}
 	
 	/**
-	 * Obtiene la pagina de solicitud de tutoria
+	 * Obtiene la pagina de solicitud de reunion de padres
 	 * @param session
 	 * @param locale
-	 * @return pagina de solicitud de tutoria
+	 * @return pagina de solicitud de reunion de padres
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/tch/requestMeetingParentsPage", method = RequestMethod.GET)
@@ -270,4 +270,36 @@ public class MeetingsController {
 		model.addObject("locale", locale.getLanguage());
 		return model;
 	}
+	
+	/**
+	 * Obitiene la pagina de agenda de reuniones
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/atp/diary", method = RequestMethod.GET)
+	public ModelAndView getDiaryPage (HttpSession session) throws Exception{
+		logger.debug("getDiaryPage");
+		ModelAndView model = new ModelAndView("meetingDiary");
+		Role role = (Role)session.getAttribute(Constans.SESSION_ROLE);
+		List<Teacher> lstTeacher = new ArrayList<Teacher>();
+		List<Parent> lstParent = new ArrayList<Parent>();
+		
+		if(role.getIdRole().equals(Constans.ROLE_ADMIN)){
+			lstTeacher = usersService.getByClass(Teacher.class);
+			lstParent = usersService.getByClass(Parent.class);
+		} else if(role.getIdRole().equals(Constans.ROLE_TEACHER)){
+			Integer id = (Integer)session.getAttribute(Constans.SESSION_USER_ID);
+			lstTeacher.add(usersService.getById(id, Teacher.class));
+		} else if(role.getIdRole().equals(Constans.ROLE_PARENT)){
+			Integer id = (Integer)session.getAttribute(Constans.SESSION_USER_ID);
+			lstParent.add(usersService.getById(id, Parent.class));
+		}
+	
+		model.addObject("lstTeacher", lstTeacher);
+		model.addObject("lstParent", lstParent);
+		return model;
+	}
 }
+
+
