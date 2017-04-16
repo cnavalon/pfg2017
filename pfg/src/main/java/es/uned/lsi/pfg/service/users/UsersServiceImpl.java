@@ -65,40 +65,6 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private ShaPasswordEncoder shaPasswordEncoder;
 	
-	@Override
-	public String getFullName(Integer id, String idRole) {
-		logger.debug("getFullName: " + id + "," + idRole);
-		String fullName = "";
-		try {
-			Person person = personDAO.find(id, findClassRole(idRole));
-			fullName = createFullName(person);
-		} catch (Exception e) {
-			logger.error("ERROR, obteniendo nombre completo: " + id + ", " + idRole,e);
-		}
-		return fullName;
-	}
-	
-	@Override
-	public String getFullNameByUser(String idUser, String idRole) {
-		logger.debug("getFullNameByUser: " + idUser + "," + idRole);
-		String fullName = "";
-		try {
-			Class<? extends Person> classPerson = findClassRole(idRole);
-			Person person = personDAO.findByIdUser(idUser, classPerson);
-			fullName = createFullName(person);
-		} catch (Exception e) {
-			logger.error("ERROR, obteniendo nombre completo del usuario: " + idUser + ", " + idRole,e);
-		}
-		return fullName;
-	}
-
-	private String createFullName(Person person) {
-		String fullName = person.getName() + " " + person.getSurname1();
-		if(person.getSurname2() != null && !person.getSurname2().equals("")){
-			fullName += " " + person.getSurname2();
-		}
-		return fullName;
-	}
 
 	@Override
 	public User getUser(String username) {
@@ -317,6 +283,13 @@ public class UsersServiceImpl implements UsersService {
 	public <T extends Person> T getByUser(String role, String idUser) {
 		logger.debug("getByUser: " + role + ", " + idUser); 
 		return (T) personDAO.findByIdUser(idUser, findClassRole(role));
+	}
+	
+	@Override
+	public <T extends Person> T getByUser(String idUser) {
+		logger.debug("getByUser: " + idUser); 
+		User user = usersDAO.findUser(idUser);
+		return getByUser(user.getRole(), idUser);
 	}
 
 	@Override

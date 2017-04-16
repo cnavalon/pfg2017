@@ -18,21 +18,6 @@ import es.uned.lsi.pfg.model.UserSearch;
  * @author Carlos Navalon Urrea
  */
 public interface UsersService {
-	/**
-	 * Obtiene el nombre completo (nombre y apellidos) por id y perfil
-	 * @param id
-	 * @param idRole perfil 
-	 * @return nombre completo
-	 */
-	public String getFullName(Integer id, String idRole);
-	
-	/**
-	 * Obtiene el nombre completo de usuario (nombre y apellidos) por id de usuario y perfil
-	 * @param id id de usuario
-	 * @param idRole perfil de usuario
-	 * @return nombre completo de usuario
-	 */
-	public String getFullNameByUser(String idUser, String idRole);
 
 	/**
 	 * Obtiene un usuario por id
@@ -90,6 +75,13 @@ public interface UsersService {
 	 * @return entida de persona
 	 */
 	public <T extends Person> T getByUser(String role, String idUser);
+	
+	/**
+	 * Obtiene una entidad de persona en funcion de su id de usuario
+	 * @param idUser id de usuario
+	 * @return entida de persona
+	 */
+	public <T extends Person> T getByUser(String idUser);
 
 	/**
 	 * Obtiene un listado de los padres de un alumno 
@@ -199,6 +191,8 @@ public interface UsersService {
 	 * @return listado de personas
 	 */
 	public  <T extends Person> List<T> getByClassHistoric(Class<T> classPerson);
+
+	
 
 	
 	

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,7 +29,13 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @NamedQueries({
 	@NamedQuery(name="findMeetingById", query="SELECT x FROM Meeting x WHERE x.id = :id"),
-	@NamedQuery(name="findMeetingByUser", query="SELECT x FROM Meeting x WHERE x.user = :user")
+	@NamedQuery(name="findMeetingByUser", query="SELECT x FROM Meeting x WHERE x.user = :user"),
+	@NamedQuery(name="findMeetingByUserStateDate", 
+		query="SELECT x FROM Meeting x "
+				+ "WHERE x.user = :user "
+				+ "AND x.status IN :lstState "
+				+ "AND x.date >= :date"),
+	@NamedQuery(name="findMeetingByIdDate", query="SELECT x FROM Meeting x WHERE x.id = :id AND x.date >= :date"),
 })
 @Entity
 @Table(name="meetings")
@@ -39,6 +46,8 @@ public class Meeting implements Serializable{
 	/** Queries **/
 	public static final String Q_FIND_BY_ID = "findMeetingById";
 	public static final String Q_FIND_BY_USER = "findMeetingByUser";
+	public static final String Q_FIND_BY_USER_STATE_DATE= "findMeetingByUserStateDate";
+	public static final String Q_FIND_BY_ID_DATE = "findMeetingByIdDate";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -65,23 +74,11 @@ public class Meeting implements Serializable{
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;
 	
+	@Transient
+	private Person person;
+	
 	public Meeting() {	}
 	
-	public Meeting(Integer id, String type, String user, Date date, String hour, Student student, Group group,
-			String status, String comments, boolean active) {
-		super();
-		this.id = id;
-		this.type = type;
-		this.user = user;
-		this.date = date;
-		this.hour = hour;
-		this.student = student;
-		this.group = group;
-		this.status = status;
-		this.comments = comments;
-		this.active = active;
-	}
-
 	public Meeting(Meeting meeting){
 		this.id = meeting.getId();
 		this.type = meeting.getType();
@@ -93,6 +90,7 @@ public class Meeting implements Serializable{
 		this.status = meeting.getStatus();
 		this.comments = meeting.getComments();
 		this.active = meeting.isActive();
+		this.person = meeting.getPerson();
 	}
 
 	public Integer getId() {
@@ -158,11 +156,19 @@ public class Meeting implements Serializable{
 		this.active = active;
 	}
 
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
 	@Override
 	public String toString() {
 		return "Meeting [id=" + id + ", type=" + type + ", user=" + user + ", date=" + date + ", hour=" + hour
 				+ ", student=" + student + ", group=" + group + ", status=" + status + ", comments=" + comments
-				+ ", active=" + active + "]";
+				+ ", active=" + active + ", person=" + person + "]";
 	}
 
 	@Override
@@ -175,6 +181,7 @@ public class Meeting implements Serializable{
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((hour == null) ? 0 : hour.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((student == null) ? 0 : student.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -218,6 +225,11 @@ public class Meeting implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (person == null) {
+			if (other.person != null)
+				return false;
+		} else if (!person.equals(other.person))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -240,4 +252,5 @@ public class Meeting implements Serializable{
 			return false;
 		return true;
 	}
+
 }

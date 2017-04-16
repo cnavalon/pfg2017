@@ -85,6 +85,7 @@
 		    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
 		    		<th><spring:message code="user.role" text="user.role not found" /></th>
 		    		<th></th>
+	    		</tr>
 		  	</thead>
 		  	<tfoot>
 			  	<tr>

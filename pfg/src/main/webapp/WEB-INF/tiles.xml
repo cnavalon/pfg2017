@@ -91,5 +91,7 @@
 	<definition name="meetingDiary" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/meeting/meetingDiary.jsp" />
 	</definition>
+	<definition name="modalResponse" template="/WEB-INF/views/modal/modalResponse.jsp" />
+	<definition name="modalAttendee" template="/WEB-INF/views/modal/modalAttendee.jsp" />
 	
 </tiles-definitions>

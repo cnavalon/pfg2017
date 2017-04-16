@@ -36,6 +36,7 @@
 		<script src="static/js/jquery.blockUI.js"></script>
 		<script src="static/js/moment-with-locales.min.js"></script>
 		<script src="static/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="static/js/datetime-moment.js"></script>
 	</head>
 
 	<body>

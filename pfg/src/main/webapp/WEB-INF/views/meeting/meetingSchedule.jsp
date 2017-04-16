@@ -34,6 +34,7 @@
 			    		<th><spring:message code="meeting.startHour" text="meeting.startHour not found" /></th>
 			    		<th><spring:message code="meeting.endHour" text="meeting.endHour not found" /></th>
 			    		<th></th>
+		    		</tr>
 			  	</thead>
 			  	<tbody>
 			  	</tbody>

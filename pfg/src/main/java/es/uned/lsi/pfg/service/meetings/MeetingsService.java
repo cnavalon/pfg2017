@@ -5,6 +5,7 @@ package es.uned.lsi.pfg.service.meetings;
 
 import java.util.List;
 
+import es.uned.lsi.pfg.model.Attendee;
 import es.uned.lsi.pfg.model.Meeting;
 import es.uned.lsi.pfg.model.MeetingFull;
 import es.uned.lsi.pfg.model.ScheduleMeeting;
@@ -50,5 +51,60 @@ public interface MeetingsService {
 	 * @return tutoria
 	 */
 	public Meeting saveMeeting(MeetingFull meetingFull);
+
+	/**
+	 * Obtiene todas las reuniones aceptadas o pendientes y con fecha posterior a la 
+	 * actual en las que está involucrado el usuario
+	 * @param idUser id de usuario
+	 * @return listado de las reuinoes 
+	 */
+	public List<Meeting> getActiveMeetingsByUser(String idUser);
+
+	/**
+	 * Obtiene todas las solicitudes de reunion pendientes de contestar por el usuario
+	 * y con fecha posterior a la actual 
+	 * @param idUser id de usuario
+	 * @return listado de las reuinoes 
+	 */
+	public List<Meeting> getActiveRequest(String idUser);
+
+	/**
+	 * Guarda una respuesta a solicitud de reunion y actualiza el estado de la reunion
+	 * @param idUser id usuario
+	 * @param idMeeting id reunion
+	 * @param state estado
+	 * @param comment comentario
+	 * @return asistente actualizado
+	 */
+	public Attendee saveResponse(String idUser, Integer idMeeting, String state, String comment);
+
+	/**
+	 * Recupera una reunion 
+	 * @param meeting codigo de reunion
+	 * @return reunion
+	 */
+	public Meeting getMeeting(Integer meeting);
+
+	/**
+	 * Recupera un listado de asisitentes por reunion
+	 * @param meeting id de reunion
+	 * @return listado de asistentes
+	 */
+	public List<Attendee> getAttendeeByMeeting(Integer meeting);
+
+	/**
+	 * Cancela una reunion
+	 * @param idMeeting id reunion
+	 * @return reunion
+	 */
+	public Meeting cancelMeeting(Integer idMeeting);
+	
+	/**
+	 * Recupera un listado de asistentes por reunion y estado
+	 * @param meeting id reuion
+	 * @param state estado
+	 * @return listado de asistentes
+	 */
+	public List<Attendee> getAttendeeByMeetingState(Integer meeting, String state);
 
 }

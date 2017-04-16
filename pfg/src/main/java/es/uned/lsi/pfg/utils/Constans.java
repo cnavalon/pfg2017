@@ -15,7 +15,8 @@ public interface Constans {
 	//SESSION FIELDS
 	public static final String SESSION_USER_NAME = "sessionUserFullName";
 	public static final String SESSION_ROLE = "sessionUserRole";
-	public static final String SESSION_USER_ID = "sessionUserId";
+	public static final String SESSION_ID = "sessionId";
+	public static final String SESSION_USER = "sessionUser";
 	
 	//GROUPS PARAMETERS
 	public static final String NO_LETTER = "-";
@@ -26,8 +27,8 @@ public interface Constans {
 	public static final String MEETING_TYPE_PARENT = "P";
 	public static final String MEETING_STATUS_PENDING = "P";
 	public static final String MEETING_STATUS_ACCEPTED = "A";
-	public static final String MEETING_TYPE_REJECTED = "R";
-	public static final String MEETING_TYPE_CANCELED = "C";
+	public static final String MEETING_STATUS_REJECTED = "R";
+	public static final String MEETING_STATUS_CANCELED = "C";
 	
 	
 	

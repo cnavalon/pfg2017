@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/views/common/include.jsp" %>
 
 <spring:url value="/meetings/tut/requestMeeting?${_csrf.parameterName}=${_csrf.token}" var="urlRequestMeeting" />
+<spring:url value="/meetings/atp/diary" var="urlDiary" />
+
 
 <div class="row-fluid">
 	<h3 class="title"><spring:message code="meeting.request.parent.title" text="meeting.request.parent.title not found" /></h3>
@@ -125,7 +127,7 @@ $('#dayAction').datetimepicker({
 });
 
 $("#buttonCancel").click(function(){
-	confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', function(){reload()}, null);
+	confirm('<spring:message code="common.loseChanges" text="common.loseChanges not found"/>', goToDiary, null);
 });
 
 $("#buttonAdd").click(function(){
@@ -176,10 +178,10 @@ function requestMeeting(){
 		success : function(text) {
 			if(text == null || text == "" )
 				text = '<spring:message code="meeting.request.error" text="meeting.request.error not found"/>';
-			alert(text, reload);
+			alert(text, goToDiary);
 		},
 		error: function(){
-			alert('<spring:message code="meeting.request.error" text="meeting.request.error not found"/>', reload);
+			alert('<spring:message code="meeting.request.error" text="meeting.request.error not found"/>', goToDiary);
 		}
 	});		
 }
@@ -253,5 +255,9 @@ $("#inputEndMinute").change(function(){
 $('#dayAction').on("dp.change",function(){
 	validForm();
 });
+
+function goToDiary(){
+	redirect("${urlDiary}");
+}
 
 </script>

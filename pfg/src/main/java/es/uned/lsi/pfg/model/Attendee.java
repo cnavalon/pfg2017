@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -23,7 +24,10 @@ import org.hibernate.annotations.Type;
  */
 @NamedQueries({
 	@NamedQuery(name="findAttendeeByMeter", query="SELECT x FROM Attendee x WHERE x.meeting = :meeting"),
-	@NamedQuery(name="findAttendeeByUser", query="SELECT x FROM Attendee x WHERE x.user = :user")
+	@NamedQuery(name="findAttendeeByUser", query="SELECT x FROM Attendee x WHERE x.user = :user"),
+	@NamedQuery(name="findAttendeeByUserState", query="SELECT x FROM Attendee x WHERE x.user = :user AND x.status = :status"),
+	@NamedQuery(name="findAttendeeByMeetingUser", query="SELECT x FROM Attendee x WHERE x.user = :user AND x.meeting = :meeting"),
+	@NamedQuery(name="findAttendeeByMeetingState", query="SELECT x FROM Attendee x WHERE x.status = :status AND x.meeting = :meeting")
 })
 @Entity
 @Table(name="meetings_attendees")
@@ -33,6 +37,9 @@ public class Attendee implements Serializable {
 	/** Queries **/
 	public static final String Q_FIND_BY_MEETING = "findAttendeeByMeter";
 	public static final String Q_FIND_BY_USER = "findAttendeeByUser";
+	public static final String Q_FIND_BY_USER_STATE = "findAttendeeByUserState";
+	public static final String Q_FIND_BY_MEETING_USER = "findAttendeeByMeetingUser";
+	public static final String Q_FIND_BY_MEETING_STATE = "findAttendeeByMeetingState";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -47,6 +54,9 @@ public class Attendee implements Serializable {
 	private String comments;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;
+	
+	@Transient
+	private Person person;
 	
 	public Integer getId() {
 		return id;
@@ -69,7 +79,7 @@ public class Attendee implements Serializable {
 	public String getStatus() {
 		return status;
 	}
-	public void setConfirm(String status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	public String getComments() {
@@ -84,10 +94,17 @@ public class Attendee implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
 	@Override
 	public String toString() {
 		return "Attendee [id=" + id + ", meeting=" + meeting + ", user=" + user + ", status=" + status + ", comments="
-				+ comments + ", active=" + active + "]";
+				+ comments + ", active=" + active + ", person=" + person + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -97,6 +114,7 @@ public class Attendee implements Serializable {
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((meeting == null) ? 0 : meeting.hashCode());
+		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
@@ -126,6 +144,11 @@ public class Attendee implements Serializable {
 			if (other.meeting != null)
 				return false;
 		} else if (!meeting.equals(other.meeting))
+			return false;
+		if (person == null) {
+			if (other.person != null)
+				return false;
+		} else if (!person.equals(other.person))
 			return false;
 		if (status == null) {
 			if (other.status != null)

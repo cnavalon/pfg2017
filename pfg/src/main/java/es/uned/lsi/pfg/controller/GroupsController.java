@@ -288,7 +288,7 @@ public class GroupsController {
 		ModelAndView model = new ModelAndView("schedule");
 		List<UserSearch> lstUsers = null;
 		Role role = (Role) session.getAttribute(Constans.SESSION_ROLE);
-		Integer id = (Integer) session.getAttribute(Constans.SESSION_USER_ID);
+		Integer id = (Integer) session.getAttribute(Constans.SESSION_ID);
 		
 		if(role.getIdRole().equals(Constans.ROLE_ADMIN)){ //Horario de todos los profesores
 			lstUsers = usersService.search(new UserSearch(null, Constans.ROLE_TEACHER, null, null, null, null));

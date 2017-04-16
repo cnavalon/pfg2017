@@ -140,6 +140,7 @@
 			    		<th><spring:message code="user.surname1" text="user.surname1 not found" /></th>
 			    		<th><spring:message code="user.surname2" text="user.surname2 not found" /></th>
 			    		<th></th>
+		    		</tr>
 			  	</thead>
 			  	<tbody>
 			  		<c:forEach items="${lstStudents}" var="student">
