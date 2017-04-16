@@ -67,6 +67,13 @@ public interface MeetingsService {
 	 * @return listado de las reuinoes 
 	 */
 	public List<Meeting> getActiveRequest(String idUser);
+	
+	/**
+	 * Obtiene todas las solicitudes de reunion pendientes de contestar por el usuario
+	 * @param idUser id de usuario
+	 * @return listado de las reuinoes 
+	 */
+	public List<Meeting> getRequest(String idUser);
 
 	/**
 	 * Guarda una respuesta a solicitud de reunion y actualiza el estado de la reunion
@@ -106,5 +113,12 @@ public interface MeetingsService {
 	 * @return listado de asistentes
 	 */
 	public List<Attendee> getAttendeeByMeetingState(Integer meeting, String state);
+
+	/**
+	 * Obtiene todas las reuniones del usuario
+	 * @param idUser id de usuario
+	 * @return listado de las reuniones 
+	 */
+	public List<Meeting> getMeetingsByUser(String idUser);
 
 }

@@ -119,5 +119,22 @@ public class AttendeeDAOImpl extends AbstractJpaDao implements AttendeeDAO {
 		}
 		return lstAttendees;
 	}
+	@Override
+	public List<Attendee> findByUserAndNotState(String user, String state) {
+		logger.debug("findByUserAndNotState: " + user + ", " + state);
+		List<Attendee> lstAttendees = new ArrayList<Attendee>();
+		try {
+			lstAttendees =  em.createNamedQuery(Attendee.Q_FIND_BY_USER_NOT_STATE, Attendee.class)
+				.setParameter("user", user)
+				.setParameter("status", state)
+				.getResultList();
+		} catch (NoResultException e) {
+			logger.debug("Empty results");
+		} catch (Exception e) {
+			logger.error("Error recuperando asistentes por usuario y estado distinto: " + user + ", " + state, e);
+			throw e;
+		}
+		return lstAttendees;
+	}
 
 }

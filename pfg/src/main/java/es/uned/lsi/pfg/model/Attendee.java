@@ -27,7 +27,8 @@ import org.hibernate.annotations.Type;
 	@NamedQuery(name="findAttendeeByUser", query="SELECT x FROM Attendee x WHERE x.user = :user"),
 	@NamedQuery(name="findAttendeeByUserState", query="SELECT x FROM Attendee x WHERE x.user = :user AND x.status = :status"),
 	@NamedQuery(name="findAttendeeByMeetingUser", query="SELECT x FROM Attendee x WHERE x.user = :user AND x.meeting = :meeting"),
-	@NamedQuery(name="findAttendeeByMeetingState", query="SELECT x FROM Attendee x WHERE x.status = :status AND x.meeting = :meeting")
+	@NamedQuery(name="findAttendeeByMeetingState", query="SELECT x FROM Attendee x WHERE x.status = :status AND x.meeting = :meeting"),
+	@NamedQuery(name="findAttendeeByUserNotState", query="SELECT x FROM Attendee x WHERE x.user = :user AND x.status != :status"),
 })
 @Entity
 @Table(name="meetings_attendees")
@@ -38,6 +39,7 @@ public class Attendee implements Serializable {
 	public static final String Q_FIND_BY_MEETING = "findAttendeeByMeter";
 	public static final String Q_FIND_BY_USER = "findAttendeeByUser";
 	public static final String Q_FIND_BY_USER_STATE = "findAttendeeByUserState";
+	public static final String Q_FIND_BY_USER_NOT_STATE = "findAttendeeByUserNotState";
 	public static final String Q_FIND_BY_MEETING_USER = "findAttendeeByMeetingUser";
 	public static final String Q_FIND_BY_MEETING_STATE = "findAttendeeByMeetingState";
 	

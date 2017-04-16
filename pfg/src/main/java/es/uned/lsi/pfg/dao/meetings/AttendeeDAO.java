@@ -58,4 +58,12 @@ public interface AttendeeDAO {
 	 * @return listado de asistentes
 	 */
 	public List<Attendee> findByMeetingState(Integer meeting, String state);
+
+	/**
+	 * Obtiene un listado de asistentes por usuario y estado distinto al seleccionado
+	 * @param user usuario
+	 * @param state estado
+	 * @return listado de asistentes a reunion
+	 */
+	public List<Attendee> findByUserAndNotState(String user, String state);
 }

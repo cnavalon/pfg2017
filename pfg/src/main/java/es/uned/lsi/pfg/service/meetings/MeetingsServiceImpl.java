@@ -205,4 +205,40 @@ public class MeetingsServiceImpl implements MeetingsService {
 		return attendeeDAO.findByMeetingState(meeting, state);
 	}
 
+	@Override
+	public List<Meeting> getMeetingsByUser(String idUser) {
+		logger.debug("getMeetingsByUser: " + idUser);
+		
+		//Reunioes que ha creado el usuario
+		List<Meeting> lstMeeting = meetingDAO.findByUser(idUser);
+		
+		//Reuniones en las que esta como invitado y no pendientes
+		List<Attendee> lstAttendee = attendeeDAO.findByUserAndNotState(idUser, Constans.MEETING_STATUS_PENDING);
+		for(Attendee attendee : lstAttendee){
+			Meeting meeting = meetingDAO.findById(attendee.getMeeting());
+			if(meeting != null){
+				lstMeeting.add(meeting);
+			}
+		}
+		
+		return lstMeeting;
+	}
+
+	@Override
+	public List<Meeting> getRequest(String idUser) {
+		logger.debug("getRequest: " + idUser);
+		List<Meeting> lstMeeting = new ArrayList<Meeting>();
+
+		List<Attendee> lstAttendee = attendeeDAO.findByUserAndState(idUser, Constans.MEETING_STATUS_PENDING);
+		for(Attendee attendee : lstAttendee){
+			Meeting meeting = meetingDAO.findById(attendee.getMeeting());
+			if(meeting != null){
+				meeting.setStatus(attendee.getStatus());
+				lstMeeting.add(meeting);
+			}
+		}
+		
+		return lstMeeting;
+	}
+
 }

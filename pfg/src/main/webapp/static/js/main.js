@@ -54,30 +54,13 @@ function initTable(id, dataTableLang, noSearchIndexes, selectFilterIndexes, hide
 		                   } );
 		
 		               	column.data().unique().sort().each( function ( d, j ) {
-		                  		select.append( '<option value="'+d+'">'+d+'</option>' )
+		                  		select.append( '<option value=\''+d+'\'>'+d+'</option>' )
 		               	} );
 		       		 }
         		 }
        	  } ); 
         	
     	 $(id + ' tfoot tr').insertBefore($(id + ' thead tr'));
-        	
-        	
-//        	$(id + ' tfoot th').each( function (index) {
-//        		if(noSearchIndexes.indexOf(index) != -1){
-//        			var title = $(this).text();
-//        			$(this).html( '<input type="text" class="filterTables" placeholder="'+searchText+' '+title+'"/>' );
-//        		}
-//            } );
-//        	
-//        	table.columns().every( function () {
-//                var that = this;
-//                $( 'input', this.footer() ).on('keyup change', function () {
-//                    if ( that.search() !== this.value ) {
-//                        that.search( this.value ).draw();
-//                    }
-//                } );
-//            } );
         	
         }
     });

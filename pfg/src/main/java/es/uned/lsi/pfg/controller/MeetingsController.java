@@ -320,7 +320,29 @@ public class MeetingsController {
 	}
 	
 	/**
-	 * Obtiene un listado de las solicitudes de reunioes pendientes 
+	 * Recupera un listado de las reuniones del usuario
+	 * @param idUser id de usuario
+	 * @return listado de reuniones
+	 */
+	@RequestMapping(value="/atp/getMeeting/{idUser}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Meeting> getMeetings(@PathVariable("idUser") String idUser) throws Exception{
+		logger.debug("getMeetings: " + idUser);
+		List<Meeting> lstMeetings = new ArrayList<Meeting>();
+		try {
+			lstMeetings = meetingsService.getMeetingsByUser(idUser);
+			for(Meeting meeting : lstMeetings){
+				meeting.setPerson(usersService.getByUser(meeting.getUser()));
+			}
+		} catch (Exception e) {
+			logger.error("Error recuperando reuniones por usuario: " + idUser, e);
+		}
+		
+		return lstMeetings;
+	}
+	
+	/**
+	 * Obtiene un listado de las solicitudes de reuniones activas pendientes 
 	 * @param idUser id de usuario
 	 * @return listado de reuniones
 	 */
@@ -342,6 +364,32 @@ public class MeetingsController {
 		
 		return lstMeetings;
 	}
+	
+	/**
+	 * Obtiene un listado de las solicitudes de reunioes pendientes 
+	 * @param idUser id de usuario
+	 * @return listado de reuniones
+	 */
+	@RequestMapping(value="/atp/getRequest/{idUser}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Meeting> getRequest(@PathVariable("idUser") String idUser) throws Exception{
+		logger.debug("getRequest: " + idUser);
+		List<Meeting> lstMeetings = new ArrayList<Meeting>();
+		try {
+			lstMeetings = meetingsService.getRequest(idUser);
+			if(lstMeetings != null && !lstMeetings.isEmpty()){
+				for(Meeting meeting : lstMeetings){
+					meeting.setPerson(usersService.getByUser(meeting.getUser()));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error recuperando peticiones de reunión por usuario: " + idUser, e);
+		}
+		
+		return lstMeetings;
+	}
+	
+	
 	
 	/**
 	 * Obtiene el modal de respuesta a solicitud de reunion

@@ -28,16 +28,16 @@
 				  			<td>${attendee.person.fullName}</td>
 				  			<td>
 				  				<c:if test="${attendee.status == 'P'}">
-				  					<i class="glyphicon glyphicon-time"> </i> 
+				  					<i class='glyphicon glyphicon-time'> </i> 
 				  				</c:if>
 				  				<c:if test="${attendee.status == 'A'}">
-				  					<i class="glyphicon glyphicon-ok green"> </i> 
+				  					<i class='glyphicon glyphicon-ok green'> </i> 
 				  				</c:if>
 				  				<c:if test="${attendee.status == 'R'}">
-				  					<i class="glyphicon glyphicon-remove red"> </i> 
+				  					<i class='glyphicon glyphicon-remove red'> </i> 
 				  				</c:if>
 				  				<c:if test="${attendee.status == 'C'}">
-				  					<i class="glyphicon glyphicon-remove-circle"> </i> 
+				  					<i class='glyphicon glyphicon-remove-circle gray'> </i> 
 				  				</c:if>
 				  				<spring:message code="meeting.status.${attendee.status}" text="meeting.status.${attendee.status} not found" /></td>
 				  			<td>${attendee.comments}</td>
@@ -55,6 +55,51 @@
 
 <script>
 
-var tableAttendees = initTable("#tableAttendees",'<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />',[],[1],[]);
+var tableAttendees = $("#tableAttendees").DataTable({
+	sDom:'<lrtip>',
+    language: {
+    	"url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
+	},
+	columns : [
+    	{"width":"30"},
+        {"width":"15%"},
+        {"width":"55%"}
+	],
+	"autoWidth": false,
+    "order": [[ 1, "asc" ]],
+    initComplete: function(){
+    	tableAttendees.columns().every( function () {
+  			var column = this;
+   		 	if(this.index() != 1){
+      			var that = this;
+			    var title = $(column.footer()).text();
+			    $(column.footer()).html( '<input type="text" class="filterTables" placeholder="'+title+'"/>' );
+			    $( 'input', this.footer() ).on('keyup change', function () {
+			    	if ( that.search() !== this.value ) {
+			    		that.search( this.value ).draw();
+			    	}
+			    });
+   		 	}
+   		 	if(this.index() == 1){
+       			var select = $('<select style="width: 100%;"><option value=""></option></select>')
+                	.appendTo( $(column.footer()).empty() )
+                	.on( 'change', function () {
+                    	var val = $.fn.dataTable.util.escapeRegex(
+                        	$(this).val()
+                    	);
+
+                    	column.search( val ? val+'$' : '', true, false ).draw();
+                	});
+
+       			select.append( '<option value="'+statusP_Text+'">'+statusP_Text+'</option>' );
+           		select.append( '<option value="'+statusA_Text+'">'+statusA_Text+'</option>' );
+           		select.append( '<option value="'+statusR_Text+'">'+statusR_Text+'</option>' );
+           		select.append( '<option value="'+statusC_Text+'">'+statusC_Text+'</option>' );
+       		 }
+  	  	});
+    	
+		$("#tableAttendees tfoot tr").insertBefore($("#tableAttendees thead tr"));
+	}
+});
 
 </script>

@@ -49,83 +49,88 @@
 				</div>
 			</c:if>
 		</div>
+		
+			
+		<div  id="divRow2" class="form-group ">
+			<label class="col-sm-2 control-label"><spring:message code="meeting.show" text="meeting.show not found"/>:</label>
+			<div class="col-sm-8">
+				<label class="radio-inline"><input type="radio" name="filter" value="active" checked><spring:message code="meeting.active" text="meeting.active not found"/></label>
+				<label class="radio-inline"><input type="radio" name="filter" value="all"><spring:message code="meeting.all" text="meeting.all not found"/></label>
+			</div>
+		</div>
 	</form>
 </div>
 
-<div class="row-fluid" id="divTableRequest" hidden>
+<div class="row-fluid groupTable" id="divTableRequest" hidden>
 	<h4><b><spring:message code="meeting.request" text="meeting.request not found"/></b></h4>
-	<div class="col-sm-12">
-		<table id="tableRequest" class="stripe hover row-border" width="95%">
-			<thead>
-		  		<tr>
-		    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
-		    		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
-		    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
-		    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
-		    		<th><spring:message code="role.student" text="role.student not found" /></th>
-		    		<th><spring:message code="user.group" text="user.group not found" /></th>
-		    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
-		    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
-		    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
-		    		<th></th>
-	    		</tr>
-		  	</thead>
-		  	<tfoot>
-			  	<tr>
-		    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
-			  		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
-		    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
-		    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
-		    		<th><spring:message code="role.student" text="role.student not found" /></th>
-		    		<th><spring:message code="user.group" text="user.group not found" /></th>
-		    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
-		    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
-		    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
-		    		<th></th>
-			  	</tr>
-		  	</tfoot>
-		  	<tbody>
-		  	</tbody>
-		</table>
-	</div>
+	<table id="tableRequest" class="stripe hover row-border" width="95%">
+		<thead>
+	  		<tr>
+	    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
+	    		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
+	    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
+	    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
+	    		<th><spring:message code="role.student" text="role.student not found" /></th>
+	    		<th><spring:message code="user.group" text="user.group not found" /></th>
+	    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
+	    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
+	    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
+	    		<th></th>
+    		</tr>
+	  	</thead>
+	  	<tfoot>
+		  	<tr>
+	    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
+		  		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
+	    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
+	    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
+	    		<th><spring:message code="role.student" text="role.student not found" /></th>
+	    		<th><spring:message code="user.group" text="user.group not found" /></th>
+	    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
+	    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
+	    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
+	    		<th></th>
+		  	</tr>
+	  	</tfoot>
+	  	<tbody>
+	  	</tbody>
+	</table>
 </div>
 
-<div class="row-fluid" id="divTableMeetings" hidden>
+<div class="row-fluid groupTable" id="divTableMeetings" hidden>
 	<h4><b><spring:message code="meeting.list" text="meeting.list not found"/></b></h4>
-	<div class="col-sm-12">
-		<table id="tableMeetings" class="stripe hover row-border" width="95%">
-			<thead>
-		  		<tr>
-		    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
-		    		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
-		    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
-		    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
-		    		<th><spring:message code="role.student" text="role.student not found" /></th>
-		    		<th><spring:message code="user.group" text="user.group not found" /></th>
-		    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
-		    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
-		    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
-		    		<th></th>
-	    		</tr>
-		  	</thead>
-		  	<tfoot>
-			  	<tr>
-		    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
-			  		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
-		    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
-		    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
-		    		<th><spring:message code="role.student" text="role.student not found" /></th>
-		    		<th><spring:message code="user.group" text="user.group not found" /></th>
-		    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
-		    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
-		    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
-		    		<th></th>
-			  	</tr>
-		  	</tfoot>
-		  	<tbody>
-		  	</tbody>
-		</table>
-	</div>
+	<table id="tableMeetings" class="stripe hover row-border" width="95%">
+		<thead>
+	  		<tr>
+	    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
+	    		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
+	    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
+	    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
+	    		<th><spring:message code="role.student" text="role.student not found" /></th>
+	    		<th><spring:message code="user.group" text="user.group not found" /></th>
+	    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
+	    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
+	    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
+	    		<th></th>
+    		</tr>
+	  	</thead>
+	  	<tfoot>
+		  	<tr>
+	    		<th><spring:message code="meeting.id" text="meeting.id not found" /></th>
+		  		<th><spring:message code="meeting.day" text="meeting.day not found" /></th>
+	    		<th><spring:message code="meeting.hour" text="meeting.hour not found" /></th>
+	    		<th><spring:message code="meeting.type" text="meeting.type not found" /></th>
+	    		<th><spring:message code="role.student" text="role.student not found" /></th>
+	    		<th><spring:message code="user.group" text="user.group not found" /></th>
+	    		<th><spring:message code="meeting.create" text="meeting.create not found" /></th>
+	    		<th><spring:message code="meeting.state" text="meeting.state not found" /></th>
+	    		<th><spring:message code="meeting.comments" text="meeting.comments not found" /></th>
+	    		<th></th>
+		  	</tr>
+	  	</tfoot>
+	  	<tbody>
+	  	</tbody>
+	</table>
 </div>
 
 
@@ -148,6 +153,8 @@ var rejectText = '<spring:message code="meeting.reject" text="meeting.reject not
 var cancelText = '<spring:message code="meeting.cancel" text="meeting.cancel not found" />';
 var typeT_Text = '<spring:message code="meeting.type.T" text="meeting.type.T not found" />'; 
 var typeP_Text = '<spring:message code="meeting.type.P" text="meeting.type.P not found" />'; 
+var typeT_Icon = '<spring:message code="meeting.type.icon.T" text="meeting.type.icon.T not found" />'; 
+var typeP_Icon = '<spring:message code="meeting.type.icon.P" text="meeting.type.icon.P not found" />'; 
 var statusP_Text = '<spring:message code="meeting.status.P" text="meeting.status.P not found" />';
 var statusA_Text = '<spring:message code="meeting.status.A" text="meeting.status.A not found" />';
 var statusC_Text = '<spring:message code="meeting.status.C" text="meeting.status.C not found" />';
@@ -155,12 +162,17 @@ var statusR_Text = '<spring:message code="meeting.status.R" text="meeting.status
 
 $(document).ready(function() {
 	orderAllOptions();
+	load();
+	
+});
+
+function load(){
 	if($("#selectTeacher").val()!= null && $("#selectTeacher").val() != ""){
 		loadData($("#selectTeacher").val());
 	} else if($("#selectParent").val()!= null && $("#selectParent").val() != ""){
 		loadData($("#selectParent").val());
 	}
-});
+};
 
 $("#selectTeacher").change(function(){
 	if($("#selectTeacher").val()!= null && $("#selectTeacher").val() != ""){
@@ -242,16 +254,16 @@ function createTableMeetings(){
    	 	      	return json;
    	 	    }
    		},
-   	   	columns : [
-            { "data": "id", "width":"2%"},
+   		columns : [
+            { "data": "id", "width":"2%", "className": "text-center"},
             { "data": "dateStr", "width":"7%"},
-            { "data": "hour", "width":"8%"},
-       		{ "data": "typeStr", "width":"8%" },
+            { "data": "hour", "width":"9%"},
+       		{ "data": "typeStr", "width":"3%", "className": "text-center"},
       		{ "data": "student", "width":"15%"},
       		{ "data": "group", "width":"7%"},
       		{ "data": "userName", "width":"15%"},	         		
-      		{ "data": "statusStr", "width":"7%"},	         		
-      		{ "data": "comments", "width":"16%"},	         		
+      		{ "data": "statusStr", "width":"8%"},	         		
+      		{ "data": "comments", "width":"19%"},	         		
       		{ "data": "operations", "width":"5%"},	         		
   		],
   		
@@ -277,13 +289,13 @@ function createTableMeetings(){
 	                     );
 	
 	                     column
-	                         .search( val ? '^'+val+'$' : '', true, false )
+	                         .search( val ? val+'$' : '', true, false )
 	                         .draw();
 	                 } );
 	
 	        		 if(this.index() == 3){
-                		select.append( '<option value="'+typeT_Text+'">'+typeT_Text+'</option>' );
-                		select.append( '<option value="'+typeP_Text+'">'+typeP_Text+'</option>' );
+	        			select.append( '<option value="'+typeT_Icon+'">'+typeT_Text+'</option>' );
+	                 	select.append( '<option value="'+typeP_Icon+'">'+typeP_Text+'</option>' );
 	        		 } else {
 	        			select.append( '<option value="'+statusP_Text+'">'+statusP_Text+'</option>' );
                 		select.append( '<option value="'+statusA_Text+'">'+statusA_Text+'</option>' );
@@ -340,15 +352,15 @@ function createTableRequest(){
    	 	    }
    		},
    	   	columns : [
-            { "data": "id", "width":"2%"},
+            { "data": "id", "width":"2%", "className": "text-center"},
             { "data": "dateStr", "width":"7%"},
-            { "data": "hour", "width":"8%"},
-       		{ "data": "type", "width":"8%" },
+            { "data": "hour", "width":"9%"},
+       		{ "data": "type", "width":"3%", "className": "text-center"},
       		{ "data": "student", "width":"15%"},
       		{ "data": "group", "width":"7%"},
       		{ "data": "userName", "width":"15%"},	         		
-      		{ "data": "statusStr", "width":"7%"},	         		
-      		{ "data": "comments", "width":"16%"},	         		
+      		{ "data": "statusStr", "width":"8%"},	         		
+      		{ "data": "comments", "width":"19%"},	         		
       		{ "data": "operations", "width":"5%"},	         		
   		],
   		
@@ -374,13 +386,13 @@ function createTableRequest(){
 	                     );
 	
 	                     column
-	                         .search( val ? '^'+val+'$' : '', true, false )
+	                    	 .search( val ? val+'$' : '', true, false )
 	                         .draw();
 	                 } );
 					
 	        		 if(this.index() == 3){
-                		select.append( '<option value="'+typeT_Text+'">'+typeT_Text+'</option>' );
-                		select.append( '<option value="'+typeP_Text+'">'+typeP_Text+'</option>' );
+                		select.append( '<option value="'+typeT_Icon+'">'+typeT_Text+'</option>' );
+                		select.append( '<option value="'+typeP_Icon+'">'+typeP_Text+'</option>' );
 	        		 } else {
 	        			select.append( '<option value="'+statusP_Text+'">'+statusP_Text+'</option>' );
                 		select.append( '<option value="'+statusA_Text+'">'+statusA_Text+'</option>' );
@@ -399,9 +411,9 @@ function createTableRequest(){
 
 function getType(type){
 	if(type === 'T'){
-		return typeT_Text;
+		return '<span title="'+typeT_Text+'">'+typeT_Icon+'</span>';
 	} else if(type === 'P'){
-		return typeP_Text;
+		return '<span title="'+typeP_Text+'">'+typeP_Icon+'</span>';
 	} else {
 		return "";
 	}
@@ -415,7 +427,7 @@ function getStatus(status){
 	} else if(status === 'R'){
 		return '<i class="glyphicon glyphicon-remove red"> </i> ' + statusR_Text;
 	} else if(status === 'C'){
-		return '<i class="glyphicon glyphicon-remove-circle"> </i> ' + statusC_Text;
+		return '<i class="glyphicon glyphicon-remove-circle gray"> </i> ' + statusC_Text;
 	} else {
 		return "";
 	}
@@ -474,6 +486,17 @@ function sendResponse(meeting, state){
 	});		
 }
 
+$("input[name='filter']").change(function(){
+	if (this.value == 'active') {
+		urlMeeting = '${urlActiveMeeting}';
+		urlRequest = '${urlActiveRequest}';
+    }
+    else if (this.value == 'all') {
+    	urlMeeting = '${urlMeeting}';
+    	urlRequest = '${urlRequest}';
+    }
+	load();
+});
 
 
 </script>
