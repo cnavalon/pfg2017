@@ -40,7 +40,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
 	private Environment env;
 	
 	/**
-     * Configure TilesConfigurer.
+     * Configurador tiles
      */
     @Bean
     public TilesConfigurer tilesConfigurer(){
@@ -51,7 +51,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     }
  
     /**
-     * Configure ViewResolvers to deliver preferred views.
+     * Configurar solucionador de vistas
      */
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -60,18 +60,24 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     }
      
     /**
-     * Configure ResourceHandlers to serve static resources
+     * Configurar controlador de rescursos estáticos
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
     
+    /**
+     * Configurador de recursos properties 
+     */
     @Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
     
+    /**
+     * Configuracion de internacionalizacion
+     */
     @Bean
     public MessageSource messageSource(){
     	  ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -84,12 +90,18 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     	  return messageSource;
     }
     
+    /**
+     * Configuracion de locale
+     */
     @Bean
     public LocaleResolver localeResolver(){
     	SessionLocaleResolver  resolver = new SessionLocaleResolver ();
     	return resolver;
     } 
     
+    /**
+     * Configuracion de interceptor de idiomas
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -97,6 +109,9 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
         registry.addInterceptor(interceptor);
     } 
     
+    /**
+     * Configuracion de controlador multipart
+     */
     @Bean
     public MultipartResolver multipartResolver(){
     	CommonsMultipartResolver multipartResolver =  new CommonsMultipartResolver();
@@ -104,6 +119,9 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     	return multipartResolver;
     }
     
+    /**
+     * Configuracion de servicio de correo electronico
+     */
     @Bean 
     public JavaMailSender mailResolver() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();

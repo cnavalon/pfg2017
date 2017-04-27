@@ -23,7 +23,6 @@
 		<servlet.version>3.1.0</servlet.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp-api.version>2.2</jsp-api.version>
-		<jsmiparser.version>0.13</jsmiparser.version>
 		<tiles.version>3.0.5</tiles.version>
 		<mysql.version>5.1.40</mysql.version>
 		<hibernate.version>5.2.6.Final</hibernate.version>

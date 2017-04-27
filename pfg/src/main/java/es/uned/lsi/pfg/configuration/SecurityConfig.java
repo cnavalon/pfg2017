@@ -62,40 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and().csrf();
     }
     
-//	private void findAllRolesCombinations(HttpSecurity http, String[] roles) throws Exception {
-//		List<Integer> lstIndexes = new ArrayList<Integer>();
-//		lstIndexes.add(0);
-//		findRoleCombinations(http, lstIndexes, roles);
-//	}
-//	
-//	private void findRoleCombinations(HttpSecurity http, List<Integer> lstIndexes, String[] rolesArray) throws Exception{
-//		addRule(http, lstIndexes, rolesArray);
-//		for(int i = lstIndexes.get(lstIndexes.size()-1)+1; i < rolesArray.length; i++ ){
-//			List<Integer> newLstIndex = new ArrayList<Integer>(lstIndexes);
-//			newLstIndex.add(i);
-//			findRoleCombinations(http, newLstIndex, rolesArray);
-//		}
-//	}
-//
-//	private void addRule(HttpSecurity http, List<Integer> lstIndexes, String[] rolesArray) throws Exception {
-//		List<String> lstRoles = new ArrayList<String>();
-//		for(int index : lstIndexes){
-//			lstRoles.add(rolesArray[index]);
-//		}
-//		String[] roles = new String[lstRoles.size()];
-//		lstRoles.toArray(roles);
-//		String code = "";
-//		for(String role : roles){
-//			code += role.substring(5) + "_";
-//		}
-//		code = code.substring(0, code.length()-1).toLowerCase();
-//		if(roles.length == 1){
-//			http.requestMatchers().antMatchers("/*/" + code + "/**").and().authorizeRequests().anyRequest().hasAuthority(roles[0]);
-//		} else {
-//			http.requestMatchers().antMatchers("/*/" + code + "/**").and().authorizeRequests().anyRequest().hasAnyAuthority(roles);
-//		}
-//	}
-	
 	@Bean
     public ShaPasswordEncoder passwordEncoder(){
     	return new ShaPasswordEncoder();
