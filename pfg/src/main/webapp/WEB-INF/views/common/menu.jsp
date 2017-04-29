@@ -10,6 +10,9 @@
 <spring:url value="/meetings/tch/requestMeetingParentsPage" var="urlRequestMeetingParentsPage" />
 <spring:url value="/meetings/atp/diary" var="urlDiary" />
 <spring:url value="/news/newsPage" var="urlNews" />
+<spring:url value="/news/newsPage" var="urlNews" />
+<spring:url value="/qualifications/viewQualifications" var="urlViewQualifications" />
+<spring:url value="/qualifications/emp/addQualifications" var="urlAddQualifications" />
 
 
 	
@@ -57,7 +60,7 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.meetings" text="menu.meetings not found" /> <span class="caret"></span></a>
 			        <ul class="dropdown-menu">
 				        <c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
-				        	<li><a href="${urlScheduleMeetings}" id="menuMeetings_schedule" ><spring:message code="menu.meeting.schedule" text="menu.meeting.schedulenot found" /></a></li>
+				        	<li><a href="${urlScheduleMeetings}" id="menuMeetings_schedule" ><spring:message code="menu.meeting.schedule" text="menu.meeting.schedule not found" /></a></li>
 				        </c:if>
 				        <c:if test="${not pageContext.request.isUserInRole('ADM')}">
 				        	<li><a href="${urlRequestMeetingsPage}" id="menuMeetings_request" ><spring:message code="menu.meeting.request" text="menu.meeting.request not found" /></a></li>
@@ -70,12 +73,24 @@
 				</li>
 			</c:if>
 			
-			<!------------------  NOTCIAS ------------------>
+			<!------------------  NOTICIAS ------------------>
 			
 			<li class="dropdown" id="menuNews">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.news" text="menu.news not found" /> <span class="caret"></span></a>
 		        <ul class="dropdown-menu">
 		        	<li><a href="${urlNews}" id="menuNews_news" ><spring:message code="menu.news" text="menu.news not found" /></a></li>
+		        </ul>
+			</li>
+			
+			<!------------------  CALIFICACIONES ------------------>
+			
+			<li class="dropdown" id="menuQualifications">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.qualifications" text="menu.qualifications not found" /> <span class="caret"></span></a>
+		        <ul class="dropdown-menu">
+		        	<li><a href="${urlViewQualifications}" id="menuQualifications_view" ><spring:message code="menu.qualifications.view" text="menu.qualifications.view not found" /></a></li>
+		        	<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
+			        	<li><a href="${urlAddQualifications}" id="menuQualifications_add" ><spring:message code="menu.qualifications.add" text="menu.qualifications.add found" /></a></li>
+			        </c:if>
 		        </ul>
 			</li>
 			

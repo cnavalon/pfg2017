@@ -97,4 +97,12 @@
 	<definition name="modalComment" template="/WEB-INF/views/news/modalComment.jsp" />
 	<definition name="newsList" template="/WEB-INF/views/news/newsList.jsp" />
 	
+	<!-- Qualifications -->
+	<definition name="viewQualifications" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/qualifications/viewQualifications.jsp" />
+	</definition>
+	<definition name="addQualifications" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/qualifications/addQualifications.jsp" />
+	</definition>
+	
 </tiles-definitions>

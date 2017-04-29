@@ -3,12 +3,6 @@ body {
 	padding-bottom: 25px;
 }
 
-.bg-1{
-	background: #F0F8FF;
-/* 	background-color: #d9edf7; */
-/* 	background-color: #abd8ef; */
-}
-
 .bg-2{
 	background: #ffdd7b;
 /* 	background-color: #d9edf7; */
@@ -150,4 +144,8 @@ body {
 
 .comments-box{
 	padding-left: 15px;
+}
+
+.spaced{
+	margin-top: 15px;
 }
