@@ -9,11 +9,6 @@
 		<put-attribute name="body" value=""></put-attribute>
 	</definition>
 	
-	<!-- Test -->
-	<definition name="testLang" extends="base.definition">
-		<put-attribute name="body" value="/WEB-INF/views/test/lang.jsp" />
-	</definition>
-
 	<!-- Authentication -->
 	<definition name="login" template="/WEB-INF/views/authentication/login.jsp">
 	</definition>
@@ -53,7 +48,7 @@
 	<definition name="studentForm" template="/WEB-INF/views/users/studentForm.jsp" />
 	<definition name="parentForm" template="/WEB-INF/views/users/parentForm.jsp" />
 	
-	<definition name="searchParent" template="/WEB-INF/views/modal/searchParent.jsp" />
+	<definition name="searchParent" template="/WEB-INF/views/users/searchParent.jsp" />
 	
 	<!-- Groups  -->
 	<definition name="groups" extends="base.definition">
@@ -62,7 +57,7 @@
 	<definition name="groupForm" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/groups/groupForm.jsp" />
 	</definition>
-	<definition name="viewGroup" template="/WEB-INF/views/modal/viewGroup.jsp" />
+	<definition name="viewGroup" template="/WEB-INF/views/groups/viewGroup.jsp" />
 	
 	<definition name="schedule" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/schedule/schedule.jsp" />
@@ -73,7 +68,7 @@
 	<definition name="subject" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/groups/subject.jsp" />
 	</definition>
-	<definition name="modalSubject" template="/WEB-INF/views/modal/modalSubject.jsp" />
+	<definition name="modalSubject" template="/WEB-INF/views/groups/modalSubject.jsp" />
 
 	<!-- Meetings  -->
 	<definition name="meetingSchedule" extends="base.definition">
@@ -91,7 +86,15 @@
 	<definition name="meetingDiary" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/meeting/meetingDiary.jsp" />
 	</definition>
-	<definition name="modalResponse" template="/WEB-INF/views/modal/modalResponse.jsp" />
-	<definition name="modalAttendee" template="/WEB-INF/views/modal/modalAttendee.jsp" />
+	<definition name="modalResponse" template="/WEB-INF/views/meeting/modalResponse.jsp" />
+	<definition name="modalAttendee" template="/WEB-INF/views/meeting/modalAttendee.jsp" />
+	
+	<!-- News -->
+	<definition name="news" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/news/news.jsp" />
+	</definition>
+	<definition name="modalNews" template="/WEB-INF/views/news/modalNews.jsp" />
+	<definition name="modalComment" template="/WEB-INF/views/news/modalComment.jsp" />
+	<definition name="newsList" template="/WEB-INF/views/news/newsList.jsp" />
 	
 </tiles-definitions>

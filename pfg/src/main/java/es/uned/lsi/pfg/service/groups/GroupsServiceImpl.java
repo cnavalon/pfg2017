@@ -6,6 +6,7 @@ package es.uned.lsi.pfg.service.groups;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -282,6 +283,53 @@ public class GroupsServiceImpl implements GroupsService {
 	public Subject getSubjectByCode(String code) {
 		logger.debug("getSubjectByCode: " + code);
 		return subjectDAO.findByCode(code);
+	}
+
+	@Override
+	public List<Group> getGroupsByTeacher(Integer teacher) {
+		logger.debug("getGroupsByTeacher: " + teacher);
+		List<Group> lstGroups = new ArrayList<Group>();
+		HashSet<Integer> hsGroupsCodes = new HashSet<Integer>();
+		
+		List<Schedule> lstSchedule = schedulesDAO.findScheduleByTeacher(teacher);
+		for(Schedule schedule : lstSchedule){
+			if(!hsGroupsCodes.contains(schedule.getGroup())){
+				lstGroups.add(groupsDAO.findById(schedule.getGroup()));
+				hsGroupsCodes.add(schedule.getGroup());
+			}
+		}
+		
+		return lstGroups;
+	}
+
+	@Override
+	public List<Subject> getSubjectsByGroup(Integer groupId) {
+		logger.debug("getSubjectsByGroup: " + groupId);
+		List<Subject> lstSubjects = new ArrayList<Subject>();
+		HashSet<String> hsSubjectsCodes = new HashSet<String>();
+		List<Schedule> lstSchedules = schedulesDAO.findScheduleByGroup(groupId);
+		for(Schedule schedule : lstSchedules){
+			if(!hsSubjectsCodes.contains(schedule.getSubject())){
+				lstSubjects.add(subjectDAO.findByCode(schedule.getSubject()));
+				hsSubjectsCodes.add(schedule.getSubject());
+			}
+		}
+		return lstSubjects;
+	}
+
+	@Override
+	public List<Subject> getSubjectsByGroupAndTeacher(Integer groupId, Integer teacherId) {
+		logger.debug("getSubjectsByGroupAndTeacher: " + groupId);
+		List<Subject> lstSubjects = new ArrayList<Subject>();
+		HashSet<String> hsSubjectsCodes = new HashSet<String>();
+		List<Schedule> lstSchedules = schedulesDAO.findScheduleByGroup(groupId);
+		for(Schedule schedule : lstSchedules){
+			if(schedule.getTeacher().equals(teacherId) && !hsSubjectsCodes.contains(schedule.getSubject())){
+				lstSubjects.add(subjectDAO.findByCode(schedule.getSubject()));
+				hsSubjectsCodes.add(schedule.getSubject());
+			}
+		}
+		return lstSubjects;
 	}
 	
 

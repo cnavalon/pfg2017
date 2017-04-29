@@ -1,6 +1,5 @@
 body {
 	font-family: cursive;
-/* 	background-color: #F0F8FF; */
 	padding-bottom: 25px;
 }
 
@@ -73,6 +72,9 @@ body {
 .noPadding{
 	padding: 0;
 }
+.noMargin{
+	margin: 0;
+}
 .aling-input{
     padding-top: 6px;
 }
@@ -116,6 +118,18 @@ body {
     border-radius: 4px;
     margin: 0px 15px;
 }
+
+.box-news{
+	padding: 6px 12px 12px 12px;
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 5px 0px;
+}
+
+.div-news{
+	margin-bottom: 10px;
+}
+
 .green{
 	color: green;
 }
@@ -132,4 +146,8 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 20px 0px;
+}
+
+.comments-box{
+	padding-left: 15px;
 }

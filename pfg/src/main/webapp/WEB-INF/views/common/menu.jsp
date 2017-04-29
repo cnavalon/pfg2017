@@ -9,6 +9,7 @@
 <spring:url value="/meetings/tut/requestMeetingPage" var="urlRequestMeetingsPage" />
 <spring:url value="/meetings/tch/requestMeetingParentsPage" var="urlRequestMeetingParentsPage" />
 <spring:url value="/meetings/atp/diary" var="urlDiary" />
+<spring:url value="/news/newsPage" var="urlNews" />
 
 
 	
@@ -68,6 +69,15 @@
 			        </ul>
 				</li>
 			</c:if>
+			
+			<!------------------  NOTCIAS ------------------>
+			
+			<li class="dropdown" id="menuNews">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.news" text="menu.news not found" /> <span class="caret"></span></a>
+		        <ul class="dropdown-menu">
+		        	<li><a href="${urlNews}" id="menuNews_news" ><spring:message code="menu.news" text="menu.news not found" /></a></li>
+		        </ul>
+			</li>
 			
 		</ul>
 	</div>

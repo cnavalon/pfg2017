@@ -38,12 +38,12 @@ $('#tableSchedule').DataTable( {
     },
     "autoWidth": false,
     "columns" : [
-        { "width":"10%"},
-        { "width":"18%"},
-        { "width":"18%"},
-        { "width":"18%"},
-        { "width":"18%"},
-        { "width":"18%"}
+        { "width":"5%"},
+        { "width":"19%"},
+        { "width":"19%"},
+        { "width":"19%"},
+        { "width":"19%"},
+        { "width":"19%"}
 	],
 } );
 </script>

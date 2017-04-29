@@ -104,6 +104,13 @@ public interface GroupsService {
 	 * @return clase
 	 */
 	public Group getGroupByTutor(Integer tutor);
+	
+	/**
+	 * Obtiene una listado de clases impartidas por un profesor
+	 * @param teacher profesor
+	 * @return listado de clases
+	 */
+	public List<Group> getGroupsByTeacher(Integer teacher);
 
 	/**
 	 * Obtiene un listado de todas las asignaturas
@@ -137,5 +144,20 @@ public interface GroupsService {
 	 * @return asignatura
 	 */
 	public Subject getSubjectByCode(String code);
+	
+	/**
+	 * Obtiene un listado de asignaturas por clase
+	 * @param groupId id de clase
+	 * @return listado de asignaturas
+	 */
+	public List<Subject> getSubjectsByGroup(Integer groupId);
+
+	/**
+	 * Obtiene un listado de asignaturas por clase y profesor
+	 * @param groupId id de clase
+	 * @param teacherId id de profesor
+	 * @return listado de asignaturas
+	 */
+	public List<Subject> getSubjectsByGroupAndTeacher(Integer groupId, Integer teacherId);
 	
 }

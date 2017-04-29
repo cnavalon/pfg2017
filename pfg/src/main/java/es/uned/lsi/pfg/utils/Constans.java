@@ -30,6 +30,9 @@ public interface Constans {
 	public static final String MEETING_STATUS_REJECTED = "R";
 	public static final String MEETING_STATUS_CANCELED = "C";
 	
+	//NEWS
+	public static final int NEWS_ITEMS_PAGE = 5;
+	
 	
 	
 }
