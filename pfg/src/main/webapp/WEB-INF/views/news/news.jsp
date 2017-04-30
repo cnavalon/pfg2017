@@ -14,9 +14,9 @@
 <c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
 	<div class="row-fluid">
 		<div class="col-sm-offset-10 col-sm-1">
-			<a class="btn btn-primary btn-block btn-sm" id="addNews" disabled>
+			<button class="btn btn-primary btn-block btn-sm" id="addNews" disabled>
 				<i class="glyphicon glyphicon-plus" rel="tooltip"></i> <spring:message code="common.add" text="common.add not found" />
-			</a>
+			</button>
 		</div>
 	</div>
 </c:if>
@@ -49,11 +49,11 @@
 		<div class="form-group ">
 	    	<div class="col-sm-offset-2 col-sm-8 text-right">
 	   			<div class="col-sm-2">
-		      		<a id ="buttonPrevious" class="form-control btn btn-default" disabled><i class="glyphicon glyphicon-chevron-left" rel="tooltip"></i> <spring:message code="common.previous" text="common.previous not found"/></a>
+		      		<button id ="buttonPrevious" class="form-control btn btn-default" disabled><i class="glyphicon glyphicon-chevron-left" rel="tooltip"></i> <spring:message code="common.previous" text="common.previous not found"/></button>
 	    		</div>
 	    		<div class="col-sm-8"></div>
 	    		<div class="col-sm-2">
-		      		<a id ="buttonNext" class="form-control btn btn-default" disabled><spring:message code="common.next" text="common.next not found"/> <i class="glyphicon glyphicon-chevron-right" rel="tooltip"></i></a>
+		      		<button id ="buttonNext" class="form-control btn btn-default" disabled><spring:message code="common.next" text="common.next not found"/> <i class="glyphicon glyphicon-chevron-right" rel="tooltip"></i></button>
 	    		</div>
 	   		</div>
 		</div>

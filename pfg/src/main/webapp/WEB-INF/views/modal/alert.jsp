@@ -8,7 +8,7 @@
    			</div>
    		<div id="dataAlertBody" class="modal-body">${text}</div> 
    		<div class="modal-footer">
-   			<a class="btn btn-primary" id="dataAlertOK"><spring:message code="common.ok" text="common.ok not found"/></a>
+   			<button class="btn btn-primary" id="dataAlertOK"><spring:message code="common.ok" text="common.ok not found"/></button>
    		</div>
    	</div>
    </div>

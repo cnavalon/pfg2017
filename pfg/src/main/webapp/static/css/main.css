@@ -149,3 +149,11 @@ body {
 .spaced{
 	margin-top: 15px;
 }
+
+.dates-schedule{
+	padding-top: 15px;
+	
+}
+.hidde{
+	display: none;
+}

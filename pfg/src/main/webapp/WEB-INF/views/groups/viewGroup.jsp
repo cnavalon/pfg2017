@@ -55,7 +55,7 @@
 	 			</div>
 	 		</div>  
 	 		<div class="modal-footer"> 
-	 			<a class="btn btn-primary" id="dataModalOK"><spring:message code="common.close" text="common.close not found" /></a> 
+	 			<button class="btn btn-primary" id="dataModalOK"><spring:message code="common.close" text="common.close not found" /></button> 
 	 		</div> 
 	 	</div> 
  	</div> 

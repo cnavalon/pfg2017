@@ -47,7 +47,7 @@
 				</table>
 	 		</div>  
 	 		<div class="modal-footer"> 
-	 			<a class="btn btn-primary" id="dataModalOK"><spring:message code="common.ok" text="common.ok not found" /></a> 
+	 			<button class="btn btn-primary" id="dataModalOK"><spring:message code="common.ok" text="common.ok not found" /></button> 
 	 		</div> 
 	 	</div> 
  	</div> 

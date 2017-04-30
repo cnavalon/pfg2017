@@ -8,8 +8,8 @@
 	 		</div> 
 	 		<div id="dataConfirmBody" class="modal-body">${text}</div>  
 	 		<div class="modal-footer"> 
-	 			<a class="btn btn-primary" id="dataCancel"><spring:message code="common.cancel" text="common.cancel not found" /></a> 
-	 			<a class="btn btn-primary" id="dataConfirmOK"><spring:message code="common.ok" text="common.ok not found" /></a> 
+	 			<button class="btn btn-primary" id="dataCancel"><spring:message code="common.cancel" text="common.cancel not found" /></button> 
+	 			<button class="btn btn-primary" id="dataConfirmOK"><spring:message code="common.ok" text="common.ok not found" /></button> 
 	 		</div> 
 	 	</div> 
  	</div> 

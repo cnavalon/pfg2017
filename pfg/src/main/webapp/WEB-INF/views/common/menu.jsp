@@ -13,6 +13,8 @@
 <spring:url value="/news/newsPage" var="urlNews" />
 <spring:url value="/qualifications/viewQualifications" var="urlViewQualifications" />
 <spring:url value="/qualifications/emp/addQualifications" var="urlAddQualifications" />
+<spring:url value="/absences/emp/absencesSchedule" var="urlAbsencesSchedule" />
+<spring:url value="/absences/viewAbsences" var="urlViewAbsences" />
 
 
 	
@@ -90,6 +92,18 @@
 		        	<li><a href="${urlViewQualifications}" id="menuQualifications_view" ><spring:message code="menu.qualifications.view" text="menu.qualifications.view not found" /></a></li>
 		        	<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
 			        	<li><a href="${urlAddQualifications}" id="menuQualifications_add" ><spring:message code="menu.qualifications.add" text="menu.qualifications.add found" /></a></li>
+			        </c:if>
+		        </ul>
+			</li>
+			
+			<!------------------  FALTAS DE ASISTENCIA ------------------>
+			
+			<li class="dropdown" id="menuAbsences">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.absences" text="menu.absences not found" /> <span class="caret"></span></a>
+		        <ul class="dropdown-menu">
+		        	<li><a href="${urlViewAbsences}" id="menuAbsences_view" ><spring:message code="menu.absences.view" text="menu.absences.view not found" /></a></li>
+		        	<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
+			        	<li><a href="${urlAbsencesSchedule}" id="menuAbsences_schedule" ><spring:message code="menu.absences.add" text="menu.absences.add not found" /></a></li>
 			        </c:if>
 		        </ul>
 			</li>

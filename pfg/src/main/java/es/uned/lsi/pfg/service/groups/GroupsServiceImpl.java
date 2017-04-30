@@ -208,6 +208,7 @@ public class GroupsServiceImpl implements GroupsService {
 				row.setEndHour(item.getEndHour());
 			}
 			row.getCells()[item.getDay()] = new ScheduleCell(
+					item.getId(),
 					mapSubject.get(item.getSubject()),
 					mapTeachers.get(item.getTeacher()),
 					mapGroups.get(item.getGroup()));

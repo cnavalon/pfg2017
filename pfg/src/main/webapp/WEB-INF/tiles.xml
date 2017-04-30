@@ -105,4 +105,13 @@
 		<put-attribute name="body" value="/WEB-INF/views/qualifications/addQualifications.jsp" />
 	</definition>
 	
+	<!-- Absences -->
+	<definition name="viewAbsences" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/absences/viewAbsences.jsp" />
+	</definition>
+	<definition name="absencesSchedule" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/absences/absencesSchedule.jsp" />
+	</definition>
+	<definition name="modalAbsences" template="/WEB-INF/views/absences/modalAbsences.jsp" />
+	
 </tiles-definitions>

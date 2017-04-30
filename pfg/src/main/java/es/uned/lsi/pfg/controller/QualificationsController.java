@@ -78,12 +78,18 @@ public class QualificationsController {
 				lstStudents = usersService.findStudentsList(id);
 			}
 		} catch (Exception e) {
-			logger.error("Error obteniendo listado de clases para usuario: " + id + ", " + role, e);
+			logger.error("Error obteniendo listado de alumnos para usuario: " + id + ", " + role, e);
 		}
 		model.addObject("lstStudents", lstStudents);
 		return model;
 	}
 	
+	/**
+	 * Devuelve la pagina de insertar calificaciones
+	 * @param session 
+	 * @return pagina de insertar calificaciones
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/emp/addQualifications", method = RequestMethod.GET)
 	public ModelAndView addQualifications (HttpSession session) throws Exception {
 		logger.debug("addQualifications");
@@ -178,6 +184,12 @@ public class QualificationsController {
 		return response;
 	}
 	
+	/**
+	 * Obtiene un listado de las asignaturas y calificaciones de un alumno
+	 * @param studentId id de alumno
+	 * @return listado de las asignaturas y calificaciones
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value="/getQualificationsStudent/{studentId}", method = RequestMethod.GET)
 	public List<SubjectQualification> getQualificationsStudent (@PathVariable("studentId") Integer studentId) throws Exception {

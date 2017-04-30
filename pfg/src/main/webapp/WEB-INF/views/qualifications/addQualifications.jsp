@@ -35,6 +35,7 @@
 					<thead>
 				  		<tr>
 				    		<th></th>
+				    		<th></th>
 				    		<th><spring:message code="qualifications.student" text="qualifications.student not found" /></th>
 				    		<th><spring:message code="qualifications.1T" text="qualifications.1T not found" /></th>
 				    		<th><spring:message code="qualifications.2T" text="qualifications.2T not found" /></th>
@@ -136,7 +137,7 @@ function createTable(){
             footer: false
         },
         "autoWidth": false,
-        "order": [[ 1, "asc" ]],
+        "order": [[ 2, "asc" ]],
      
         ajax : {
    			url : '${urlStudents}' + $("#selectGroup").val(),
@@ -145,6 +146,7 @@ function createTable(){
    	     		if(json != null && json.length > 0){
    		   	    	for (var i = 0; i < json.length; i++) {
    	     	    		json[i].name = json[i].surname1 + " " + json[i].surname2 + ", " + json[i].name;
+   	     	    		json[i].idQualification = json[i].surname1 + " " + json[i].surname2 + ", " + json[i].name;
      	    			json[i].q1 = '<input type="text" id="inputQ1" class="form-control" maxlength="20">';
      	    			json[i].q2 = '<input type="text" id="inputQ2" class="form-control" maxlength="20">';
      	    			json[i].q3 = '<input type="text" id="inputQ3" class="form-control" maxlength="20">';
@@ -156,6 +158,7 @@ function createTable(){
    		},
    	   	columns : [
             { "data": "id", "visible": false},
+            { "data": "idQualification", "visible": false},
             { "data": "name", "width":"40%"},
             { "data": "q1", "width":"15%", "orderable": false},
        		{ "data": "q2", "width":"15%", "orderable": false},
@@ -191,6 +194,7 @@ function getQualifications(){
 function updateStudentQualifications(qualification){
 	tableQualifications.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 		if(this.data().id == qualification.student){
+			this.data().idQualification = qualification.id;
 			var node = this.node();
 			$(node).find("#inputQ1").val(qualification.qualification1);
 			$(node).find("#inputQ2").val(qualification.qualification2);
@@ -204,6 +208,7 @@ function updateStudentQualifications(qualification){
 function clearQualifications(){
 	tableQualifications.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 			var node = this.node();
+			this.data().idQualification = "";
 			$(node).find("#inputQ1").val("");
 			$(node).find("#inputQ2").val("");
 			$(node).find("#inputQ3").val("");
@@ -238,7 +243,8 @@ function saveQualifications(){
     	qualification.qualification2 = $(node).find("#inputQ2").val();
     	qualification.qualification3 = $(node).find("#inputQ3").val();
     	qualification.qualificationF = $(node).find("#inputQF").val();
-	    
+    	if(data.idQualification != null && data.idQualification != "")
+    		qualification.id = data.idQualification;
     	lstQualifications.push(qualification);
 	} );
 	
@@ -251,7 +257,7 @@ function saveQualifications(){
 			alert(text,reload);
 		},
 		error: function(){
-			alert('<spring:message code="qualifications.save.error" text="qualifications.save.error not found"/>', reload);
+			alert('<spring:message code="absences.save.error" text="absences.save.error not found"/>', reload);
 		}
 	});			
 }	

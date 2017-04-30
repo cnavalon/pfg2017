@@ -307,6 +307,11 @@ public class GroupsController {
 		return model;
 	}
 	
+	/**
+	 * Obtiene la tabla de horario de un alumno
+	 * @param id id alumno
+	 * @return
+	 */
 	@RequestMapping(value="/getStudentSchedule/{id}", method = RequestMethod.GET)
 	public ModelAndView getStudentSchedule(@PathVariable("id") Integer id){
 		logger.debug("getStudentSchedule: " + id);
@@ -320,16 +325,26 @@ public class GroupsController {
 		return model;
 	}
 	
+	/**
+	 * Obtiene la tabla de horario de un profesor
+	 * @param id id profesor
+	 * @return
+	 */
 	@RequestMapping(value="/emp/getTeacherSchedule/{id}", method = RequestMethod.GET)
 	public ModelAndView getTeacherSchedule(@PathVariable("id") Integer id){
 		logger.debug("getTeacherSchedule: " + id);
 		ModelAndView model = new ModelAndView("scheduleTeacher");
 		Teacher teacher = usersService.getById(id, Teacher.class);
 		model.addObject("schedule", groupsService.getScheduleByTeacher(teacher));
+		model.addObject("interactive", false);
 		
 		return model;
 	}
 	
+	/**
+	 * Obtiene la pagina de listado de asignaturas
+	 * @return 
+	 */
 	@RequestMapping(value="/adm/subjects", method = RequestMethod.GET)
 	public ModelAndView getSubjects(){
 		logger.debug("getSubjects");
@@ -366,6 +381,13 @@ public class GroupsController {
 		return model;
 	}
 	
+	/**
+	 * Elimina una asignatura
+	 * @param idSubject id de asignatura
+	 * @param locale
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value="/adm/deleteSubject/{subject}", method = RequestMethod.GET)
 	public String deleteSubject(@PathVariable("subject") Integer idSubject, Locale locale) throws Exception {
@@ -374,6 +396,13 @@ public class GroupsController {
 		return messageSource.getMessage(response, null, locale);
 	}
 	
+	/**
+	 * Guarda una asignatura
+	 * @param subject asignatura
+	 * @param locale
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value="/adm/saveSubject", method = RequestMethod.POST)
 	public String saveSubject(@RequestBody Subject subject, Locale locale) throws Exception {
