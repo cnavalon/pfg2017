@@ -157,3 +157,22 @@ body {
 .hidde{
 	display: none;
 }
+.table_view{
+	width:100%;
+	display: table;
+}
+.table_cell_view{
+	display: table-cell;
+}
+.no_resize{
+	resize: none;
+}
+
+#menuRow0 {
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ccc;
+}
+.vertical_top{
+	vertical-align: top;
+}

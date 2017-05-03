@@ -15,6 +15,8 @@
 <spring:url value="/qualifications/emp/addQualifications" var="urlAddQualifications" />
 <spring:url value="/absences/emp/absencesSchedule" var="urlAbsencesSchedule" />
 <spring:url value="/absences/viewAbsences" var="urlViewAbsences" />
+<spring:url value="/schoolCanteen/menu" var="urlMenu" />
+<spring:url value="/schoolCanteen/payments" var="urlPayments" />
 
 
 	
@@ -104,6 +106,18 @@
 		        	<li><a href="${urlViewAbsences}" id="menuAbsences_view" ><spring:message code="menu.absences.view" text="menu.absences.view not found" /></a></li>
 		        	<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('TCH')}">
 			        	<li><a href="${urlAbsencesSchedule}" id="menuAbsences_schedule" ><spring:message code="menu.absences.add" text="menu.absences.add not found" /></a></li>
+			        </c:if>
+		        </ul>
+			</li>
+			
+			<!------------------  COMEDOR ESCOLAR  ------------------>
+			
+			<li class="dropdown" id="menuSchoolCanteen">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><spring:message code="menu.schoolCanteen" text="menu.schoolCanteen not found" /> <span class="caret"></span></a>
+		        <ul class="dropdown-menu">
+		        	<li><a href="${urlMenu}" id="menuSchoolCanteen_menu" ><spring:message code="menu.schoolCanteen.menu" text="menu.schoolCanteen.menu not found" /></a></li>
+		        	<c:if test="${pageContext.request.isUserInRole('ADM') || pageContext.request.isUserInRole('PAR')}">
+			        	<li><a href="${urlPayments}" id="menuSchoolCanteen_paymemts" ><spring:message code="menu.schoolCanteen.payments" text="menu.schoolCanteen.payments not found" /></a></li>
 			        </c:if>
 		        </ul>
 			</li>

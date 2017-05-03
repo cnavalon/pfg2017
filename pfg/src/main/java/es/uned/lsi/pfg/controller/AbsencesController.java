@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Absence;
-import es.uned.lsi.pfg.model.Attendee;
 import es.uned.lsi.pfg.model.Group;
-import es.uned.lsi.pfg.model.Meeting;
 import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.model.Person;
 import es.uned.lsi.pfg.model.Role;

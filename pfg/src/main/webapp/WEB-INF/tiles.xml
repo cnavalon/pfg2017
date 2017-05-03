@@ -114,4 +114,10 @@
 	</definition>
 	<definition name="modalAbsences" template="/WEB-INF/views/absences/modalAbsences.jsp" />
 	
+	<!-- School Canteen -->
+	<definition name="menus" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/schoolCanteen/menus.jsp" />
+	</definition>
+	<definition name="modalMenu" template="/WEB-INF/views/schoolCanteen/modalMenu.jsp" />
+	
 </tiles-definitions>

@@ -34,7 +34,7 @@
 		      		<button type="button" id ="buttonNext" class="form-control btn btn-default" disabled><spring:message code="common.next" text="common.next not found"/> <i class="glyphicon glyphicon-chevron-right" rel="tooltip"></i></button>
 	    		</div>
 			</div>
-			<div id="divDays" class="dates-schedule" style="width:100%;display: table;">
+			<div id="divDays" class="dates-schedule table_view">
 			</div>
 			
 		</div>
@@ -102,9 +102,9 @@ function checkCount(){
 function printDates(){
 	$("#divDays").empty();
 	var aDate = moment(date);
-	$("#divDays").append('<div style="width:5%;display: table-cell;"></div>');
+	$("#divDays").append('<div class="table_cell_view" style="width:5%;"></div>');
 	for(var i = 0; i < 5; i++){
-		var div = '<div style="width:19%;display: table-cell;" class="text-center">' + moment(aDate).format("DD/MM/YYYY") + '</div>';
+		var div = '<div style="width:19%;" class="text-center table_cell_view">' + moment(aDate).format("DD/MM/YYYY") + '</div>';
 		aDate = moment(aDate).add(1,'d');
 		$("#divDays").append(div);
 	}

@@ -80,7 +80,7 @@ function createTable(){
         language: {
             "url": '<spring:message code="table.urlDataTables" text="table.urlDataTables not found" />'
         },
-        "order": [[ 0, "desc" ], [1, "asc"]],
+        "order": [[ 0, "desc" ]],
         ajax : {
    			url : "${urlAbsences}" + $("#selectStudent").val(),
    			type : "GET",
