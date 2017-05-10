@@ -16,7 +16,7 @@
 <spring:url value="/absences/emp/absencesSchedule" var="urlAbsencesSchedule" />
 <spring:url value="/absences/viewAbsences" var="urlViewAbsences" />
 <spring:url value="/schoolCanteen/menu" var="urlMenu" />
-<spring:url value="/schoolCanteen/payments" var="urlPayments" />
+<spring:url value="/schoolCanteen/ap/payments" var="urlPayments" />
 
 
 	

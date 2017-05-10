@@ -214,9 +214,11 @@ function orderOptions(idSelect){
 	$(idSelect).val(selected);
 }
 
-function post(params) {
+function post(path, params) {
 	var form = document.createElement("form");
 	form.setAttribute("method", "post");
+	form.setAttribute("action", path);
+	form.setAttribute("accept-charset", "ISO-8859-1");
 
 	for ( var key in params) {
 		if (params.hasOwnProperty(key)) {
@@ -230,7 +232,7 @@ function post(params) {
 	}
 
 	document.body.appendChild(form);
-	return form;
+	form.submit();
 }
 
 function redirect(url){
@@ -251,4 +253,8 @@ function getValues(lstOptions){
 		lstValues.push(lstOptions[i].value);
 	}
 	return lstValues;
+}
+
+function capitalize(word){
+	return word.charAt(0).toUpperCase() + word.slice(1);
 }

@@ -195,7 +195,7 @@ function getDataDay(day,dataDay){
 			div += '<div><b>' + dataDay.data[i]["G"].description + '</b></div>';
 			for(type in dataDay.data[i]){
 				if(type != "G"){
-					div += '<div><label title="'+types[type].text+'">' + types[type].initial + '</label> ' + dataDay.data[i][type].description  + '</div>';
+					div += '<div class="identedText"><label title="'+types[type].text+'">' + types[type].initial + '</label> ' + dataDay.data[i][type].description  + '</div>';
 				}
 			}
 		}

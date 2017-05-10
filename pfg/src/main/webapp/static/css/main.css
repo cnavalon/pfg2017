@@ -176,3 +176,6 @@ body {
 .vertical_top{
 	vertical-align: top;
 }
+.identedText{
+	padding-left:10px;
+}

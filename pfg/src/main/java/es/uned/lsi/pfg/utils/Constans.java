@@ -33,6 +33,8 @@ public interface Constans {
 	//NEWS
 	public static final int NEWS_ITEMS_PAGE = 5;
 	
+	//
+	public static final int PAYMENT_FEE = 30;
 	
 	
 }

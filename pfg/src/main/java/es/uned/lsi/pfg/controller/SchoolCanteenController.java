@@ -1,7 +1,11 @@
 package es.uned.lsi.pfg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +16,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.DailyMenu;
 import es.uned.lsi.pfg.model.Menu;
+import es.uned.lsi.pfg.model.Parent;
+import es.uned.lsi.pfg.model.Payment;
+import es.uned.lsi.pfg.model.Role;
+import es.uned.lsi.pfg.model.Student;
+import es.uned.lsi.pfg.service.common.PDFService;
 import es.uned.lsi.pfg.service.schoolCanteen.MenuService;
+import es.uned.lsi.pfg.service.schoolCanteen.PaymentsService;
+import es.uned.lsi.pfg.service.users.UsersService;
+import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de comedor escolar
@@ -33,7 +46,16 @@ public class SchoolCanteenController {
 	private MenuService menusService;
 	
 	@Autowired
+	private UsersService usersService;
+	
+	@Autowired
+	private PaymentsService paymentsService;
+	
+	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private PDFService pdfService;
 	
 	/**
 	 * Obtiene la pagina de menu
@@ -122,4 +144,81 @@ public class SchoolCanteenController {
 		}
 		return response;
 	}
+	
+	@RequestMapping(value="/ap/payments", method = RequestMethod.GET)
+	public ModelAndView viewPayments (HttpSession session, Locale locale) throws Exception {
+		logger.debug("viewPayments");
+		ModelAndView model = new ModelAndView("payments");
+		List<Student> lstStudents = new ArrayList<Student>();
+		Integer id = (Integer) session.getAttribute(Constans.SESSION_ID);		
+		Role role = (Role)session.getAttribute(Constans.SESSION_ROLE);
+		try {
+			if(role.getIdRole().equals(Constans.ROLE_ADMIN)){
+				lstStudents = usersService.getByClass(Student.class);
+			}  else if (role.getIdRole().equals(Constans.ROLE_PARENT)){
+				lstStudents = usersService.findStudentsList(id);
+			}
+		} catch (Exception e) {
+			logger.error("Error obteniendo listado de alumnos para usuario: " + id + ", " + role, e);
+		}
+		model.addObject("lstStudents", lstStudents);
+		model.addObject("locale", locale.getLanguage());
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/ap/paymentData/{student}", method = RequestMethod.GET)
+	public List<Payment> getPayments (@PathVariable("student") Integer student) throws Exception {
+		logger.debug("getPayments: " + student);
+		return paymentsService.getPaymentsByStudent(student);
+	}
+	
+	@RequestMapping(value="/par/payModal/{month}/{amount}", method = RequestMethod.GET)
+	public ModelAndView payModal (@PathVariable("month") Integer month, @PathVariable("amount") Integer amount, 
+			HttpSession session, Locale locale) throws Exception {
+		logger.debug("payModal: " + month + ", " + amount);
+		ModelAndView model = new ModelAndView("modalPay");
+		Integer id = (Integer) session.getAttribute(Constans.SESSION_ID);	
+		model.addObject("month", month);
+		model.addObject("amount", amount);
+		model.addObject("parent", usersService.getById(id, Parent.class));
+		model.addObject("locale", locale.getLanguage());
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/par/pay", method = RequestMethod.POST)
+	public String pay(@RequestBody Payment payment, Locale locale) throws Exception {
+		logger.debug("pay: " + payment);
+		String response = "";
+		try {
+			paymentsService.insert(payment);
+			response = messageSource.getMessage("payments.pay.ok", null, locale);
+		} catch (Exception e) {
+			logger.error("Error guardando el pago " + payment, e);
+			response = messageSource.getMessage("payments.pay.ok", null, locale);
+		}
+		return response;
+	}
+	
+	@RequestMapping(value="par/receipt", method = RequestMethod.POST)
+	public void generateReceipt(@RequestParam("id") Integer id, HttpServletResponse response, Locale locale) throws Exception {
+		logger.debug("generateReceipt: " + id);
+		try {
+			Payment payment = paymentsService.getPayment(id);
+			Student student = usersService.getById(payment.getStudent(), Student.class);
+			byte[] data = pdfService.generateReceipt(payment, student);
+			
+			String title = messageSource.getMessage("payments.receipt", null, locale) + "_" + id + ".pdf";
+			response.setContentType("application/pdf");
+	        response.setHeader("Content-disposition", "attachment; filename=" + title);
+	        response.setContentLength(data.length);
+
+	        response.getOutputStream().write(data);
+	        response.getOutputStream().flush();
+		} catch (Exception e) {
+			logger.error("Error generando recibo pago : " + id, e);
+		}
+	}
+	
 }

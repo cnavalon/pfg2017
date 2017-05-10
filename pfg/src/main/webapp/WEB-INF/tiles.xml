@@ -119,5 +119,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/schoolCanteen/menus.jsp" />
 	</definition>
 	<definition name="modalMenu" template="/WEB-INF/views/schoolCanteen/modalMenu.jsp" />
+	<definition name="payments" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/schoolCanteen/payments.jsp" />
+	</definition>
+	<definition name="modalPay" template="/WEB-INF/views/schoolCanteen/modalPay.jsp" />
 	
 </tiles-definitions>
