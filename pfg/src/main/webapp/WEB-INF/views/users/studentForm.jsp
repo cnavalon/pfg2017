@@ -236,8 +236,10 @@
 			  			<td>${parent.surname2}</td>
 			  			<td>
 			  				<div class="text-center">
-			  					<spring:message code="common.go" var="editText" text="common.go not found" />
-			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-arrow-right" title="${editText}"> </i></label>
+			  					<spring:message code="common.view" var="viewText" text="common.view not found" />
+			  					<label id="viewUser" class="cursorPointer iconTable viewUser" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-info-sign" title="${viewText}"> </i></label>
+			  					<spring:message code="common.edit" var="editText" text="common.edit not found" />
+			  					<label id="editUser" class="cursorPointer iconTable editUser" onclick="confirmEditParent('${parent.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
 			  					<spring:message code="common.delete" var="deleteText" text="common.delete not found" />
 			  					<label id="deleteUser" class="cursorPointer iconTable deleteUser" onclick="confirmDeleteUser('${parent.id}')"><i class="glyphicon glyphicon-trash" title="${deleteText}"> </i></label>
 			  				</div>
@@ -641,8 +643,10 @@
 			} );
 			if(!editable){
 				$(".deleteUser").hide();
+				$(".editUser").hide();
 				$("#divCopyAddress").hide();
 			} else {
+				$(".viewUser").hide();
 				if(table.rows().count() == 0){
 					$("#divParent1").show();
 					$("#fieldsetParent1").hide();

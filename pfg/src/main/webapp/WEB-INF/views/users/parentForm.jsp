@@ -152,8 +152,10 @@
 			  			<td>${student.surname2}</td>
 			  			<td>
 			  				<div class="text-center">
-			  					<spring:message code="common.go" var="editText" text="common.go not found" />
-			  					<label id="editUser" class="cursorPointer iconTable" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-arrow-right" title="${editText}"> </i></label>
+			  					<spring:message code="common.view" var="viewText" text="common.view not found" />
+			  					<label id="viewUser" class="cursorPointer iconTable viewUser" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-info-sign" title="${viewText}"> </i></label>
+			  					<spring:message code="common.edit" var="editText" text="common.edit not found" />
+			  					<label id="editUser" class="cursorPointer iconTable editUser" onclick="confirmEditStudent('${student.idUser}')"><i class="glyphicon glyphicon-pencil" title="${editText}"> </i></label>
 			  				</div>
 			  				
 			  			</td>
@@ -191,6 +193,13 @@
 		  		]
 			} );
 		}
+		
+		if(!editable){
+			$(".editUser").hide();
+		} else {
+			$(".viewUser").hide();
+		}
+		
 	});
 	
 	function validFormPerson(){

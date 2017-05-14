@@ -24,86 +24,15 @@ public class HomeController {
 	private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Obtiene la pagina de inicio segun el perfil
-	 * @param session sesion de usuario
-	 * @return pagina de inicio del perfil
+	 * Obtiene la pagina de inicio
+	 * @return pagina de inicio
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public ModelAndView redirectHome (HttpSession session) throws Exception{
-		logger.debug("redirectHome");
-		ModelAndView model = new ModelAndView();
-		
-		Role role = (Role)session.getAttribute(Constans.SESSION_ROLE);
-		String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-		
-		switch (role.getIdRole()) {
-		case Constans.ROLE_ADMIN:
-			model = getAdminHome(model, userId);
-			break;
-		case Constans.ROLE_TEACHER:
-			model = getTeacherHome(model, userId);
-			break;
-		case Constans.ROLE_STUDENT:
-			model = getStudentHome(model, userId);
-			break;
-		case Constans.ROLE_PARENT:
-			model = getParentHome(model, userId);
-			break;
-		default:
-			break;
-		}
-
+	public ModelAndView home () throws Exception{
+		logger.debug("home");
+		ModelAndView model = new ModelAndView("home");
 		return model;
 	}
-	
-	/**
-	 * Obtiene la pagina de inicio del perfil administrador
-	 * @param model
-	 * @param userId id de usuario
-	 * @return pagina de inicio del perfil administrador
-	 */
-	private ModelAndView getAdminHome(ModelAndView model, String userId) {
-		logger.debug("getAdminHome");
-		model.setViewName("adminHome");
-		return model;
-	}
-	
-	/**
-	 * Obtiene la pagina de inicio del perfil profesor
-	 * @param model
-	 * @param userId id de usuario
-	 * @return pagina de inicio del perfil profesor
-	 */
-	private ModelAndView getTeacherHome(ModelAndView model, String userId) {
-		logger.debug("getTeacherHome");
-		model.setViewName("teacherHome");
-		return model;
-	}
-	
-	/**
-	 * Obtiene la pagina de inicio del perfil estudiante
-	 * @param model
-	 * @param userId id de usuario
-	 * @return pagina de inicio del perfil estudiante
-	 */
-	private ModelAndView getStudentHome(ModelAndView model, String userId) {
-		logger.debug("getStudentHome");
-		model.setViewName("studentHome");
-		return model;
-	}
-	
-	/**
-	 * Obtiene la pagina de inicio del perfil padre
-	 * @param model
-	 * @param userId id de usuario
-	 * @return pagina de inicio del perfil padre
-	 */
-	private ModelAndView getParentHome(ModelAndView model, String userId) {
-		logger.debug("getParentHome");
-		model.setViewName("parentHome");
-		return model;
-	}
-	
 	
 }

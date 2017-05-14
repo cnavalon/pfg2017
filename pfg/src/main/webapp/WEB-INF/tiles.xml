@@ -22,17 +22,8 @@
 
 
 	<!-- Home -->
-	<definition name="adminHome" extends="base.definition">
-		<put-attribute name="body" value="/WEB-INF/views/home/adminHome.jsp" />
-	</definition>
-	<definition name="teacherHome" extends="base.definition">
-		<put-attribute name="body" value="/WEB-INF/views/home/teacherHome.jsp" />
-	</definition>
-	<definition name="studentHome" extends="base.definition">
-		<put-attribute name="body" value="/WEB-INF/views/home/studentHome.jsp" />
-	</definition>
-	<definition name="parentHome" extends="base.definition">
-		<put-attribute name="body" value="/WEB-INF/views/home/parentHome.jsp" />
+	<definition name="home" extends="base.definition">
+		<put-attribute name="body" value="/WEB-INF/views/home/home.jsp" />
 	</definition>
 	
 	<!-- Users  -->

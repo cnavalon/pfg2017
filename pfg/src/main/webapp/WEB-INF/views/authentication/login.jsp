@@ -16,6 +16,7 @@
 	<body >
 	<div class="logo-login text-center containerImage">
 		<img src="static/images/logo.png" class="img-rounded">
+		<small ><a style="color: graytext;" href="http://www.freepik.es/fotos-vectores-gratis/escuela">Creado por Freepik</a></small>
 	</div>
 		<div class="container-fluid ">
 			<div class="box-center bg-2">

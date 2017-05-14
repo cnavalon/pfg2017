@@ -20,7 +20,7 @@
 					<label class="col-sm-2 control-label">${userRoleText}</label>
 					<div class="col-sm-3">
 						<select class="form-control" id="selectRole">
-							<option value="" label=""/>
+							<option value="" label="<spring:message code="common.all" text="common.all not found"/>"/>
 							<c:forEach items="${lstRoles}" var="role">
 								<spring:message code="${role.name}" var="roleText" text="${role.name} not found"/>
 								<c:choose>

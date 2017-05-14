@@ -38,7 +38,7 @@
 				</div> 
 				<div>
 					<small>
-						<span><spring:message code="${sessionScope.sessionUserRole.name}" text="${sessionScope.sessionUserRole.name} not found" />
+						<span><spring:message code="${sessionScope.sessionUserRole.name}" text="${sessionScope.sessionUserRole.name} not found" /></span>
 					</small>
 				</div>
 			</div>
