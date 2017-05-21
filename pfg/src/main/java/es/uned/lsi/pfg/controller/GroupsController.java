@@ -140,8 +140,7 @@ public class GroupsController {
 		logger.debug("deleteGroup: " + idGroup);
 		String error = "";
 		try {
-			usersService.deleteStudentsGroup(idGroup);
-			//TODO borrar horario
+			usersService.deleteStudentsGroup(idGroup);		
 			groupsService.deleteGroup(idGroup);
 			error = messageSource.getMessage("group.deleted", null, locale);
 		} catch (Exception e) {

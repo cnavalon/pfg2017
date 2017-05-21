@@ -32,7 +32,7 @@ public interface AbsencesDAO {
 	/**
 	 * Recupera un listado de faltas de asistencia por horario
 	 * @param schedule id de horario
-	 * @param day TODO
+	 * @param day dia
 	 * @return listado de faltas de asistencia
 	 */
 	public List<Absence> findByScheduleDay(Integer schedule, Date day);

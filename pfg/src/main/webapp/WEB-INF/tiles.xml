@@ -9,8 +9,15 @@
 		<put-attribute name="body" value=""></put-attribute>
 	</definition>
 	
+	<definition name="login.definition" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="header" value=""></put-attribute>
+		<put-attribute name="menu" value=""></put-attribute>
+		<put-attribute name="body" value=""></put-attribute>
+	</definition>
+	
 	<!-- Authentication -->
-	<definition name="login" template="/WEB-INF/views/authentication/login.jsp">
+	<definition name="login" extends="login.definition">
+		<put-attribute name="body" value="/WEB-INF/views/authentication/login.jsp" />
 	</definition>
 	<definition name="accessDenied" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/views/authentication/accessDenied.jsp" />

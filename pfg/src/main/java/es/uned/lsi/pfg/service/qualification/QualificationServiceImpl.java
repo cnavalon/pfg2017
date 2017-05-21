@@ -36,10 +36,10 @@ public class QualificationServiceImpl implements QualificationService {
 	}
 
 	@Override
-	public Map<Integer, Qualification> getQualificationsByStudent(Integer student) {
-		logger.debug("getQualificationsByStudent: " + student);
+	public Map<Integer, Qualification> getQualificationsByStudentGroup(Integer student, Integer group) {
+		logger.debug("getQualificationsByStudentGroup: " + student + "," + group);
 		Map<Integer, Qualification> mapQualification = new HashMap<Integer, Qualification>();
-		List<Qualification> lstQualification = qualificationsDAO.findByStudent(student);
+		List<Qualification> lstQualification = qualificationsDAO.findByStudentGroup(student, group);
 		if(lstQualification != null && !lstQualification.isEmpty()){
 			for(Qualification qualification : lstQualification){
 				mapQualification.put(qualification.getSubject(), qualification);

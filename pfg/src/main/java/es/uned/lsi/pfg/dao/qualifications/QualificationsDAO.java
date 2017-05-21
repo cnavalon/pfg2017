@@ -22,11 +22,12 @@ public interface QualificationsDAO {
 	public Qualification findById(Integer id);
 	
 	/**
-	 * Recupera un listado de calificaciones por estudiante
-	 * @param student id de estudiante
+	 * Recupera un listado de calificaciones por alumno y clase
+	 * @param student id de alumno
+	 * @param group id de clase
 	 * @return listado de calificaciones
 	 */
-	public List<Qualification> findByStudent(Integer student);
+	public List<Qualification> findByStudentGroup(Integer student, Integer group);
 	
 	/**
 	 * Recupera un listado de calificaciones por clase y asignatura

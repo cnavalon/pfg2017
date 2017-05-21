@@ -23,7 +23,7 @@ import org.hibernate.annotations.Type;
  */
 @NamedQueries({
 	@NamedQuery(name="findQualificationById", query="SELECT x FROM Qualification x WHERE x.id = :id AND x.active = 1"),
-	@NamedQuery(name="findQualificationByStudent", query="SELECT x FROM Qualification x WHERE x.student = :student AND x.active = 1"),
+	@NamedQuery(name="findQualificationByStudentGroup", query="SELECT x FROM Qualification x WHERE x.student = :student AND x.group = :group AND x.active = 1"),
 	@NamedQuery(name="findQualificationByGroupSubject", query="SELECT x FROM Qualification x WHERE x.group = :group AND x.subject = :subject AND x.active = 1"),
 })
 @Entity
@@ -33,7 +33,7 @@ public class Qualification implements Serializable{
 	
 	/** Queries **/
 	public static final String Q_FIND_BY_ID = "findQualificationById";
-	public static final String Q_FIND_BY_STUDENT = "findQualificationByStudent";
+	public static final String Q_FIND_BY_STUDENT_GROUP = "findQualificationByStudentGroup";
 	public static final String Q_FIND_BY_GROUP_SUBJECT = "findQualificationByGroupSubject";
 
 	@Id

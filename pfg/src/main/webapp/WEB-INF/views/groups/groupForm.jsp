@@ -62,13 +62,28 @@
 						
 					<div id="divSchedule">
 						<spring:message code="group.schedule" var="groupScheduleText" text="group.schedule not found"/>
-						<label class="col-sm-2 control-label">${groupScheduleText}</label>
+						<label class="col-sm-2 control-label">${groupScheduleText}*</label>
 						<div class="col-sm-3">
 							<label id="labelSelectFile" class="form-control cursorPointer" for="scheduleFile">
 					    		<span id="iconSearchPar1" class="add-on"><span class="glyphicon glyphicon-search"></span>
 					    		<span id="textFile">${group.scheduleFile}</span>
 					    	</label>
-			    			<input class="selectFileInput" id="scheduleFile" type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+	    					<input class="selectFileInput" id="scheduleFile" type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${isNew}"> --%>
+<!-- 									<label id="labelSelectFile" class="form-control cursorPointer" for="scheduleFile"> -->
+<!-- 							    		<span id="iconSearchPar1" class="add-on"><span class="glyphicon glyphicon-search"></span> -->
+<!-- 							    		<span id="textFile"></span> -->
+<!-- 							    	</label> -->
+<!-- 			    					<input class="selectFileInput" id="scheduleFile" type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" > -->
+<%-- 								</c:when> --%>
+<%-- 								<c:otherwise> --%>
+<!-- 									<label id="labelSelectFile" class="form-control" disabled> -->
+<%-- 							    		<span id="textFile">${group.scheduleFile}</span> --%>
+<!-- 							    	</label> -->
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
+							
 						</div>
 					</div>
 				</div>
@@ -190,7 +205,11 @@
 		if($("#selectTutor").val().trim() === ""){
 			lstValidator.push('${tutorIdText}');
 			$("#divTutor").addClass("has-error");	
-		} 
+		}
+		if($("#textFile").text().trim() == null || $("#textFile").text().trim() === ""){
+			lstValidator.push('${groupScheduleText}');
+			$("#divSchedule").addClass("has-error");	
+		}
 		
 		
 		return lstValidator;
@@ -227,7 +246,7 @@
 			processData: false,
 			success : function(error) {
 				if (error == null || error == ""){
-					alert('<spring:message code="group.saved" text="group.saved not found"/>',reload);
+					alert('<spring:message code="group.saved" text="group.saved not found"/>',function(){redirect("${urlGroupsList}")});
 				} 
 				else {
 					alert(error, null);
@@ -243,6 +262,9 @@
 	
 	$("#scheduleFile").change(function() {
 		$("#textFile").text($("#scheduleFile").val().split('\\').pop());
+		if($("#textFile").text().trim() != null && $("#textFile").text().trim() != ""){
+			$("#divSchedule").removeClass("has-error");
+		}
 		skipSchedule = false;
 	});
 	

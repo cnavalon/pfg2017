@@ -63,6 +63,7 @@ public class GroupsDAOImpl extends AbstractJpaDao implements GroupsDAO {
 			if(group.getLetter() == null || group.getLetter().trim().equals("")){
 				group.setLetter(Constans.NO_LETTER);
 			}
+			group.setEnabled(true);
 			Group newGroup = em.merge(group);
 			em.flush();
 			return newGroup;
@@ -76,8 +77,11 @@ public class GroupsDAOImpl extends AbstractJpaDao implements GroupsDAO {
 	public void remove(Group group) {
 		logger.debug("remove: " + group);
 		try {
-			em.remove(group);
-			em.flush();
+			if(group.getLetter() == null || group.getLetter().trim().equals("")){
+				group.setLetter(Constans.NO_LETTER);
+			}
+			group.setEnabled(null);
+			em.merge(group);
 		} catch (Exception e) {
 			logger.error("Error eliminando clase en BBDD: " + group + ". " + e.getMessage());
 			throw e;

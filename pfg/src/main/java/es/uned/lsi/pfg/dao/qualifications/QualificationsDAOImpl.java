@@ -42,12 +42,13 @@ public class QualificationsDAOImpl extends AbstractJpaDao implements Qualificati
 	}
 
 	@Override
-	public List<Qualification> findByStudent(Integer student) {
+	public List<Qualification> findByStudentGroup(Integer student, Integer group) {
 		logger.debug("findByStudent: " + student);
 		List<Qualification> lstQualifications = new ArrayList<Qualification>();
 		try {
-			lstQualifications =  em.createNamedQuery(Qualification.Q_FIND_BY_STUDENT, Qualification.class)
+			lstQualifications =  em.createNamedQuery(Qualification.Q_FIND_BY_STUDENT_GROUP, Qualification.class)
 			.setParameter("student", student)
+			.setParameter("group", group)
 			.getResultList();
 		} catch (NoResultException e) {
 			logger.debug("Empty results");

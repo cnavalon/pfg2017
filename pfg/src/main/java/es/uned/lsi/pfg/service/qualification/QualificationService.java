@@ -23,11 +23,12 @@ public interface QualificationService {
 	public Qualification getQualification(Integer id);
 	
 	/**
-	 * Recupera un mapa de id de asignatura - calificacion por estudiante
-	 * @param student id de estudiante
+	 * Recupera un mapa de id de asignatura - calificacion por alumno y clase
+	 * @param student id de alumno
+	 * @param group id de clase
 	 * @return mapa de id de asignatura - calificacion
 	 */
-	public Map<Integer, Qualification> getQualificationsByStudent(Integer student);
+	public Map<Integer, Qualification> getQualificationsByStudentGroup(Integer student, Integer group);
 	
 	/**
 	 * Recupera listado de calificaciones por clase y asignatura

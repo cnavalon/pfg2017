@@ -197,7 +197,7 @@ public class QualificationsController {
 		List<SubjectQualification> lstSubjectQualification = new ArrayList<SubjectQualification>();
 		Student student = usersService.getById(studentId, Student.class);
 		if(student.getGroup() != null){
-			Map<Integer, Qualification> mapQualifications = qualificationService.getQualificationsByStudent(studentId);
+			Map<Integer, Qualification> mapQualifications = qualificationService.getQualificationsByStudentGroup(studentId, student.getGroup());
 			List<Subject> lstSubjects = groupsService.getSubjectsByGroup(student.getGroup());
 			for(Subject subject : lstSubjects){
 				SubjectQualification subjectQ = null;

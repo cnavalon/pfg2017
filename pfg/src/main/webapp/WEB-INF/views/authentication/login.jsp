@@ -6,12 +6,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title><spring:message code="login.title" text="login.title not found" /></title>
-		<link href="static/css/bootstrap.min.css" rel="stylesheet" 	type="text/css">
-		<link href="static/css/main.css" rel="stylesheet" type="text/css">
 		<link href="static/css/login.css" rel="stylesheet" type="text/css">
 	
-	
 	</head>
+	
+	
 
 	<body >
 	<div class="logo-login text-center containerImage">

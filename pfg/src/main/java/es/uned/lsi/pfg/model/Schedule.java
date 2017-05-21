@@ -14,20 +14,22 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 /**
  * Entidad de horario
  * @author Carlos Navalon Urrea
  *
  */
 @NamedQueries({
-	@NamedQuery(name="findAllSchedule", query="SELECT x FROM Schedule x"),
-	@NamedQuery(name="findScheduleByGroup", query="SELECT x FROM Schedule x WHERE x.group = :group"),
-	@NamedQuery(name="findScheduleByTeacher", query="SELECT x FROM Schedule x WHERE x.teacher = :teacher"),
-	@NamedQuery(name="removeScheduleByGroup", query="DELETE FROM Schedule x WHERE x.group = :group"),
-	@NamedQuery(name="updateScheduleByTeacher", query="UPDATE Schedule x SET x.teacher = NULL WHERE x.teacher = :teacher"),
-	@NamedQuery(name="findMaxHourByGroup", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.group = :group"),
-	@NamedQuery(name="findMaxHourByTeacher", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.teacher = :teacher"),
-	@NamedQuery(name="findScheduleBySubject", query="SELECT x FROM Schedule x WHERE x.subject = :subject")
+	@NamedQuery(name="findAllSchedule", query="SELECT x FROM Schedule x WHERE x.enabled = 1"),
+	@NamedQuery(name="findScheduleByGroup", query="SELECT x FROM Schedule x WHERE x.group = :group AND x.enabled = 1"),
+	@NamedQuery(name="findScheduleByTeacher", query="SELECT x FROM Schedule x WHERE x.teacher = :teacher AND x.enabled = 1"),
+	@NamedQuery(name="removeScheduleByGroup", query="UPDATE Schedule x SET x.enabled = NULL WHERE x.group = :group AND x.enabled = 1"),
+	@NamedQuery(name="updateScheduleByTeacher", query="UPDATE Schedule x SET x.teacher = NULL WHERE x.teacher = :teacher AND x.enabled = 1"),
+	@NamedQuery(name="findMaxHourByGroup", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.group = :group AND x.enabled = 1"),
+	@NamedQuery(name="findMaxHourByTeacher", query="SELECT MAX(x.hour) FROM Schedule x WHERE x.teacher = :teacher AND x.enabled = 1"),
+	@NamedQuery(name="findScheduleBySubject", query="SELECT x FROM Schedule x WHERE x.subject = :subject AND x.enabled = 1")
 })
 @Entity
 @Table(name="schedules")
@@ -62,6 +64,8 @@ public class Schedule implements Serializable {
 	private String initHour;
 	@Column(name="end_hour")
 	private String endHour;
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean enabled;
 	
 	/**
 	 * Constructor
@@ -91,6 +95,7 @@ public class Schedule implements Serializable {
 		this.teacher = teacher;
 		this.initHour = initHour;
 		this.endHour = endHour;
+		this.enabled = true;
 	}
 
 	/**
@@ -205,22 +210,35 @@ public class Schedule implements Serializable {
 	public void setEndHour(String endHour) {
 		this.endHour = endHour;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Obtiene el campo activo
+	 * @return campo activo
 	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	
+	/**
+	 * Establece el campo activo
+	 * @param enabled campo activo
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
 		return "Schedule [id=" + id + ", group=" + group + ", day=" + day + ", hour=" + hour + ", subject=" + subject
-				+ ", teacher=" + teacher + ", initHour=" + initHour + ", endHour=" + endHour + "]";
+				+ ", teacher=" + teacher + ", initHour=" + initHour + ", endHour=" + endHour + ", enabled=" + enabled
+				+ "]";
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((day == null) ? 0 : day.hashCode());
+		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
 		result = prime * result + ((endHour == null) ? 0 : endHour.hashCode());
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
 		result = prime * result + ((hour == null) ? 0 : hour.hashCode());
@@ -230,9 +248,7 @@ public class Schedule implements Serializable {
 		result = prime * result + ((teacher == null) ? 0 : teacher.hashCode());
 		return result;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -246,6 +262,11 @@ public class Schedule implements Serializable {
 			if (other.day != null)
 				return false;
 		} else if (!day.equals(other.day))
+			return false;
+		if (enabled == null) {
+			if (other.enabled != null)
+				return false;
+		} else if (!enabled.equals(other.enabled))
 			return false;
 		if (endHour == null) {
 			if (other.endHour != null)
@@ -284,5 +305,6 @@ public class Schedule implements Serializable {
 			return false;
 		return true;
 	}
+
 	
 }

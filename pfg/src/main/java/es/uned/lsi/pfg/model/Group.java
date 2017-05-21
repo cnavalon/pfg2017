@@ -17,17 +17,19 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 /**
  * Entidad de clases
  * @author Carlos Navalon Urrea
  *
  */
 @NamedQueries({
-	@NamedQuery(name="findGroupById", query="SELECT x FROM Group x WHERE x.id = :id"),
-	@NamedQuery(name="findAllGroups", query="SELECT x FROM Group x"),
-	@NamedQuery(name="findGroupByCourseAndLetter", query="SELECT x FROM Group x WHERE x.course.idCourse = :course AND x.letter = :letter"),
-	@NamedQuery(name="findGroupByCourse", query="SELECT x FROM Group x WHERE x.course.idCourse = :course"),
-	@NamedQuery(name="findGroupByTutor", query="SELECT x FROM Group x WHERE x.tutor.id = :tutor")
+	@NamedQuery(name="findGroupById", query="SELECT x FROM Group x WHERE x.id = :id AND x.enabled = 1"),
+	@NamedQuery(name="findAllGroups", query="SELECT x FROM Group x WHERE x.enabled = 1"),
+	@NamedQuery(name="findGroupByCourseAndLetter", query="SELECT x FROM Group x WHERE x.course.idCourse = :course AND x.letter = :letter AND x.enabled = 1"),
+	@NamedQuery(name="findGroupByCourse", query="SELECT x FROM Group x WHERE x.course.idCourse = :course AND x.enabled = 1"),
+	@NamedQuery(name="findGroupByTutor", query="SELECT x FROM Group x WHERE x.tutor.id = :tutor AND x.enabled = 1")
 })
 @Entity
 @Table(name="groups")
@@ -60,7 +62,9 @@ public class Group implements Serializable {
 	private Teacher tutor;
 	@Column(name="schedule_file")
 	private String scheduleFile;
-
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private Boolean enabled;
+	
 	/**
 	 * Constructor
 	 */
@@ -70,7 +74,7 @@ public class Group implements Serializable {
 	
 	/**
 	 * Constructor
-	 * @param group otra clases
+	 * @param group otra clase
 	 */
 	public Group(Group group){
 		this.id = group.getId();
@@ -78,6 +82,7 @@ public class Group implements Serializable {
 		this.course = group.getCourse();
 		this.tutor = group.getTutor();
 		this.scheduleFile = group.getScheduleFile();
+		
 	}
 	
 	/**
@@ -193,4 +198,82 @@ public class Group implements Serializable {
 	public void setScheduleFile(String scheduleFile) {
 		this.scheduleFile = scheduleFile;
 	}
+
+	/**
+	 * Obtiene el campo activo
+	 * @return campo activo
+	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * Establece el campo activo
+	 * @param enabled campo activo
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
+	public String toString() {
+		return "Group [id=" + id + ", letter=" + letter + ", course=" + course + ", tutor=" + tutor + ", scheduleFile="
+				+ scheduleFile + ", enabled=" + enabled + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((course == null) ? 0 : course.hashCode());
+		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((letter == null) ? 0 : letter.hashCode());
+		result = prime * result + ((scheduleFile == null) ? 0 : scheduleFile.hashCode());
+		result = prime * result + ((tutor == null) ? 0 : tutor.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Group other = (Group) obj;
+		if (course == null) {
+			if (other.course != null)
+				return false;
+		} else if (!course.equals(other.course))
+			return false;
+		if (enabled == null) {
+			if (other.enabled != null)
+				return false;
+		} else if (!enabled.equals(other.enabled))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (letter == null) {
+			if (other.letter != null)
+				return false;
+		} else if (!letter.equals(other.letter))
+			return false;
+		if (scheduleFile == null) {
+			if (other.scheduleFile != null)
+				return false;
+		} else if (!scheduleFile.equals(other.scheduleFile))
+			return false;
+		if (tutor == null) {
+			if (other.tutor != null)
+				return false;
+		} else if (!tutor.equals(other.tutor))
+			return false;
+		return true;
+	}
+	
 }
