@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.uned.lsi.pfg.dao.schoolCanteen.PaymentsDAO;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Payment;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion de servicio de pagos

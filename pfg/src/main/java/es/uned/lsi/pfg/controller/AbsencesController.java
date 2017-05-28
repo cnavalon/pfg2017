@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Absence;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.model.Person;
@@ -32,7 +33,6 @@ import es.uned.lsi.pfg.service.absences.AbsencesService;
 import es.uned.lsi.pfg.service.common.MailService;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de faltas de asistencia

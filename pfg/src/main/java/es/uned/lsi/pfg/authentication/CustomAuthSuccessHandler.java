@@ -23,11 +23,11 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Person;
 import es.uned.lsi.pfg.model.Role;
 import es.uned.lsi.pfg.service.users.RolesService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Gestor de autenticaciones correctas

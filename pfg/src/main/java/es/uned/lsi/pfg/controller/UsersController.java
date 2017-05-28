@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Admin;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.DNITypeEnum;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.Option;
@@ -33,7 +34,6 @@ import es.uned.lsi.pfg.model.UserSearch;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.users.RolesService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de usuarios

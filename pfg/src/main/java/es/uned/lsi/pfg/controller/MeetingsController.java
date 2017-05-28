@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Attendee;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.Meeting;
 import es.uned.lsi.pfg.model.MeetingFull;
@@ -39,7 +40,6 @@ import es.uned.lsi.pfg.service.common.MailService;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.meetings.MeetingsService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de tutorias

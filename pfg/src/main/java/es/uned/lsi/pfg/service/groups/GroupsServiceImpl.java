@@ -25,6 +25,7 @@ import es.uned.lsi.pfg.dao.groups.CoursesDAO;
 import es.uned.lsi.pfg.dao.groups.GroupsDAO;
 import es.uned.lsi.pfg.dao.groups.SchedulesDAO;
 import es.uned.lsi.pfg.dao.groups.SubjectDAO;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Course;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.Schedule;
@@ -33,7 +34,6 @@ import es.uned.lsi.pfg.model.ScheduleRow;
 import es.uned.lsi.pfg.model.ScheduleTable;
 import es.uned.lsi.pfg.model.Subject;
 import es.uned.lsi.pfg.model.Teacher;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion del servicio de clases

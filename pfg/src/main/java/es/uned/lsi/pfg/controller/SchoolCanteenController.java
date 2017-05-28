@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.DailyMenu;
 import es.uned.lsi.pfg.model.Menu;
 import es.uned.lsi.pfg.model.Parent;
@@ -30,7 +31,6 @@ import es.uned.lsi.pfg.service.common.PDFService;
 import es.uned.lsi.pfg.service.schoolCanteen.MenuService;
 import es.uned.lsi.pfg.service.schoolCanteen.PaymentsService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de comedor escolar

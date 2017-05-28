@@ -22,6 +22,7 @@ import es.uned.lsi.pfg.dao.users.StudentDAO;
 import es.uned.lsi.pfg.dao.users.StudentParentDAO;
 import es.uned.lsi.pfg.dao.users.UsersDAO;
 import es.uned.lsi.pfg.model.Admin;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Parent;
 import es.uned.lsi.pfg.model.Person;
 import es.uned.lsi.pfg.model.Student;
@@ -30,7 +31,6 @@ import es.uned.lsi.pfg.model.StudentWithParents;
 import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.User;
 import es.uned.lsi.pfg.model.UserSearch;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion del servicio de usuarios

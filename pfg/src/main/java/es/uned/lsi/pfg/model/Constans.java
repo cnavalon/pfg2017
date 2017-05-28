@@ -1,4 +1,4 @@
-package es.uned.lsi.pfg.utils;
+package es.uned.lsi.pfg.model;
 
 /**
  * Constantes

@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import es.uned.lsi.pfg.dao.news.CommentsDAO;
 import es.uned.lsi.pfg.dao.news.NewsDAO;
 import es.uned.lsi.pfg.model.Comment;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.News;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion de servicio de noticias

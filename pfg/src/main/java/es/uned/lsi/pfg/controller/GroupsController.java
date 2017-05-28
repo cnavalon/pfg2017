@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.GroupForm;
 import es.uned.lsi.pfg.model.Option;
@@ -35,7 +36,6 @@ import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.UserSearch;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de clases

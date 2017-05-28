@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.uned.lsi.pfg.model.Comment;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Group;
 import es.uned.lsi.pfg.model.News;
 import es.uned.lsi.pfg.model.Role;
@@ -28,7 +29,6 @@ import es.uned.lsi.pfg.model.Subject;
 import es.uned.lsi.pfg.service.groups.GroupsService;
 import es.uned.lsi.pfg.service.news.NewsService;
 import es.uned.lsi.pfg.service.users.UsersService;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de noticias

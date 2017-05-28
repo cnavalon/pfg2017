@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Role;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Controlador de pagina de inicio

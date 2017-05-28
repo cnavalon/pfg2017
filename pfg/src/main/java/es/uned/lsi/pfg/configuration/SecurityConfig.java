@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import es.uned.lsi.pfg.authentication.CustomAuthFailureHandler;
 import es.uned.lsi.pfg.authentication.CustomAuthSuccessHandler;
-import es.uned.lsi.pfg.utils.Constans;
+import es.uned.lsi.pfg.model.Constans;
 
 /**
  * Configuracion de seguridad

@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import es.uned.lsi.pfg.dao.AbstractJpaDao;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Group;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion de repositorio de clases

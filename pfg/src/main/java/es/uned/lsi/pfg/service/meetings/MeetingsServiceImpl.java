@@ -20,12 +20,12 @@ import es.uned.lsi.pfg.dao.meetings.AttendeeDAO;
 import es.uned.lsi.pfg.dao.meetings.MeetingDAO;
 import es.uned.lsi.pfg.dao.meetings.ScheduleMeetingsDAO;
 import es.uned.lsi.pfg.model.Attendee;
+import es.uned.lsi.pfg.model.Constans;
 import es.uned.lsi.pfg.model.Meeting;
 import es.uned.lsi.pfg.model.MeetingFull;
 import es.uned.lsi.pfg.model.ScheduleMeeting;
 import es.uned.lsi.pfg.model.Teacher;
 import es.uned.lsi.pfg.model.TeacherMeeting;
-import es.uned.lsi.pfg.utils.Constans;
 
 /**
  * Implementacion del servicio de tutorias
